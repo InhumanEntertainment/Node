@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Inhuman.UILinkNode"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="130" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}">    
+    
+    <Grid x:Name="LayoutRoot">
+        <TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Center" FontSize="34" FontWeight="Bold" Padding="2" Margin="0,0,178,0" FontFamily="Arial" Background="{x:Null}" BorderBrush="{x:Null}">
+        	<TextBox.Foreground>
+        		<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+        	</TextBox.Foreground>
+        </TextBox>
+        <Button x:Name="OpenButton" HorizontalAlignment="Right" Margin="0,8,8,8" Width="161" Background="#FF3F3F3F" Click="OpenButton_Click" BorderBrush="{x:Null}" Content="Open" Foreground="#FF919191"/>
+        <Rectangle x:Name="Bottom" Fill="Black" Height="4" VerticalAlignment="Bottom" StrokeThickness="0"/>
+        <Rectangle x:Name="Top" Fill="#FF282828" Height="4" VerticalAlignment="Top" StrokeThickness="0"/>
+    </Grid>
+</UserControl>

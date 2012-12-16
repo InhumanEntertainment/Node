@@ -1,0 +1,132 @@
+@charset "utf-8";
+/* CSS Document */
+
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+#Header
+{
+	background-color: #333;
+	color: #999;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #CC3366;
+}
+#Main
+{
+	text-align: center;
+	margin: auto;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.Node
+{
+	background-color: #252525;
+	border-top-style: solid;
+	border-left-style: none;
+	border-top-width: 2px;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	margin: auto;
+	border-top-color: #2E2E2E;
+	border-bottom-color: #1F1F1F;
+	border-right-width: 0px;
+	border-left-width: 0px;
+	/* [disabled]min-height: 80px; */
+	padding: 20;
+}
+.Node:hover
+{
+	background-color: #2D2D2D;
+}
+a href .Node:hover
+{
+	background-color: #36252D;
+}
+#Footer
+{
+	clear: both;
+}
+.Name
+{
+	font-size: 24px;
+	font-weight: bold;
+	color: #BEBEBE;
+	margin-left: 40px;
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+a .Name
+{
+	color: #C36;
+}
+
+.Icon
+{
+	background-color: #818181;
+	height: 32px;
+	/* [disabled]width: 32px; */
+	float: left;
+	position: relative;
+	top: 24px;
+	/* [disabled]left: 20px; */
+	vertical-align: middle;
+	clear: both;
+}
+
+.Arrow
+{
+	background-color: #818181;
+	/* [disabled]height: 32px; */
+	/* [disabled]width: 32px; */
+	float: right;
+	position: relative;
+	top: 0px;
+	left: -20px;
+	clear: both;
+}
+#PageName
+{
+	font-size: 60px;
+	color: #BEBEBE;
+	font-weight: bold;
+	margin-left: 36px;
+	margin-bottom: -12px;
+}
+.Info
+{
+	font-size: 12px;
+	font-weight: bold;
+	margin-left: 60px;
+	color: #666;
+}
+#Centered
+{
+	width: 480px;
+	text-align: left;
+	margin: auto;
+	border: 8px solid #1D1D1D;
+}
+.Image img
+{
+	width: 380px;
+}
+.Image
+{
+	text-align: center;
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+body {
+	background-color: #000;
+}
