@@ -15,6 +15,10 @@ using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework;
+using System.IO;
+using System.Diagnostics;
 
 namespace Inhuman
 {
@@ -74,6 +78,19 @@ namespace Inhuman
                             else if (Streamline.Data.Nodes[x] is TaskNode)
                             {
                                 UITaskNode uinode = new UITaskNode();
+                                MainListBox.Items.Add(uinode);
+                                uinode.DataContext = node;
+                            }
+                            else if (Streamline.Data.Nodes[x] is AudioNode)
+                            {
+                                UIAudioNode uilink = new UIAudioNode();
+                                (node as AudioNode).LoadSound();
+                                MainListBox.Items.Add(uilink);
+                                uilink.DataContext = node;
+                            }
+                            else if (Streamline.Data.Nodes[x] is TextNode)
+                            {
+                                UITextNode uinode = new UITextNode();
                                 MainListBox.Items.Add(uinode);
                                 uinode.DataContext = node;
                             }
@@ -234,8 +251,6 @@ namespace Inhuman
 
                 stream.Close();
                 stream.Dispose();
-
-                node.LoadBitmap();
 			}
 		}
 
@@ -257,6 +272,33 @@ namespace Inhuman
             TaskNode node = new TaskNode();
             node.Name = "Task";
             UITaskNode uinode = new UITaskNode();
+            MainListBox.Items.Add(uinode);
+            uinode.DataContext = node;
+
+            Streamline.Data.Nodes.Add(node);
+            Streamline.Data.CurrentPageNode.AddNode(node);
+        }
+
+        //===================================================================================================================================================//
+        void AudioMenu_Click(object sender, System.EventArgs e)
+        {
+            AudioNode node = new AudioNode();
+            node.Name = "Audio";
+            UIAudioNode uinode = new UIAudioNode();
+            MainListBox.Items.Add(uinode);
+            uinode.DataContext = node;
+            uinode.ActionText = "Record";
+
+            Streamline.Data.Nodes.Add(node);
+            Streamline.Data.CurrentPageNode.AddNode(node);
+        }
+
+        //===================================================================================================================================================//
+        void TextMenu_Click(object sender, System.EventArgs e)
+        {
+            TextNode node = new TextNode();
+            node.Name = "Text";
+            UITextNode uinode = new UITextNode();
             MainListBox.Items.Add(uinode);
             uinode.DataContext = node;
 

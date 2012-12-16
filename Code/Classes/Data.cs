@@ -26,7 +26,8 @@ namespace Inhuman
 {
     [   System.Xml.Serialization.XmlInclude(typeof(PageNode)), System.Xml.Serialization.XmlInclude(typeof(LinkNode)), 
         System.Xml.Serialization.XmlInclude(typeof(WebNode)), System.Xml.Serialization.XmlInclude(typeof(ImageNode)),
-        System.Xml.Serialization.XmlInclude(typeof(TaskNode))
+        System.Xml.Serialization.XmlInclude(typeof(TaskNode)), System.Xml.Serialization.XmlInclude(typeof(AudioNode)),
+        System.Xml.Serialization.XmlInclude(typeof(TextNode))
     ]       
     public class StreamlineData
     {
@@ -187,7 +188,9 @@ namespace Inhuman
             buffer += "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\n";
             buffer += "<html xmlns=\"http://www.w3.org/1999/xhtml\">" + "\n";
             buffer += "<head>" + "\n";
-            buffer += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n";           
+            buffer += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n";    
+            buffer += "<meta name=\"viewport\" content=\"width=device-width; initial-scale=0.96; maximum-scale=2.0; user-scalable=1;\">";
+
             buffer += "<title>" + page.Name + "</title>" + "\n";
             buffer += "<link href=\"Style.css\" rel=\"stylesheet\" type=\"text/css\" />" + "\n";           
             buffer += "</head>" + "\n";
@@ -240,6 +243,14 @@ namespace Inhuman
                 //buffer += node.Id;
                 //buffer += "</div>" + "\n";
 
+                if (node is TextNode)
+                {
+                    // Image //
+                    buffer += "\t\t" + "<div class=\"Text\">";
+                    buffer += (node as TextNode).Text;
+                    buffer += "</div>" + "\n";
+                } 
+                
                 if (node is ImageNode)
                 {
                     // Image //

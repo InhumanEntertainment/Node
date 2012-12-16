@@ -51,6 +51,23 @@ namespace Inhuman
                 }
             }
         }
+
+        private string _info;
+        public string Info
+        {
+            get
+            {
+                return _info;
+            }
+            set
+            {
+                if (value != _info)
+                {
+                    _info = value;
+                    NotifyPropertyChanged("Info");
+                }
+            }
+        }
 	
 	    //===================================================================================================================================================//
         public Node() : this(""){}

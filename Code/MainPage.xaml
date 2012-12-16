@@ -168,11 +168,21 @@
         <ScrollViewer x:Name="ScrollView">
     		<StackPanel VerticalAlignment="Top">
         		<Grid Background="#FF313131" VerticalAlignment="Top">
-        			<TextBox x:Name="PageTitle" Text="{Binding Name, Mode=TwoWay}" d:LayoutOverrides="Height" FontWeight="Bold" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="#FFD2D2D2" FontFamily="Arial" FontSize="72" Style="{StaticResource TextBoxStyle1}">
+        			<TextBox x:Name="PageTitle" Text="{Binding Name, Mode=TwoWay}" d:LayoutOverrides="Height" FontWeight="Bold" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="#FFD2D2D2" FontFamily="Arial" FontSize="72" Style="{StaticResource TextBoxStyle1}" VerticalAlignment="Center" Margin="0">
         				<TextBox.Foreground>
-        					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+        					<SolidColorBrush Color="#FFADADAD"/>
         				</TextBox.Foreground>
         			</TextBox>
+        			<Rectangle Margin="0,0,0,8" VerticalAlignment="Bottom" Height="2">
+        				<Rectangle.Fill>
+        					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+        				</Rectangle.Fill>
+        			</Rectangle>
+        			<Rectangle Margin="0" VerticalAlignment="Bottom" Height="8">
+        				<Rectangle.Fill>
+        					<SolidColorBrush Color="#FF121212"/>
+        				</Rectangle.Fill>
+        			</Rectangle>
         		</Grid>
         		<ListBox x:Name="MainListBox" SelectionChanged="MainListBox_SelectionChanged" HorizontalContentAlignment="Stretch" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" ItemsPanel="{StaticResource ItemsPanelTemplate1}" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         			<ListBox.ItemTemplate>
@@ -186,21 +196,24 @@
         		</ListBox>
         	</StackPanel>
     	</ScrollViewer>
+        <Grid/>
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="Black" ForegroundColor="#FFADADAD">
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.add.rest.png" Text="Add" x:Name="AddNodeButton" Click="AddNodeButton_Click" />
             <shell:ApplicationBarIconButton x:Name="RestButton" IconUri="/icons/appbar.sync.rest.png" Text="Reset" Click="RestButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.folder.rest.png" Text="Page" x:Name="AddPageButton" Click="AddPageButton_Click" />
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.favs.rest.png" Text="Existing" x:Name="AddExistingButton" Click="AddExistingButton_Click" />
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="ExportMenu" Text="Export" Click="ExportMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="TextMenu" Text="Add Text" Click="TextMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="PictureMenu" Text="Add Picture" Click="PictureMenu_Click"/>
-                <shell:ApplicationBarMenuItem x:Name="WebMenu" Text="Add Web Link" Click="WebMenu_Click"/>
+                <shell:ApplicationBarMenuItem x:Name="AudioMenu" Text="Add Audio" Click="AudioMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="TaskMenu" Text="Add Task" Click="TaskMenu_Click"/>
+                <shell:ApplicationBarMenuItem x:Name="WebMenu" Text="Add Link" Click="WebMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="ExportMenu" Text="Export" Click="ExportMenu_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

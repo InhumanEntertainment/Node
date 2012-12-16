@@ -17,6 +17,21 @@ namespace Inhuman
 {
     public class TextNode : Node
     {
-        public string Text;
+        private string _text;
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                if (value != _text)
+                {
+                    _text = value;
+                    NotifyPropertyChanged("Text");
+                }
+            }
+        }
     }
 }

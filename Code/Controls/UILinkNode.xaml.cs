@@ -29,5 +29,9 @@ namespace Inhuman
             MainPage.Instance.LoadPageNode(page);
         }
 
+		void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	NameText.SelectAll();
+        }
     }
 }

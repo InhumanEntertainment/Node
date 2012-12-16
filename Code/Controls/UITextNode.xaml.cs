@@ -12,16 +12,22 @@ using System.Windows.Shapes;
 
 namespace Inhuman
 {
-    public partial class UITaskNode : UserControl
+    public partial class UITextNode : UserControl
     {
-        public UITaskNode()
+        public UITextNode()
         {
             InitializeComponent();
         }
 
-        void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
         	NameText.SelectAll();
+        }
+
+        void TextDataBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+        	
+
         }
     }
 }

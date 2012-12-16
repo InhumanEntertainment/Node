@@ -94,13 +94,13 @@
 	</UserControl.Resources>    
     
     <Grid x:Name="LayoutRoot" Background="#FF1B1B1B">
-        <TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Center" FontSize="34" GotFocus="NameText_GotFocus" BorderBrush="{x:Null}" Background="{x:Null}" CaretBrush="#FFB8B8B8" FontFamily="Arial" FontWeight="Bold" Style="{StaticResource TextBoxStyle1}" Margin="0,0,100,0" >
+        <CheckBox HorizontalAlignment="Right" Margin="0" d:LayoutOverrides="Height" IsChecked="{Binding Completed, Mode=TwoWay}" VerticalAlignment="Center"/>
+        <Rectangle x:Name="Bottom" Fill="Black" Height="2" VerticalAlignment="Bottom" StrokeThickness="0"/>
+        <Rectangle x:Name="Top" Fill="#FF282828" Height="2" VerticalAlignment="Top" StrokeThickness="0"/>
+        <TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Center" FontSize="34" GotFocus="NameText_GotFocus" Margin="0" BorderBrush="{x:Null}" Background="{x:Null}" CaretBrush="#FFB8B8B8" FontFamily="Arial" FontWeight="Bold" Style="{StaticResource TextBoxStyle1}" HorizontalAlignment="Left" >
         	<TextBox.Foreground>
         		<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
         	</TextBox.Foreground>
         </TextBox>
-        <CheckBox HorizontalAlignment="Right" Margin="0" d:LayoutOverrides="Height" IsChecked="{Binding Completed, Mode=TwoWay}" VerticalAlignment="Center"/>
-        <Rectangle x:Name="Bottom" Fill="Black" Height="4" VerticalAlignment="Bottom" StrokeThickness="0"/>
-        <Rectangle x:Name="Top" Fill="#FF282828" Height="4" VerticalAlignment="Top" StrokeThickness="0"/>
     </Grid>
 </UserControl>
