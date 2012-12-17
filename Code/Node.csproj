@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="System.Windows" />
@@ -62,10 +63,18 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AudioNode.cs" />
     <Compile Include="Classes\TaskNode.cs" />
     <Compile Include="Classes\ImageNode.cs" />
     <Compile Include="Classes\WebNode.cs" />
     <Compile Include="Classes\LinkNode.cs" />
+    <Compile Include="Classes\DispatcherService.cs" />
+    <Compile Include="Controls\UITextNode.xaml.cs">
+      <DependentUpon>UITextNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UIAudioNode.xaml.cs">
+      <DependentUpon>UIAudioNode.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UITaskNode.xaml.cs">
       <DependentUpon>UITaskNode.xaml</DependentUpon>
     </Compile>
@@ -103,6 +112,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Controls\UITextNode.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\UIAudioNode.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ResourceDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -145,7 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
-    <None Include="Properties\WMAppManifest.xml" />
+    <None Include="Properties\WMAppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">
