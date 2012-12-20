@@ -11,8 +11,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True" DataContext="{Binding}" BackKeyPress="PhoneApplicationPage_BackKeyPress">
+    SupportedOrientations="Portrait"  Orientation="Portrait" DataContext="{Binding}" BackKeyPress="PhoneApplicationPage_BackKeyPress">
 	<phone:PhoneApplicationPage.Resources>
 		<Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
 			<Setter Property="Background" Value="Transparent"/>
@@ -139,7 +138,7 @@
 									<VisualState x:Name="InvalidUnfocused"/>
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
-							<Border x:Name="EnabledBorder" BorderBrush="{x:Null}" BorderThickness="{TemplateBinding BorderThickness}" Margin="{StaticResource PhoneTouchTargetOverhang}" Background="#00000000">
+							<Border x:Name="EnabledBorder" BorderBrush="{x:Null}" Background="#00000000">
 								<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
 							</Border>
 							<Border x:Name="DisabledOrReadonlyBorder" BorderBrush="{StaticResource PhoneDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Margin="{StaticResource PhoneTouchTargetOverhang}" Visibility="Collapsed">
@@ -153,9 +152,10 @@
 	</phone:PhoneApplicationPage.Resources>
 
     <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#FF1B1B1B">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PageBackgroundColor}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="696"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -165,25 +165,19 @@
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
 
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
-        <ScrollViewer x:Name="ScrollView">
+        <Grid Background="#FF313131" d:LayoutOverrides="Width">
+    		<TextBox x:Name="PageTitle" Text="{Binding Name, Mode=TwoWay}" d:LayoutOverrides="Height" FontWeight="Bold" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="#FFD2D2D2" FontFamily="Arial" FontSize="72" Style="{StaticResource TextBoxStyle1}" VerticalAlignment="Center" Margin="4,0" Foreground="#FFADADAD"/>
+    		<Rectangle Margin="0,0,0,8" VerticalAlignment="Bottom" Height="2">
+    			<Rectangle.Fill>
+    				<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+    			</Rectangle.Fill>
+    		</Rectangle>
+    		<Rectangle Margin="0" VerticalAlignment="Bottom" Height="8" Fill="#FF121212"/>
+    	</Grid>
+
+        <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
+        <ScrollViewer x:Name="ScrollView" Grid.Row="1">
     		<StackPanel VerticalAlignment="Top">
-        		<Grid Background="#FF313131" VerticalAlignment="Top">
-        			<TextBox x:Name="PageTitle" Text="{Binding Name, Mode=TwoWay}" d:LayoutOverrides="Height" FontWeight="Bold" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="#FFD2D2D2" FontFamily="Arial" FontSize="72" Style="{StaticResource TextBoxStyle1}" VerticalAlignment="Center" Margin="0">
-        				<TextBox.Foreground>
-        					<SolidColorBrush Color="#FFADADAD"/>
-        				</TextBox.Foreground>
-        			</TextBox>
-        			<Rectangle Margin="0,0,0,8" VerticalAlignment="Bottom" Height="2">
-        				<Rectangle.Fill>
-        					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-        				</Rectangle.Fill>
-        			</Rectangle>
-        			<Rectangle Margin="0" VerticalAlignment="Bottom" Height="8">
-        				<Rectangle.Fill>
-        					<SolidColorBrush Color="#FF121212"/>
-        				</Rectangle.Fill>
-        			</Rectangle>
-        		</Grid>
         		<ListBox x:Name="MainListBox" SelectionChanged="MainListBox_SelectionChanged" HorizontalContentAlignment="Stretch" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" ItemsPanel="{StaticResource ItemsPanelTemplate1}" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         			<ListBox.ItemTemplate>
         				<DataTemplate>
@@ -196,14 +190,14 @@
         		</ListBox>
         	</StackPanel>
     	</ScrollViewer>
-        <Grid/>
+        <Grid Grid.RowSpan="2"/>
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="Black" ForegroundColor="#FFADADAD">
-            <shell:ApplicationBarIconButton IconUri="/icons/appbar.add.rest.png" Text="Add" x:Name="AddNodeButton" Click="AddNodeButton_Click" />
+            <shell:ApplicationBarIconButton Text="Add" x:Name="AddNodeButton" Click="AddNodeButton_Click" IconUri="/icons/appbar.add.rest.png" />
             <shell:ApplicationBarIconButton x:Name="RestButton" IconUri="/icons/appbar.sync.rest.png" Text="Reset" Click="RestButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.folder.rest.png" Text="Page" x:Name="AddPageButton" Click="AddPageButton_Click" />
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.favs.rest.png" Text="Existing" x:Name="AddExistingButton" Click="AddExistingButton_Click" />
@@ -214,6 +208,7 @@
                 <shell:ApplicationBarMenuItem x:Name="TaskMenu" Text="Add Task" Click="TaskMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="WebMenu" Text="Add Link" Click="WebMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="ExportMenu" Text="Export" Click="ExportMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="PinMenu" Text="Pin Page" Click="PinMenu_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

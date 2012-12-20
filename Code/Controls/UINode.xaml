@@ -139,9 +139,6 @@
     	<Grid.RenderTransform>
     		<CompositeTransform/>
     	</Grid.RenderTransform>
-    	<Grid.Background>
-    		<SolidColorBrush Color="Black"/>
-    	</Grid.Background>
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="SelectionStates">
 				<VisualState x:Name="Selected">
@@ -224,7 +221,10 @@
 				</Image.RenderTransform>
 			</Image>    
     
-			<Grid x:Name="LayoutRoot" Background="#FF1B1B1B" ManipulationCompleted="RootControl_ManipulationCompleted" ManipulationDelta="UserControl_ManipulationDelta" ManipulationStarted="UserControl_ManipulationStarted" RenderTransformOrigin="0.5,0.5">
+			<Grid x:Name="LayoutRoot" ManipulationCompleted="RootControl_ManipulationCompleted" ManipulationDelta="UserControl_ManipulationDelta" ManipulationStarted="UserControl_ManipulationStarted" RenderTransformOrigin="0.5,0.5">
+				<Grid.Background>
+					<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
+				</Grid.Background>
 				<Grid.RenderTransform>
 					<CompositeTransform/>
 				</Grid.RenderTransform>

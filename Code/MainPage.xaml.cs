@@ -19,6 +19,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Phone.Shell;
 
 namespace Inhuman
 {
@@ -40,7 +41,7 @@ namespace Inhuman
         //===================================================================================================================================================//
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {            
-            LoadPageNode(Streamline.Data.CurrentPageNode);
+            
         }
 
         //===================================================================================================================================================//
@@ -109,6 +110,7 @@ namespace Inhuman
         //===================================================================================================================================================//
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
 
             // Image Share //
@@ -124,9 +126,21 @@ namespace Inhuman
                 WriteableBitmap picLibraryImage = new WriteableBitmap(bitmap);
 
                 // Create ImageNode and Add it to Page //
+            }
 
+            // Pinned Pages //
+            if (queryStrings.ContainsKey("Page"))
+            {
+                string page = queryStrings["Page"];
+                LoadPageNode(Streamline.Data.GetNode(page) as PageNode);
+            }
+            else
+            {
+                LoadPageNode(Streamline.Data.CurrentPageNode);
             }
         }
+
+            
 
 
         //===================================================================================================================================================//
@@ -304,6 +318,32 @@ namespace Inhuman
 
             Streamline.Data.Nodes.Add(node);
             Streamline.Data.CurrentPageNode.AddNode(node);
+        }
+
+        //===================================================================================================================================================//
+        void PinMenu_Click(object sender, System.EventArgs e)
+        {
+            string tileParameter = "Page=" + Streamline.Data.CurrentPageNode.Id;
+            ShellTile tile = CheckIfTileExist(tileParameter);// Check if Tile's title has been used 
+            if (tile == null) 
+            { 
+                StandardTileData secondaryTile = new StandardTileData 
+                {
+                    Title = Streamline.Data.CurrentPageNode.Name, 
+                    //BackgroundImage = new Uri("Background.png", UriKind.Relative),
+                    BackContent = Streamline.Data.CurrentPageNode.Nodes.Count + " Nodes"
+  
+                }; 
+                ShellTile.Create(new Uri("/MainPage.xaml?" + tileParameter, UriKind.Relative), secondaryTile); // Pass tileParameter as QueryString 
+            } 
+        }
+
+        //===================================================================================================================================================//
+        ShellTile CheckIfTileExist(string tileUri) 
+        { 
+            ShellTile shellTile = ShellTile.ActiveTiles.FirstOrDefault( tile => tile.NavigationUri.ToString().Contains(tileUri)); 
+
+            return shellTile; 
         }
     }
 }

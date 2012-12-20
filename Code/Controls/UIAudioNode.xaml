@@ -7,7 +7,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="130" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" Height="120">
+    d:DesignHeight="130" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" Height="80">
 	<UserControl.Resources>
 		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
 			<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
@@ -81,7 +81,7 @@
 									<VisualState x:Name="Unfocused"/>
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
-							<Border x:Name="EnabledBorder" BorderBrush="{x:Null}" BorderThickness="{TemplateBinding BorderThickness}" Margin="{StaticResource PhoneTouchTargetOverhang}" Background="{x:Null}">
+							<Border x:Name="EnabledBorder" BorderBrush="{x:Null}" BorderThickness="{TemplateBinding BorderThickness}" Background="{x:Null}">
 								<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
 							</Border>
 							<Border x:Name="DisabledOrReadonlyBorder" BorderBrush="{StaticResource PhoneDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Margin="{StaticResource PhoneTouchTargetOverhang}" Visibility="Collapsed">
@@ -92,15 +92,76 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Style x:Key="ButtonStyle1" TargetType="Button">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+			<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+			<Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
+			<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+			<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMediumLarge}"/>
+			<Setter Property="Padding" Value="10,3,10,5"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid Background="Transparent">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal"/>
+									<VisualState x:Name="MouseOver"/>
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneBackgroundBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneForegroundBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneForegroundBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" CornerRadius="0">
+								<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+							</Border>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 	</UserControl.Resources>    
     
     <Grid x:Name="LayoutRoot">
-        <Button x:Name="ActionButton" HorizontalAlignment="Right" Margin="0,8,8,8" Width="161" Background="#FF3F3F3F" BorderBrush="{x:Null}" Content="Record" Foreground="#FF919191" Click="ActionButton_Click"/>
+    	<Grid.Background>
+    		<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
+    	</Grid.Background>
+        <Button x:Name="ActionButton" HorizontalAlignment="Right" Width="80" Background="#FF3F3F3F" BorderBrush="{x:Null}" Foreground="#FF919191" Click="ActionButton_Click" Style="{StaticResource ButtonStyle1}">
+        	<Image Source="/icons/Arrow.png" RenderTransformOrigin="0.5,0.5" Opacity="0.355">
+        		<Image.RenderTransform>
+        			<CompositeTransform ScaleX="0.8" ScaleY="0.8"/>
+        		</Image.RenderTransform>
+        	</Image>
+        </Button>
         <Rectangle x:Name="Bottom" Fill="Black" Height="2" VerticalAlignment="Bottom" StrokeThickness="0"/>
         <Rectangle x:Name="Top" Fill="#FF282828" Height="2" VerticalAlignment="Top" StrokeThickness="0"/>
         <TextBlock x:Name="InfoText" VerticalAlignment="Bottom" FontSize="24" Padding="2" Margin="18,0,178,21" FontFamily="Arial" Text="{Binding Info}" Foreground="#FF919191"/>
-        <ProgressBar Height="10" Margin="0,100,0,0" Maximum="1" LargeChange="0.1" SmallChange="0.01" RenderTransformOrigin="0.5,0.5" Value="{Binding Volume}"/>
-        <TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" FontSize="34" GotFocus="NameText_GotFocus" Margin="0,12,0,30" BorderBrush="{x:Null}" Background="{x:Null}" CaretBrush="#FFB8B8B8" FontFamily="Arial" FontWeight="Bold" Style="{StaticResource TextBoxStyle1}" HorizontalAlignment="Left" d:LayoutOverrides="Height" >
+        <ProgressBar Height="10" Margin="0,0,0,5" Maximum="1" LargeChange="0.1" SmallChange="0.01" RenderTransformOrigin="0.5,0.5" Value="{Binding Volume}" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" FontSize="34" GotFocus="NameText_GotFocus" Margin="0,2,0,30" BorderBrush="{x:Null}" Background="{x:Null}" CaretBrush="#FFB8B8B8" FontFamily="Arial" FontWeight="Bold" Style="{StaticResource TextBoxStyle1}" HorizontalAlignment="Left" >
         	<TextBox.Foreground>
         		<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
         	</TextBox.Foreground>

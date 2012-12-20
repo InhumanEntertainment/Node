@@ -173,7 +173,10 @@
 		</Style>
 	</UserControl.Resources>    
     
-    <Grid x:Name="LayoutRoot" Background="#FF1B1B1B">
+    <Grid x:Name="LayoutRoot">
+    	<Grid.Background>
+    		<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
+    	</Grid.Background>
         <StackPanel>
         	<Rectangle x:Name="Top" Fill="#FF282828" Height="2" StrokeThickness="0" VerticalAlignment="Top"/>
         	<Grid Height="80" VerticalAlignment="Top">
