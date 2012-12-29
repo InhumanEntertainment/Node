@@ -37,7 +37,7 @@ namespace Inhuman
             // Load Picture //
             if (queryStrings.ContainsKey("Node"))
             {
-                ImageNode node = Streamline.Data.GetNode(queryStrings["Node"]) as ImageNode;
+                PictureNode node = NodeController.GetNode(queryStrings["Node"]) as PictureNode;
                 DataContext = node;
 
                 // Center Picture //

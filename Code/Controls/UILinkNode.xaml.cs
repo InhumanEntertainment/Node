@@ -24,17 +24,11 @@ namespace Inhuman
         void OpenButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
         	// Get Page node from url //
-            PageNode page = (PageNode)DataContext;// (PageNode)Streamline.Data.GetNode(((PageNode)DataContext).Url);
+            PageNode page = (PageNode)DataContext;// (PageNode)NodeController.GetNode(((PageNode)DataContext).Url);
 
             // Switch Pages //
-            Streamline.Data.CurrentPage = page.Id;
-            MainPage.Instance.LoadPageNode(page);
-        }
-
-        //===================================================================================================================================================//
-        void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	NameText.SelectAll();
+            NodeController.Data.CurrentPage = page.Id;
+            NodeController.LoadPage(page);
         }
     }
 }

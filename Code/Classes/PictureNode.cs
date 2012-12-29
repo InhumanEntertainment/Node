@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 
 namespace Inhuman
 {
-    public class ImageNode : Node
+    public class PictureNode : Node
     {
         private BitmapImage _bitmap;
 
@@ -56,7 +56,7 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public ImageNode()
+        public PictureNode()
         {            
         }
 

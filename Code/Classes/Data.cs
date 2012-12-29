@@ -25,7 +25,7 @@ using System.ComponentModel;
 namespace Inhuman
 {
     [   System.Xml.Serialization.XmlInclude(typeof(PageNode)), System.Xml.Serialization.XmlInclude(typeof(LinkNode)), 
-        System.Xml.Serialization.XmlInclude(typeof(WebNode)), System.Xml.Serialization.XmlInclude(typeof(ImageNode)),
+        System.Xml.Serialization.XmlInclude(typeof(WebNode)), System.Xml.Serialization.XmlInclude(typeof(PictureNode)),
         System.Xml.Serialization.XmlInclude(typeof(TaskNode)), System.Xml.Serialization.XmlInclude(typeof(AudioNode)),
         System.Xml.Serialization.XmlInclude(typeof(TextNode))
     ]       
@@ -35,32 +35,9 @@ namespace Inhuman
         public ObservableCollection<Node> Nodes = new ObservableCollection<Node>();
         public string CurrentPage;
 
-        [System.Xml.Serialization.XmlIgnore]
-        public PageNode CurrentPageNode
-        {
-            get
-            {
-                return GetNode(CurrentPage) as PageNode;
-            }
-        }
-
         //===================================================================================================================================================//
         public StreamlineData()
         {
-        }
-
-        //===================================================================================================================================================//
-        public Node GetNode(string id)
-        {
-            for (int x = 0; x < Nodes.Count; x++)
-            {
-                if (id == Nodes[x].Id)
-                {
-                    return Nodes[x];
-                }
-            }
-
-            return null;
         }
 
         //===================================================================================================================================================//
@@ -132,166 +109,6 @@ namespace Inhuman
             PageNode page = new PageNode() { Name = "Default" };
             CurrentPage = page.Id;
             Nodes.Add(page);
-        }
-
-        //===================================================================================================================================================//
-        [System.Xml.Serialization.XmlIgnore]
-        public Dictionary<string, string> ExportFilenames = new Dictionary<string, string>();
-
-        public void ExportAll()
-        {
-            // Create Dictionary //
-            ExportFilenames.Clear();
-
-            for (int i = 0; i < Nodes.Count; i++)
-            {
-                if (Nodes[i] is PageNode)
-                {
-                    string filename = Nodes[i].Name;
-                    int count = 1;
-
-                    while (ExportFilenames.ContainsValue(filename + ".html"))
-                    {
-                        filename = Nodes[i].Name + "_" + count++;
-                    }
-                    ExportFilenames.Add(Nodes[i].Id, filename + ".html");
-                }
-            }
-
-
-            // Export Pages //
-            for (int i = 0; i < Nodes.Count; i++)
-            {
-                if (Nodes[i] is PageNode)
-                {
-                    Export(Nodes[i] as PageNode);
-                }
-            }
-        }
-        
-        //===================================================================================================================================================//
-        public void Export(PageNode page)
-        {
-            string filename = ExportFilenames[page.Id];
-            string buffer = "";
-
-
-            /*<html xmlns="http://www.w3.org/1999/xhtml">
-            <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-            <title>Untitled Document</title>
-            <link href="Style.css" rel="stylesheet" type="text/css" />
-            </head>*/
-
-
-            // Html //
-            buffer += "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "\n";
-            buffer += "<html xmlns=\"http://www.w3.org/1999/xhtml\">" + "\n";
-            buffer += "<head>" + "\n";
-            buffer += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n";    
-            buffer += "<meta name=\"viewport\" content=\"width=device-width; initial-scale=0.96; maximum-scale=2.0; user-scalable=1;\">";
-
-            buffer += "<title>" + page.Name + "</title>" + "\n";
-            buffer += "<link href=\"Style.css\" rel=\"stylesheet\" type=\"text/css\" />" + "\n";           
-            buffer += "</head>" + "\n";
-            buffer += "<body>" + "\n";            
-
-            // Main //
-            buffer += "<div id=\"Main\">" + "\n";
-
-            // Centered //
-            buffer += "<div id=\"Centered\">" + "\n";
-
-            // Header //
-            buffer += "\t" + "<div id=\"Header\">\n";
-            buffer += "\t\t" + "<div id=\"PageName\">";
-            buffer += page.Name;
-            buffer += "</div>" + "\n";
-            buffer += "\t" + "</div>" + "\n";
-
-            for (int i = 0; i < page.Nodes.Count; i++)
-            {
-                Node node = GetNode(page.Nodes[i]);
-                string name = node.Name;
-
-                if (node is LinkNode)
-                {
-                    string linkFilename = ExportFilenames[(node as LinkNode).Url];
-                    buffer += "\t" + "<a href=\"" + linkFilename + "\">" + "\n";
-
-                    name = GetNode((node as LinkNode).Url).Name;
-                }
-
-                buffer += "\t" + "<div class=\"Node\">" + "\n";
-
-                // Icon //
-                buffer += "\t\t" + "<div class=\"Icon\"></div>" + "\n";
-
-                // Arrow //
-                buffer += "\t\t" + "<div class=\"Arrow\"></div>" + "\n";
-
-                
-
-
-                // Name //
-                buffer += "\t\t" + "<div class=\"Name\">";
-                buffer += name;
-                buffer += "</div>" + "\n";
-
-                // Info //
-                //buffer += "\t\t" + "<div class=\"Info\">";
-                //buffer += node.Id;
-                //buffer += "</div>" + "\n";
-
-                if (node is TextNode)
-                {
-                    // Image //
-                    buffer += "\t\t" + "<div class=\"Text\">";
-                    buffer += (node as TextNode).Text;
-                    buffer += "</div>" + "\n";
-                } 
-                
-                if (node is ImageNode)
-                {
-                    // Image //
-                    buffer += "\t\t" + "<div class=\"Image\">";
-                    buffer += "<img src=\"" + (node as ImageNode).Filename + "\">";
-                    buffer += "</div>" + "\n";
-                }
-
-                buffer += "\t" + "</div>" + "\n";
-
-                if (node is LinkNode)
-                    buffer += "\t" + "</a>" + "\n";
-                
-            }
-
-            // Footer //
-            buffer += "\t" + "<div id=\"Footer\"></div>" + "\n";
-
-            buffer += "</div>" + "\n";
-            buffer += "</div>" + "\n";
-
-            buffer += "</body>" + "\n";
-            buffer += "</html>" + "\n";
-            
-
-
-            Debug.WriteLine(buffer);
-            Clipboard.SetText(buffer);
-
-            // Write File //
-            /*StreamWriter stream = File.CreateText(filename);
-            stream.WriteLine(buffer);
-            stream.Close();*/
-
-            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
-            IsolatedStorageFileStream stream = storage.CreateFile(filename);
-
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(buffer);
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Close();
-            stream.Dispose();
-        }
+        }       
     }
 }

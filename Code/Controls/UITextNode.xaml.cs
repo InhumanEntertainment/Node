@@ -21,7 +21,7 @@ namespace Inhuman
 
         private void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-        	NameText.SelectAll();
+        	//NameText.SelectAll();
         }
 
         void TextDataBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

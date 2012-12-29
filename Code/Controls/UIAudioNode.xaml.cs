@@ -10,23 +10,23 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics;
 
 namespace Inhuman
 {
     public partial class UIAudioNode : UserControl
     {
-        public string ActionText
-        {
-            set
-            {
-                ActionButton.Content = value;
-            }
-        }
-
+        //===================================================================================================================================================//
         public UIAudioNode()
         {
-            InitializeComponent();
-            ActionButton.Content = "Play";
+            InitializeComponent();           
+        }
+
+        //===================================================================================================================================================//
+        public void SetButtonText(string text)
+        {
+            var button = (NodePresenter.ButtonContent as Button);
+            button.Content = text;
         }
 
         //===================================================================================================================================================//
@@ -40,24 +40,18 @@ namespace Inhuman
                 if (mic.State == MicrophoneState.Stopped)
                 {
                     node.Record();
-                    ActionButton.Content = "Finish";
+                    SetButtonText("Finish");
                 }
                 else
                 {
                     node.StopRecording();
-                    ActionButton.Content = "Play";
+                    SetButtonText("Play");
                 }
             }
             else
             {
                 node.Play();
-            }        	
-        }
-
-        //===================================================================================================================================================//
-        void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	NameText.SelectAll();
+            }
         }
     }
 }

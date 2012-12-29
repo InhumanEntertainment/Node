@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" x:Name="userControl" x:Class="Inhuman.UINode"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:local="clr-namespace:Inhuman" x:Name="Node" x:Class="Inhuman.UINode"
     mc:Ignorable="d"
-    d:DesignHeight="130" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" Height="80" RenderTransformOrigin="0.5,0.5">
+    d:DesignHeight="120" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top">
 	<UserControl.Resources>
 		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
 			<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
@@ -121,7 +121,9 @@
 	</UserControl.RenderTransform>
 	<toolkit:ContextMenuService.ContextMenu>
 		<toolkit:ContextMenu x:Name="UIContextMenu">
-			<toolkit:MenuItem Header="Remove"  Click="RemoveButton_Click"/>            
+			<toolkit:MenuItem Header="Remove" Click="RemoveButton_Click"/>
+			<toolkit:MenuItem Header="Move Up" Click="MoveUp_Click"/>
+			<toolkit:MenuItem Header="Move Down" Click="MoveDown_Click"/>            
 		</toolkit:ContextMenu>
 	</toolkit:ContextMenuService.ContextMenu>    
     
@@ -135,7 +137,7 @@
 		<StaticResource ResourceKey="PhoneForegroundBrush"/>
 	</UserControl.Foreground>    
     
-    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top">
     	<Grid.RenderTransform>
     		<CompositeTransform/>
     	</Grid.RenderTransform>
@@ -207,7 +209,7 @@
 			<Grid.Background>
 				<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
 			</Grid.Background>
-			<Image x:Name="image1" HorizontalAlignment="Right" Width="96" VerticalAlignment="Center" Height="96" Source="/icons/appbar.cancel.rest.png" RenderTransformOrigin="0.5,0.5">
+			<Image x:Name="image1" HorizontalAlignment="Right" Width="80" VerticalAlignment="Center" Height="80" Source="/icons/appbar.cancel.rest.png" RenderTransformOrigin="0.5,0.5">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
@@ -215,7 +217,7 @@
 					<PlaneProjection/>
 				</Image.Projection>
 			</Image>
-			<Image x:Name="image" VerticalAlignment="Center" Height="96" Source="/icons/appbar.add.rest.png" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+			<Image x:Name="image" VerticalAlignment="Center" Height="80" Source="/icons/appbar.add.rest.png" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Width="80">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
@@ -228,13 +230,20 @@
 				<Grid.RenderTransform>
 					<CompositeTransform/>
 				</Grid.RenderTransform>
-				<TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Center" FontSize="34" GotFocus="NameText_GotFocus" Margin="0" BorderBrush="{x:Null}" Background="{x:Null}" CaretBrush="#FFB8B8B8" FontFamily="Arial" FontWeight="Bold" Style="{StaticResource TextBoxStyle1}" HorizontalAlignment="Left" >
-					<TextBox.Foreground>
-						<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-					</TextBox.Foreground>
-				</TextBox>
-				<Rectangle x:Name="Bottom" Fill="Black" Height="2" VerticalAlignment="Bottom" StrokeThickness="0" Margin="0"/>
-				<Rectangle x:Name="Top" Fill="#FF282828" Height="2" VerticalAlignment="Top" StrokeThickness="0"/>
+				<StackPanel>
+					<Grid Height="78" VerticalAlignment="Top">
+						<Rectangle x:Name="Top" Fill="#FF282828" Height="2" StrokeThickness="0" VerticalAlignment="Top"/>
+						<TextBox x:Name="NameText" Text="{Binding Name, Mode=TwoWay}" FontSize="34" GotFocus="NameText_GotFocus" BorderBrush="{x:Null}" Background="{x:Null}" CaretBrush="#FFB8B8B8" FontFamily="Arial" FontWeight="Bold" Style="{StaticResource TextBoxStyle1}" MinWidth="100" d:LayoutOverrides="Width" HorizontalAlignment="Left" BorderThickness="0" VerticalAlignment="Top" Height="64" >
+							<TextBox.Foreground>
+								<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+							</TextBox.Foreground>
+						</TextBox>
+						<TextBlock x:Name="InfoText" Text="{Binding Info}" FontSize="20" FontFamily="Arial" FontWeight="Bold" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="31,49,0,0" Foreground="#FF494949" />
+						<ContentPresenter x:Name="ButtonArea" Content="{Binding ButtonContent, ElementName=Node}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Right" d:LayoutOverrides="VerticalAlignment"/>
+					</Grid>
+					<ContentPresenter x:Name="LowerArea" Content="{Binding LowerContent, ElementName=Node}" VerticalAlignment="Top"/>
+					<Rectangle x:Name="Bottom" Fill="Black" Height="2" StrokeThickness="0" VerticalAlignment="Top"/>
+				</StackPanel>
 			</Grid>
 		</Grid>
 	</Grid>

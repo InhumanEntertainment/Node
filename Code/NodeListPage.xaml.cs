@@ -26,7 +26,7 @@ namespace Inhuman
 {
     public partial class NodeListPage : PhoneApplicationPage
     {
-        public ObservableCollection<ListNode> FilteredNodes = new ObservableCollection<ListNode>();
+        public ObservableCollection<Node> FilteredNodes = new ObservableCollection<Node>();
 
         //===================================================================================================================================================//
         public NodeListPage()
@@ -38,19 +38,35 @@ namespace Inhuman
         void PhoneApplicationPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
         	// Load Nodes into list //
-			for (int i = 0; i < Streamline.Data.Nodes.Count; i++)
+			for (int i = 0; i < NodeController.Data.Nodes.Count; i++)
 			{
-                if (Streamline.Data.Nodes[i] is PageNode)
+                if (NodeController.Data.Nodes[i] is PageNode)
 	            {
                     ListNode node = new ListNode();
-                    node.Name = Streamline.Data.Nodes[i].Name;
-                    node.Id = Streamline.Data.Nodes[i].Id;
+                    node.Name = NodeController.Data.Nodes[i].Name;
+                    node.Id = NodeController.Data.Nodes[i].Id;
                     node.Type = "Page";
 
-		            FilteredNodes.Add(node);
+                    FilteredNodes.Add(NodeController.Data.Nodes[i]);
                     Debug.WriteLine(node.Name);
 	            }
+
 			}
+
+            // Other Nodes //
+            for (int i = 0; i < NodeController.Data.Nodes.Count; i++)
+            {
+                if (!(NodeController.Data.Nodes[i] is PageNode))
+                {
+                    ListNode node = new ListNode();
+                    node.Name = NodeController.Data.Nodes[i].Name;
+                    node.Id = NodeController.Data.Nodes[i].Id;
+                    node.Type = "Other";
+
+                    FilteredNodes.Add(NodeController.Data.Nodes[i]);
+                    Debug.WriteLine(node.Name);
+                }
+            }
 
             NodeList.ItemsSource = FilteredNodes;
         }
@@ -58,29 +74,14 @@ namespace Inhuman
         //===================================================================================================================================================//
         void CancelButton_Click(object sender, System.EventArgs e)
         {
-        	
+        	NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         //===================================================================================================================================================//
         void OKButton_Click(object sender, System.EventArgs e)
-        {
-            if (NodeList.SelectedItem != null)
-	        {		
-                // Create Link Node //
-                LinkNode link = new LinkNode();
-                UILinkNode uilink = new UILinkNode();
-                MainPage.Instance.MainListBox.Items.Add(uilink);
-                uilink.DataContext = link;
-
-                Streamline.Data.Nodes.Add(link);
-                Streamline.Data.CurrentPageNode.AddNode(link);
-
-                link.Url = (NodeList.SelectedItem as ListNode).Id;
-                PageNode page = Streamline.Data.GetNode(link.Url) as PageNode;
-                uilink.DataContext = page;     
-	        }
-
-            Debug.WriteLine(NodeList.SelectedIndex);
+        {         
+            //NodeController.CreateUINode(NodeList.SelectedItem as Node);
+            NodeController.DuplicateNode(NodeList.SelectedItem as Node);
 
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }

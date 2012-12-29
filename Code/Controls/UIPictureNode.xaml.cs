@@ -14,10 +14,10 @@ using Microsoft.Phone.Controls;
 
 namespace Inhuman
 {
-    public partial class UIImageNode : UserControl
+    public partial class UIPictureNode : UserControl
     {
         //===================================================================================================================================================//
-        public UIImageNode()
+        public UIPictureNode()
         {
             InitializeComponent();
         }
@@ -25,19 +25,19 @@ namespace Inhuman
         //===================================================================================================================================================//
         void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-        	NameText.SelectAll();
+        	//NameText.SelectAll();
         }
         
         //===================================================================================================================================================//
         void ActionButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Pages/PicturePage.xaml?Node=" + (DataContext as ImageNode).Id, UriKind.Relative));     
+            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Pages/PicturePage.xaml?Node=" + (DataContext as PictureNode).Id, UriKind.Relative));     
         }
 
         //===================================================================================================================================================//
         void NodeImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Pages/PicturePage.xaml?Node=" + (DataContext as ImageNode).Id, UriKind.Relative));     
+            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/Pages/PicturePage.xaml?Node=" + (DataContext as PictureNode).Id, UriKind.Relative));     
         }
     }
 }

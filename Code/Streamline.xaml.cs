@@ -18,20 +18,6 @@ namespace Inhuman
     public partial class Streamline : Application
     {
         public static Streamline Instance;
-
-        static StreamlineData _Data;        
-        public static StreamlineData Data
-        {
-            get
-            {
-                return _Data;
-            }
-            set
-            {
-                _Data = value;
-            }
-        }
-
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         //===================================================================================================================================================//
@@ -53,30 +39,30 @@ namespace Inhuman
         //===================================================================================================================================================//
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            Data = StreamlineData.Load();
+            NodeController.Data = StreamlineData.Load();
 
-            if (Streamline.Data.Nodes.Count > 0)
+            if (NodeController.Data.Nodes.Count > 0)
             {
-                Streamline.Data.CurrentPage = Streamline.Data.Nodes[0].Id;
+                NodeController.Data.CurrentPage = NodeController.Data.Nodes[0].Id;
             }
         }
 
         //===================================================================================================================================================//
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            Data = StreamlineData.Load();
+            NodeController.Data = StreamlineData.Load();
         }
 
         //===================================================================================================================================================//
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
-            Data.Save();
+            NodeController.Data.Save();
         }
 
         //===================================================================================================================================================//
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            Data.Save();
+            NodeController.Data.Save();
         }
 
         //===================================================================================================================================================//

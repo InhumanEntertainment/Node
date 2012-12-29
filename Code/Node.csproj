@@ -51,10 +51,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls.Maps" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Input.Touch" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -65,11 +67,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AudioNode.cs" />
+    <Compile Include="Classes\NodeController.cs" />
+    <Compile Include="Classes\MatchNode.cs" />
+    <Compile Include="Classes\TagNode.cs" />
     <Compile Include="Classes\TaskNode.cs" />
-    <Compile Include="Classes\ImageNode.cs" />
+    <Compile Include="Classes\PictureNode.cs" />
     <Compile Include="Classes\WebNode.cs" />
     <Compile Include="Classes\LinkNode.cs" />
     <Compile Include="Classes\DispatcherService.cs" />
+    <Compile Include="Controls\BaseNodeTest.xaml.cs">
+      <DependentUpon>BaseNodeTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UITextNode.xaml.cs">
       <DependentUpon>UITextNode.xaml</DependentUpon>
     </Compile>
@@ -79,8 +87,8 @@
     <Compile Include="Controls\UITaskNode.xaml.cs">
       <DependentUpon>UITaskNode.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\UIImageNode.xaml.cs">
-      <DependentUpon>UIImageNode.xaml</DependentUpon>
+    <Compile Include="Controls\UIPictureNode.xaml.cs">
+      <DependentUpon>UIPictureNode.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\UILinkNode.xaml.cs">
       <DependentUpon>UILinkNode.xaml</DependentUpon>
@@ -93,6 +101,9 @@
     </Compile>
     <Compile Include="Pages\PicturePage.xaml.cs">
       <DependentUpon>PicturePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PropertiesPage.xaml.cs">
+      <DependentUpon>PropertiesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Streamline.xaml.cs">
       <DependentUpon>Streamline.xaml</DependentUpon>
@@ -116,6 +127,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Controls\BaseNodeTest.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\UITextNode.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -132,7 +147,7 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\UIImageNode.xaml">
+    <Page Include="Controls\UIPictureNode.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -166,6 +181,15 @@
     <Page Include="Pages\PicturePage.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PropertiesPage.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
   </ItemGroup>
   <ItemGroup>

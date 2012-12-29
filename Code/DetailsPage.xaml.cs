@@ -29,8 +29,8 @@ namespace Inhuman
             if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedIndex))
             {
                 int index = int.Parse(selectedIndex);
-                string id = Streamline.Data.CurrentPageNode.Nodes[index];
-                DataContext = Streamline.Data.GetNode(id);
+                string id = NodeController.CurrentPageNode.Nodes[index];
+                DataContext = NodeController.GetNode(id);
             }
         }
     }
