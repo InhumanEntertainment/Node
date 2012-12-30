@@ -27,7 +27,8 @@ namespace Inhuman
     [   System.Xml.Serialization.XmlInclude(typeof(PageNode)), System.Xml.Serialization.XmlInclude(typeof(LinkNode)), 
         System.Xml.Serialization.XmlInclude(typeof(WebNode)), System.Xml.Serialization.XmlInclude(typeof(PictureNode)),
         System.Xml.Serialization.XmlInclude(typeof(TaskNode)), System.Xml.Serialization.XmlInclude(typeof(AudioNode)),
-        System.Xml.Serialization.XmlInclude(typeof(TextNode))
+        System.Xml.Serialization.XmlInclude(typeof(TextNode)), System.Xml.Serialization.XmlInclude(typeof(ProjectNode)),
+        System.Xml.Serialization.XmlInclude(typeof(GalleryNode))
     ]       
     public class StreamlineData
     {

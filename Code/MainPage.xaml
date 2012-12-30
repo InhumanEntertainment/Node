@@ -207,10 +207,12 @@
                 <shell:ApplicationBarMenuItem x:Name="PictureMenu" Text="Add Picture" Click="PictureMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="AudioMenu" Text="Add Audio" Click="AudioMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="TaskMenu" Text="Add Task" Click="TaskMenu_Click"/>
+                <shell:ApplicationBarMenuItem x:Name="ProjectMenu" Text="Add Project" Click="ProjectMenu_Click"/>
+                <shell:ApplicationBarMenuItem x:Name="GalleryMenu" Text="Add Gallery" Click="GalleryMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="WebMenu" Text="Add Link" Click="WebMenu_Click"/>
-            	<shell:ApplicationBarMenuItem x:Name="ExportMenu" Text="Export" Click="ExportMenu_Click"/>
-            	<shell:ApplicationBarMenuItem x:Name="PinMenu" Text="Pin Page" Click="PinMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="PropertiesMenu" Text="Properties" Click="PropertiesMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="PinMenu" Text="Pin Page" Click="PinMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="ExportMenu" Text="Export" Click="ExportMenu_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AudioNode.cs" />
+    <Compile Include="Classes\GalleryNode.cs" />
+    <Compile Include="Classes\ProjectNode.cs" />
     <Compile Include="Classes\NodeController.cs" />
     <Compile Include="Classes\MatchNode.cs" />
     <Compile Include="Classes\TagNode.cs" />
@@ -77,6 +79,12 @@
     <Compile Include="Classes\DispatcherService.cs" />
     <Compile Include="Controls\BaseNodeTest.xaml.cs">
       <DependentUpon>BaseNodeTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UIGalleryNode.xaml.cs">
+      <DependentUpon>UIGalleryNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UIProjectNode.xaml.cs">
+      <DependentUpon>UIProjectNode.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\UITextNode.xaml.cs">
       <DependentUpon>UITextNode.xaml</DependentUpon>
@@ -95,6 +103,9 @@
     </Compile>
     <Compile Include="Controls\UINode.xaml.cs">
       <DependentUpon>UINode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UIThumbnail.xaml.cs">
+      <DependentUpon>UIThumbnail.xaml</DependentUpon>
     </Compile>
     <Compile Include="NodeListPage.xaml.cs">
       <DependentUpon>NodeListPage.xaml</DependentUpon>
@@ -131,6 +142,14 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\UIGalleryNode.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\UIProjectNode.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\UITextNode.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -158,6 +177,10 @@
     <Page Include="Controls\UINode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UIThumbnail.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="NodeListPage.xaml">
       <Generator>MSBuild:Compile</Generator>

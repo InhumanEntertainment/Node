@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -149,11 +150,21 @@ namespace Inhuman
             }
             else if (Offset.TranslateX > 160)
             {              
-                //Added.Storyboard.Begin();
-
-                // Create Node //
-                Node node = new Node("Node");
-                UINode uinode = new UINode();
+                Node node;
+                UserControl uinode;
+                if (NodeController.CurrentPageNode is ProjectNode)
+                {
+                    // Create Node //
+                    node = new TaskNode();
+                    uinode = new UITaskNode();
+                    node.Name = "Task";
+                }
+                else
+                {
+                    // Create Node //
+                    node = new Node("Node");
+                    uinode = new UINode();
+                }				              
 
                 // Get Position //
                 NodeController.UI.MainListBox.UpdateLayout();
@@ -164,7 +175,6 @@ namespace Inhuman
                 NodeController.CurrentPageNode.Nodes.Insert(index, node.Id);
 
                 Offset.TranslateX = 0;
-                uinode.FocusName();
             }
             else
             {

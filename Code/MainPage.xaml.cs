@@ -110,8 +110,8 @@ namespace Inhuman
         //===================================================================================================================================================//
         void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            NodeController.PreviousPage();
             e.Cancel = true;
+            NodeController.PreviousPage();           
         }
 
         //===================================================================================================================================================//
@@ -177,6 +177,18 @@ namespace Inhuman
 
 
             MainListBox.SelectedIndex = -1;
+        }
+
+        //===================================================================================================================================================//
+        void ProjectMenu_Click(object sender, System.EventArgs e)
+        {
+            NodeController.CreateProject();
+        }
+
+        //===================================================================================================================================================//
+        void GalleryMenu_Click(object sender, System.EventArgs e)
+        {
+        	NodeController.CreateGallery();
         }      
     }
 }

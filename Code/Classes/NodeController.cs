@@ -85,6 +85,7 @@ namespace Inhuman
             {
                 PageHistory.Pop();
                 LoadPage(PageHistory.Pop());
+                PrintHistory();
             }
         }
 
@@ -107,6 +108,38 @@ namespace Inhuman
             UILinkNode uilink = new UILinkNode();
             UI.MainListBox.Items.Add(uilink);
             uilink.DataContext = page;            
+        }
+
+        //===================================================================================================================================================//
+        public static void CreateProject()
+        {
+            // Create New Page //
+            ProjectNode page = new ProjectNode();
+            page.Name = "Project";
+            Data.Nodes.Add(page);
+            CurrentPageNode.AddNode(page);
+
+            UIProjectNode uinode = new UIProjectNode();
+            UI.MainListBox.Items.Add(uinode);
+            uinode.DataContext = page;
+
+            uinode.Initialize();
+        }
+
+        //===================================================================================================================================================//
+        public static void CreateGallery()
+        {
+            // Create New Page //
+            GalleryNode page = new GalleryNode();
+            page.Name = "Gallery";
+            Data.Nodes.Add(page);
+            CurrentPageNode.AddNode(page);
+
+            UIGalleryNode uinode = new UIGalleryNode();
+            UI.MainListBox.Items.Add(uinode);
+            uinode.DataContext = page;
+
+            uinode.Initialize();
         }
 
         //===================================================================================================================================================//
@@ -182,6 +215,18 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
+        public static void PrintHistory()
+        {
+            string buffer = "";
+
+            foreach (var item in PageHistory)
+            {
+                buffer += " > " + item.Name;
+            }
+            Debug.WriteLine(buffer);
+        }
+
+        //===================================================================================================================================================//
         public static void LoadPage(PageNode page)
         {
             if (page != null)
@@ -189,7 +234,11 @@ namespace Inhuman
                 UI.MainListBox.Items.Clear();
                 UI.ScrollView.ScrollToVerticalOffset(0);
                 UI.DataContext = page;
-                PageHistory.Push(page);
+                if (PageHistory.Count == 0 || (PageHistory.Count > 0 && PageHistory.Peek().Id != page.Id))
+                {
+                    PageHistory.Push(page);
+                    PrintHistory();                   
+                }
                 Data.CurrentPage = page.Id;
 
                 for (int i = 0; i < page.Nodes.Count; i++)
@@ -208,12 +257,26 @@ namespace Inhuman
         //===================================================================================================================================================//
         public static void CreateUINode(Node node)
         {
-            if (node is PageNode)
+            if (node is ProjectNode)
+            {
+                UIProjectNode uinode = new UIProjectNode();
+                UI.MainListBox.Items.Add(uinode);
+                uinode.DataContext = node;
+                uinode.Initialize();
+            }
+            else if (node is GalleryNode)
+            {
+                UIGalleryNode uinode = new UIGalleryNode();
+                UI.MainListBox.Items.Add(uinode);
+                uinode.DataContext = node;
+                uinode.Initialize();
+            } 
+            else if (node is PageNode)
             {
                 UILinkNode uilink = new UILinkNode();
                 UI.MainListBox.Items.Add(uilink);
                 uilink.DataContext = node;
-            }
+            }           
             else if (node is PictureNode)
             {
                 UIPictureNode uinode = new UIPictureNode();
@@ -316,10 +379,10 @@ namespace Inhuman
                         // Save Image // 
                         IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
                         IsolatedStorageFileStream stream = storage.CreateFile(node.Filename);
-                        //Extensions.SaveJpeg(writableBitmap, stream, bmp.PixelWidth, bmp.PixelHeight, 0, 90);
-                        float aspect = (float)bmp.PixelWidth / (float)bmp.PixelHeight;
-                        int width = bmp.PixelWidth < 200 ? bmp.PixelWidth : 200;
-                        Extensions.SaveJpeg(writableBitmap, stream, width, (int)(width / aspect), 0, 70);
+                        Extensions.SaveJpeg(writableBitmap, stream, bmp.PixelWidth, bmp.PixelHeight, 0, 70);
+                        //float aspect = (float)bmp.PixelWidth / (float)bmp.PixelHeight;
+                        //int width = bmp.PixelWidth < 200 ? bmp.PixelWidth : 200;
+                        //Extensions.SaveJpeg(writableBitmap, stream, width, (int)(width / aspect), 0, 70);
 
                         stream.Close();
                         stream.Dispose();

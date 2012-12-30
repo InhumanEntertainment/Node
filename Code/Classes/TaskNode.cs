@@ -18,8 +18,8 @@ namespace Inhuman
 {
     public class TaskNode : Node
     {
-        private string _Completed;
-        public string Completed
+        private bool _Completed;
+        public bool Completed
         {
             get
             {
