@@ -61,12 +61,21 @@ namespace Inhuman
             }
         }
 
+        public static Skydrive Skydrive;
+
         
 	    //===================================================================================================================================================//
         public static void Initialize(StreamlineData data, MainPage ui)
         {
             Data = data;
-            UI = ui;
+            UI = ui;           
+        }
+
+        //===================================================================================================================================================//
+        public static void Sync()
+        {
+            Data.Save();
+            Skydrive.UploadAll();
         }
 
         //===================================================================================================================================================//
@@ -481,12 +490,12 @@ namespace Inhuman
                 Node node = GetNode(page.Nodes[i]);
                 string name = node.Name;
 
-                if (node is LinkNode)
+                if (node is PageNode)
                 {
-                    string linkFilename = ExportFilenames[(node as LinkNode).Url];
+                    string linkFilename = ExportFilenames[(node as PageNode).Id];
                     buffer += "\t" + "<a href=\"" + linkFilename + "\">" + "\n";
 
-                    name = GetNode((node as LinkNode).Url).Name;
+                    name = GetNode((node as PageNode).Id).Name;
                 }
 
                 buffer += "\t" + "<div class=\"Node\">" + "\n";
@@ -528,7 +537,7 @@ namespace Inhuman
 
                 buffer += "\t" + "</div>" + "\n";
 
-                if (node is LinkNode)
+                if (node is PageNode)
                     buffer += "\t" + "</a>" + "\n";
 
             }

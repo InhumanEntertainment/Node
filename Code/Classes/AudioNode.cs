@@ -105,6 +105,7 @@ namespace Inhuman
 
                     long fileSize = stream.Length;
                     long readSize = 0;
+                    stream.Position = 45;
                     while (readSize < fileSize)
                     {
                         int readLength = stream.Read(buffer, 0, buffer.Length);
@@ -132,7 +133,7 @@ namespace Inhuman
             AudioBuffer = new byte[mic.GetSampleSizeInBytes(mic.BufferDuration)];
             AudioStream.SetLength(0);
 
-            //WriteWavHeader(AudioStream, mic.SampleRate);
+            WriteWavHeader(AudioStream, mic.SampleRate);
 
             mic.BufferReady += new EventHandler<EventArgs>(mic_BufferReady);
             mic.Start();
@@ -145,7 +146,7 @@ namespace Inhuman
 
             mic.Stop();
             mic.BufferReady -= new EventHandler<EventArgs>(mic_BufferReady);
-            //UpdateWavHeader(AudioStream);
+            UpdateWavHeader(AudioStream);
 
             byte[] SoundData = AudioStream.ToArray();
             Sound = new SoundEffect(SoundData, mic.SampleRate, AudioChannels.Mono);

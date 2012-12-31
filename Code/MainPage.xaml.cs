@@ -35,7 +35,13 @@ namespace Inhuman
             NodeController.UI = this;
 
             DataContext = null;
-        }     
+        }
+
+        //===================================================================================================================================================//
+        void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            NodeController.Skydrive = new Skydrive();
+        }
 
         //===================================================================================================================================================//
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -97,14 +103,6 @@ namespace Inhuman
         void TaskMenu_Click(object sender, System.EventArgs e)
         {
             NodeController.CreateTask();
-        }
-       
-        
-
-        //===================================================================================================================================================//
-        void ResetButton_Click(object sender, System.EventArgs e)
-        {
-            NodeController.Reset();
         }
 
         //===================================================================================================================================================//
@@ -189,6 +187,18 @@ namespace Inhuman
         void GalleryMenu_Click(object sender, System.EventArgs e)
         {
         	NodeController.CreateGallery();
+        }
+
+        //===================================================================================================================================================//
+        void ResetMenu_Click(object sender, System.EventArgs e)
+        {
+        	NodeController.Reset();
+        }
+
+        //===================================================================================================================================================//
+        void SyncButton_Click(object sender, System.EventArgs e)
+        {
+            NodeController.Sync();
         }      
     }
 }

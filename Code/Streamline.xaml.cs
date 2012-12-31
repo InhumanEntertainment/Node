@@ -50,7 +50,7 @@ namespace Inhuman
         //===================================================================================================================================================//
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            NodeController.Data = StreamlineData.Load();
+            NodeController.Data = StreamlineData.Load();           
         }
 
         //===================================================================================================================================================//

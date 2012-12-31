@@ -6,12 +6,12 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728" 
     d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait" DataContext="{Binding}" BackKeyPress="PhoneApplicationPage_BackKeyPress">
+    SupportedOrientations="Portrait"  Orientation="Portrait" DataContext="{Binding}" BackKeyPress="PhoneApplicationPage_BackKeyPress" Loaded="PhoneApplicationPage_Loaded">
 	<phone:PhoneApplicationPage.Resources>
 		<Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
 			<Setter Property="Background" Value="Transparent"/>
@@ -199,7 +199,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="Black" ForegroundColor="#FFADADAD">
             <shell:ApplicationBarIconButton Text="Add" x:Name="AddNodeButton" Click="AddNodeButton_Click" IconUri="/icons/appbar.add.rest.png" />
-            <shell:ApplicationBarIconButton x:Name="RestButton" IconUri="/icons/appbar.sync.rest.png" Text="Reset" Click="ResetButton_Click"/>
+            <shell:ApplicationBarIconButton x:Name="SyncButton" IconUri="/icons/appbar.sync.rest.png" Text="Sync" Click="SyncButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.folder.rest.png" Text="Page" x:Name="AddPageButton" Click="AddPageButton_Click" />
             <shell:ApplicationBarIconButton IconUri="/icons/appbar.favs.rest.png" Text="Existing" x:Name="AddExistingButton" Click="AddExistingButton_Click" />
             <shell:ApplicationBar.MenuItems>
@@ -213,6 +213,7 @@
             	<shell:ApplicationBarMenuItem x:Name="PropertiesMenu" Text="Properties" Click="PropertiesMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="PinMenu" Text="Pin Page" Click="PinMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="ExportMenu" Text="Export" Click="ExportMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="ResetMenu" Text="Reset" Click="ResetMenu_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

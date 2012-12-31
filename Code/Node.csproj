@@ -50,6 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Live, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls.Maps" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
@@ -71,6 +72,7 @@
     <Compile Include="Classes\ProjectNode.cs" />
     <Compile Include="Classes\NodeController.cs" />
     <Compile Include="Classes\MatchNode.cs" />
+    <Compile Include="Classes\Skydrive.cs" />
     <Compile Include="Classes\TagNode.cs" />
     <Compile Include="Classes\TaskNode.cs" />
     <Compile Include="Classes\PictureNode.cs" />
