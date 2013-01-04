@@ -19,7 +19,6 @@ using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
 using System.Windows.Threading;
-using Microsoft.Phone.UserData;
 
 namespace Inhuman
 {
@@ -64,6 +63,9 @@ namespace Inhuman
 
         public static Skydrive Skydrive;
         public static bool DataLoaded = false;
+
+        public static PageNode HelpPage;
+        public static List<Node> HelpNodes = new List<Node>();
         
 	    //===================================================================================================================================================//
         public static void Initialize(StreamlineData data, MainPage ui)
@@ -77,6 +79,22 @@ namespace Inhuman
         {
             Data.Save();
             Skydrive.UploadAll();
+        }
+
+        //===================================================================================================================================================//
+        public static void OpenHelpPage()
+        {
+            List<Node> HelpNodes = new List<Node>();
+
+            // Create Page //
+            HelpPage = new PageNode();
+            HelpPage.Name = "Help + About";
+            Data.Nodes.Add(HelpPage);
+
+            HeaderNode about = new HeaderNode() { Name = "About" };
+            Data.Nodes.Add(about);
+
+            HelpPage.Nodes.Add(about.Id);          
         }
 
         //===================================================================================================================================================//
@@ -100,17 +118,19 @@ namespace Inhuman
                 {
                     page.Nodes.Remove(node.Id);
                 }
-          
+
+                DeletePin(node);
                 Data.Nodes.Remove(node);
                 Debug.WriteLine("Deleted Node with " + references.Count + " References");
                 // Delete Attachment //
 	        }
             else if (references.Count == 0)
             {
+                DeletePin(node);
                 Data.Nodes.Remove(node);
                 Debug.WriteLine("Deleted Node with 0 References");
-            }           
-        }
+            }
+        }       
         
         //===================================================================================================================================================//
         public static List<PageNode> GetReferences(Node node)
@@ -142,14 +162,13 @@ namespace Inhuman
         {
             if (UI.NavigationService.CanGoBack)
                 UI.NavigationService.GoBack();
-            
-
-            /*if (PageHistory.Count > 1)
+            else if (UI.CurrentPage != Data.Nodes[0].Id)
             {
-                PageHistory.Pop();
-                LoadPage(PageHistory.Pop());
-                PrintHistory();
-            }*/
+                string param = "Page=" + Data.Nodes[0].Id;
+                UI.NavigationService.RemoveBackEntry();
+                UI.NavigationService.RemoveBackEntry();
+                UI.NavigationService.Navigate(new Uri("/MainPage.xaml?" + param, UriKind.Relative));              
+            }
         }
 
         //===================================================================================================================================================//
@@ -246,7 +265,7 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public static void CreateContact()
+        /*public static void CreateContact()
         {
             AddressChooserTask addressTask = new AddressChooserTask();
             addressTask.Completed += new EventHandler<AddressResult>(addressTask_Completed);
@@ -274,7 +293,7 @@ namespace Inhuman
                 }
             }
         }
-
+        */
         //===================================================================================================================================================//
         public static UINode CreateLink()
         {
@@ -337,22 +356,35 @@ namespace Inhuman
         {
             if (page != null)
             {
-                if (page ==Data.Nodes[0])
+
+                if (page == Data.Nodes[0])
+                {
                     UI.HomeImage.Source = MainPage.HomeBitmap;
+
+                    // Start Button //
+                    if (page.Nodes.Count == 0)
+                    {
+                        UI.StartImage.Visibility = Visibility.Visible;
+                        page.Nodes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Nodes_CollectionChanged);
+                    }
+                    else
+                        UI.StartImage.Visibility = Visibility.Collapsed;
+                }
                 else
+                {
                     UI.HomeImage.Source = MainPage.BackBitmap;
+                    UI.StartImage.Visibility = Visibility.Collapsed;
+                }
 
 
                 UI.MainListBox.Items.Clear();
 				
                 //UI.MainListBox.ScrollIntoView(UI.MainListBox.Items[0]);
                 UI.DataContext = page;
-                if (PageHistory.Count == 0 || (PageHistory.Count > 0 && PageHistory.Peek().Id != page.Id))
-                {
-                    PageHistory.Push(page);
-                    PrintHistory();                   
-                }
                 Data.CurrentPage = page.Id;
+
+                
+
 
                 for (int i = 0; i < page.Nodes.Count; i++)
                 {
@@ -365,6 +397,13 @@ namespace Inhuman
                     }
                 }
             }
+        }
+
+        //===================================================================================================================================================//
+        static void Nodes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UI.StartImage.Visibility = Visibility.Collapsed;
+            (UI.DataContext as PageNode).Nodes.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Nodes_CollectionChanged);
         }
 
         //===================================================================================================================================================//
@@ -412,10 +451,13 @@ namespace Inhuman
             }
             else if (node is AudioNode)
             {
-                UIAudioNode uilink = new UIAudioNode();
+                UIAudioNode uinode = new UIAudioNode();
                 (node as AudioNode).LoadSound();
-                UI.MainListBox.Items.Add(uilink);
-                uilink.DataContext = node;
+                UI.MainListBox.Items.Add(uinode);
+                uinode.DataContext = node;
+                if ((node as AudioNode).Filename == null)
+                    uinode.SetButtonText(AudioMode.Record);
+                
             }
             else if (node is TextNode)
             {
@@ -431,6 +473,7 @@ namespace Inhuman
             }
         }
 
+#region Pins
         //===================================================================================================================================================//
         public static void PinPage()
         {
@@ -441,12 +484,35 @@ namespace Inhuman
                 StandardTileData secondaryTile = new StandardTileData
                 {
                     Title = NodeController.CurrentPageNode.Name,
-                    //BackgroundImage = new Uri("Background.png", UriKind.Relative),
-                    BackContent = NodeController.CurrentPageNode.Nodes.Count + " Nodes"
-
+                    BackgroundImage = new Uri("LiveTile.png", UriKind.Relative),
+                    //BackContent = NodeController.CurrentPageNode.Nodes.Count + " Nodes"
                 };
                 ShellTile.Create(new Uri("/MainPage.xaml?" + tileParameter, UriKind.Relative), secondaryTile); // Pass tileParameter as QueryString 
             }
+        }
+
+        //===================================================================================================================================================//
+        public static void UpdatePin(Node node)
+        {
+            ShellTile tile = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains(node.Id));
+            if (tile != null)
+            {
+                StandardTileData tiledata = new StandardTileData
+                {
+                    Title = NodeController.CurrentPageNode.Name,
+                    BackgroundImage = new Uri("LiveTile.png", UriKind.Relative),
+                };
+
+                tile.Update(tiledata);
+			}           
+        }
+
+        //===================================================================================================================================================//
+        public static void DeletePin(Node node)
+        {
+            ShellTile tile = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains(node.Id));
+            if (tile != null)
+                tile.Delete();
         }
 
         //===================================================================================================================================================//
@@ -462,6 +528,8 @@ namespace Inhuman
 
             return shellTile;
         }
+
+#endregion
 
         //===================================================================================================================================================//
         public static void CreatePicture()

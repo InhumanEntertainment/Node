@@ -15,7 +15,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Device.Location;
-using Microsoft.Phone.Controls.Maps;
 
 namespace Inhuman
 {

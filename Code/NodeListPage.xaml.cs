@@ -111,6 +111,8 @@ namespace Inhuman
 
             SortPicker.SelectedIndex = SortIndex;
             FilterPicker.SelectedIndex = FilterIndex;
+            SortPopup.IsOpen = true;
+            FilterPopup.IsOpen = true;
 
             Loaded = true;
             UpdateList();

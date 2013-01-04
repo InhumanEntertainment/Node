@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Microsoft.Phone.Tasks;
 
 namespace Inhuman
 {
@@ -33,6 +34,7 @@ namespace Inhuman
     public class StreamlineData
     {
         public static string Filename = "Streamline.xml";
+        public static string BackupFilename = "Backup.xml";
         public ObservableCollection<Node> Nodes = new ObservableCollection<Node>();
         public string CurrentPage;
 
@@ -84,26 +86,67 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public void Save()
+        public void Backup()
         {
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
-            IsolatedStorageFileStream stream = storage.CreateFile(Filename);
-            XmlSerializer xml = new XmlSerializer(GetType());
-            xml.Serialize(stream, this);
 
-            // Debug XML //
-            /*byte[] buffer = new byte[32000];
-            stream.Position = 0;
-            stream.Read(buffer, 0, (int)stream.Length);
-            string stuff = System.Text.Encoding.UTF8.GetString(buffer, 0, (int)stream.Length);
-            Debug.WriteLine("=======================================================================================");
-            Debug.WriteLine("  Save XML");
-            Debug.WriteLine("=======================================================================================");
-            Debug.WriteLine(stuff);*/
+            if (storage.FileExists(Filename))
+            {
+                Debug.WriteLine("Backup");
+                storage.CopyFile(Filename, BackupFilename, true);
+            }
+        }
+
+        //===================================================================================================================================================//
+        public void RestoreFromBackup()
+        {
+            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+
+            if (storage.FileExists(BackupFilename))
+            {
+                Debug.WriteLine("Restore from Backup");
+                storage.CopyFile(BackupFilename, Filename, true);
+            }
+        }
+        
+        //===================================================================================================================================================//
+        public void Save()
+        {
+            Backup();
+
+            try
+            {
+                IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+                IsolatedStorageFileStream stream = storage.CreateFile(Filename);
+                XmlSerializer xml = new XmlSerializer(GetType());
+                xml.Serialize(stream, this);
+
+                // Debug XML //
+                /*byte[] buffer = new byte[32000];
+                stream.Position = 0;
+                stream.Read(buffer, 0, (int)stream.Length);
+                string stuff = System.Text.Encoding.UTF8.GetString(buffer, 0, (int)stream.Length);
+                Debug.WriteLine("=======================================================================================");
+                Debug.WriteLine("  Save XML");
+                Debug.WriteLine("=======================================================================================");
+                Debug.WriteLine(stuff);*/
 
 
-            stream.Close();
-            stream.Dispose();
+                stream.Close();
+                stream.Dispose();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Failed to Save", MessageBoxButton.OK);
+                RestoreFromBackup();
+
+                EmailComposeTask task = new EmailComposeTask();
+                task.To = "support@inhumanize.com";
+                task.Subject = "Bug Report";
+                task.Body = "Error Message:\n\n" + e.Message + "\n\n\nStack Trace\n\n" + e.StackTrace;
+ 
+                task.Show();               
+            }           
         }
 
         //===================================================================================================================================================//

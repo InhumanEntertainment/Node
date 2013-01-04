@@ -17,7 +17,7 @@ namespace Inhuman
 {
     public class TextNode : Node
     {
-        private string _text;
+        private string _text = "Enter text here...";
         public string Text
         {
             get

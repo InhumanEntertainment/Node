@@ -104,8 +104,8 @@ namespace Inhuman
                     byte[] buffer = new byte[256];
 
                     long fileSize = stream.Length;
-                    long readSize = 44;
-                    stream.Position = 44;
+                    long readSize = 0;
+                    //stream.Position = 0;
                     while (readSize < fileSize)
                     {
                         int readLength = stream.Read(buffer, 0, buffer.Length);
@@ -267,7 +267,12 @@ namespace Inhuman
             double rms = Math.Sqrt(meanSquare); 
             double volume = rms / 32768.0;
 
-            Volume = (float)Math.Pow(volume * 2, 0.5f);
+            Volume = Math.Min(1, (float)Math.Pow(volume * 2, 0.5f));
+
+            if (SoundTime.Minutes >= 30)
+            {
+                StopRecording();
+            }
         }
     }
 }

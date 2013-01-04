@@ -29,7 +29,7 @@ namespace Inhuman
         public static BitmapImage BackBitmap = new BitmapImage(new Uri("/Node;component/Art/Back.png", UriKind.Relative));
         public static BitmapImage HomeBitmap = new BitmapImage(new Uri("/Node;component/Art/Home.png", UriKind.Relative));
 
-        string CurrentPage;
+        public string CurrentPage;
         
         //===================================================================================================================================================//
         public MainPage()
@@ -167,8 +167,6 @@ namespace Inhuman
             NavigationService.Navigate(new Uri("/Pages/PropertiesPage.xaml?" + param, UriKind.Relative));
         }
 
-
-
         //===================================================================================================================================================//
         void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -183,7 +181,6 @@ namespace Inhuman
                     ((MainListBox.SelectedItem as UINode).DataContext as WebNode).Open();
                 }
             }
-
 
             MainListBox.SelectedIndex = -1;
         }
@@ -251,19 +248,20 @@ namespace Inhuman
         //===================================================================================================================================================//
         void MainListBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (NodeController.CurrentPageNode is ProjectNode)
+            /*if (NodeController.CurrentPageNode is ProjectNode)
             {
                 NodeController.CreateTask();
             }
             else
             {
                 NodeController.CreatePage();
-            } 
+            } */
         }
 
-        void AddAudioButton_Click(object sender, System.EventArgs e)
+        //===================================================================================================================================================//
+        void HelpMenu_Click(object sender, System.EventArgs e)
         {
-        	
+            NavigationService.Navigate(new Uri("/Pages/HelpPage.xaml", UriKind.Relative));
         }      
     }
 }

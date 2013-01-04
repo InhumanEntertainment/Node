@@ -191,7 +191,7 @@
     			 <Image Source="/Node;component/Art/Text.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
 			</local:UINode.IconContent>  
         	<local:UINode.LowerContent>
-        		<TextBox x:Name="TextDataBox" TextWrapping="Wrap" Text="{Binding Text, Mode=TwoWay}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DarkGray" BorderThickness="0" VerticalAlignment="Top" VerticalScrollBarVisibility="Disabled" Style="{StaticResource TextBoxStyle2}" CaretBrush="#FFCACACA" AcceptsReturn="True" TextChanged="TextDataBox_TextChanged" InputScope="Default"/>
+        		<TextBox x:Name="TextDataBox" TextWrapping="Wrap" Text="{Binding Text, Mode=TwoWay}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DarkGray" BorderThickness="0" VerticalAlignment="Top" VerticalScrollBarVisibility="Disabled" Style="{StaticResource TextBoxStyle2}" CaretBrush="#FFCACACA" AcceptsReturn="True" TextChanged="TextDataBox_TextChanged" InputScope="Default" GotFocus="TextDataBox_GotFocus"/>
 			</local:UINode.LowerContent>    
 		</local:UINode>
         <StackPanel>

@@ -283,7 +283,7 @@
 
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
         <Grid Background="Black" d:LayoutOverrides="Width" Height="88">
-    		<Image x:Name="HomeImage" HorizontalAlignment="Left" Source="Art/Back.png" Width="80" Height="80" VerticalAlignment="Top" Tap="HomeImage_Tap" Margin="0"/>
+    		<Image x:Name="HomeImage" HorizontalAlignment="Left" Source="Art/Back.png" Width="80" Height="80" VerticalAlignment="Top" Tap="HomeImage_Tap" Margin="0" Opacity="0.5"/>
     		<TextBox x:Name="PageTitle" Text="{Binding Name, Mode=TwoWay}" d:LayoutOverrides="Height" FontWeight="Bold" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="#FFD2D2D2" FontFamily="Arial" FontSize="50" Style="{StaticResource TextBoxStyle1}" VerticalAlignment="Top" Margin="80,12,0,0" Foreground="#FFADADAD" Padding="0" TextOptions.TextHintingMode="Animated" VerticalContentAlignment="Top" BorderThickness="0" MinWidth="100" HorizontalAlignment="Left" MaxWidth="400" InputScope="Default" GotFocus="PageTitle_GotFocus"/>
     		<Rectangle Margin="0,0,0,4" VerticalAlignment="Bottom" Height="4" StrokeThickness="0">
     			<Rectangle.Fill>
@@ -308,6 +308,7 @@
 
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
         <Grid Grid.RowSpan="2"/>
+        <Image x:Name="StartImage" HorizontalAlignment="Left" Source="Art/Start.png" VerticalAlignment="Bottom" Grid.Row="1" Stretch="None" Margin="61,0,0,8"/>
         <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
     </Grid>
  
@@ -325,8 +326,7 @@
                 <shell:ApplicationBarMenuItem x:Name="ProjectMenu" Text="Add Project" Click="ProjectMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="GalleryMenu" Text="Add Gallery" Click="GalleryMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="PinMenu" Text="Pin Page" Click="PinMenu_Click"/>
-            	<shell:ApplicationBarMenuItem x:Name="SyncMenu" Text="Sync to Skydrive" Click="SyncMenu_Click"/>
-            	<shell:ApplicationBarMenuItem x:Name="ResetMenu" Text="Reset" Click="ResetMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="HelpMenu" Text="Help" Click="HelpMenu_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

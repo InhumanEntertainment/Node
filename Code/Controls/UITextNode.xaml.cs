@@ -27,5 +27,11 @@ namespace Inhuman
             //NodeController.UI.MainListBox.ScrollIntoView(item);
             //NodeController.UI.MainListBox.ScrollIntoView(
         }
+
+        void TextDataBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var textbox = NodeObject.LowerContent as TextBox;
+            textbox.SelectAll();
+        }
     }
 }

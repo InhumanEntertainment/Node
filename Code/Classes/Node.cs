@@ -120,6 +120,8 @@ namespace Inhuman
         public void UpdateTime()
         {
             Updated = DateTime.Now;
+            if (Id != null)
+                NodeController.UpdatePin(this);          
         }
 
         //===================================================================================================================================================//
