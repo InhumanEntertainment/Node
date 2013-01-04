@@ -14,18 +14,41 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.Device.Location;
+using Microsoft.Phone.Controls.Maps;
 
 namespace Inhuman
 {
     public partial class PropertiesPage : PhoneApplicationPage
     {
         public Node CurrentNode;
-        public ObservableCollection<Node> Instances = new ObservableCollection<Node>();
+        public ObservableCollection<PageNode> Instances = new ObservableCollection<PageNode>();
 
         //===================================================================================================================================================//
         public PropertiesPage()
         {
             InitializeComponent();
+			
+			/*GeoCoordinateWatcher watcher = new GeoCoordinateWatcher();			
+			GeoCoordinate loc = watcher.Position.Location;
+			
+			if (loc.IsUnknown == true)
+			{
+				// Cannot retrieve the GPS position
+				return;
+			}
+			
+			MapControl.SetView(loc, 17);			
+			MapLayer pushPinLayer = new MapLayer();
+            MapControl.Children.Add(pushPinLayer);
+			
+			Pushpin p = new Pushpin();			
+			p.Content = "YOU ARE HERE";
+			p.Location = loc;
+			
+			pushPinLayer.AddChild(p, loc, PositionOrigin.BottomLeft);    
+			*/
+			
         }
 		
 		//===================================================================================================================================================//
@@ -39,25 +62,27 @@ namespace Inhuman
             {
                 CurrentNode = NodeController.GetNode(queryStrings["Node"]) as Node;
                 DataContext = CurrentNode;
-                InstanceList.ItemsSource = Instances;
-
-                Instances.Clear();
                 
                 // Find Instances //
-                foreach (Node node in NodeController.Data.Nodes)
-                {
-                    if (node is PageNode)
-                    {
-                        foreach (string nodeId in (node as PageNode).Nodes)
-                        {
-                            //if (nodeId == CurrentNode.Id)
-                            //{
-                                Instances.Add(NodeController.GetNode(nodeId));
-                            //}
-                        }
-                    }
-                }
+                List<PageNode> references = NodeController.GetReferences(CurrentNode);
+                Instances = new ObservableCollection<PageNode>(references);
+                InstanceList.ItemsSource = Instances;
             }
+        }
+
+        //===================================================================================================================================================//
+        void BackButton_Click(object sender, System.EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        //===================================================================================================================================================//
+        void DeleteButton_Click(object sender, System.EventArgs e)
+        {
+            Node node = (DataContext as Node);
+            NodeController.DeleteNode(node, true);
+
+            NavigationService.GoBack();
         }
     }
 }

@@ -84,7 +84,8 @@ namespace Inhuman
                 {
                     Client = new LiveConnectClient(e.Session);
                     //Client.GetCompleted += new EventHandler<LiveOperationCompletedEventArgs>(Download_Completed);
-                    Client.UploadCompleted += new EventHandler<LiveOperationCompletedEventArgs>(Upload_Completed);                               
+                    Client.UploadCompleted += new EventHandler<LiveOperationCompletedEventArgs>(Upload_Completed);
+                    CheckFolderExists("me/skydrive/files");           
                 }                             
             }
             else

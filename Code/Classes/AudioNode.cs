@@ -104,8 +104,8 @@ namespace Inhuman
                     byte[] buffer = new byte[256];
 
                     long fileSize = stream.Length;
-                    long readSize = 0;
-                    stream.Position = 45;
+                    long readSize = 44;
+                    stream.Position = 44;
                     while (readSize < fileSize)
                     {
                         int readLength = stream.Read(buffer, 0, buffer.Length);

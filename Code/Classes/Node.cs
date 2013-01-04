@@ -31,6 +31,7 @@ namespace Inhuman
                 {
                     _name = value;
                     NotifyPropertyChanged("Name");
+                    UpdateTime();
                 }
             }
         }
@@ -68,6 +69,40 @@ namespace Inhuman
                 }
             }
         }
+
+        private DateTime _created;
+        public DateTime Created
+        {
+            get
+            {
+                return _created;
+            }
+            set
+            {
+                if (value != _created)
+                {
+                    _created = value;
+                    NotifyPropertyChanged("Created");
+                }
+            }
+        }
+
+        private DateTime _updated;
+        public DateTime Updated
+        {
+            get
+            {
+                return _updated;
+            }
+            set
+            {
+                if (value != _updated)
+                {
+                    _updated = value;
+                    NotifyPropertyChanged("Updated");
+                }
+            }
+        }
 	
 	    //===================================================================================================================================================//
         public Node() : this(""){}
@@ -77,8 +112,15 @@ namespace Inhuman
 	    {
 		    Name = name;
             Id = System.Guid.NewGuid().ToString();
-            Debug.WriteLine("Node Created: " + Name + " - " + Id);
+            Created = DateTime.Now;
+            Updated = Created;
 	    }
+
+        //===================================================================================================================================================//
+        public void UpdateTime()
+        {
+            Updated = DateTime.Now;
+        }
 
         //===================================================================================================================================================//
         public event PropertyChangedEventHandler PropertyChanged;

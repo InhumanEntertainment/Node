@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Inhuman" x:Class="Inhuman.UIAudioNode"
     mc:Ignorable="d"
-    d:DesignHeight="130" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}">
+    d:DesignHeight="130" d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" CacheMode="BitmapCache">
 	<UserControl.Resources>
 		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
 			<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
@@ -193,8 +193,15 @@
         
         <local:UINode x:Name="NodePresenter">
     		<local:UINode.ButtonContent>
-                <Button x:Name="ActionButton" HorizontalAlignment="Right" Width="80" Background="#FF3F3F3F" BorderBrush="{x:Null}" Foreground="#FF919191" Click="ActionButton_Click" Style="{StaticResource ButtonStyle1}" Content="Play"/>
+                <Button x:Name="ActionButton" HorizontalAlignment="Right" Width="80" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF919191" Click="ActionButton_Click" Style="{StaticResource ButtonStyle1}">
+                	<Button.Content>
+                		<Image Source="/Node;component/Art/Play.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />		                   	
+					</Button.Content>            
+				</Button>
             </local:UINode.ButtonContent> 
+			<local:UINode.IconContent>
+    			 <Image Source="/Node;component/Art/Audio.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
+			</local:UINode.IconContent>  
 			<local:UINode.LowerContent>
 				<ProgressBar Height="4" Margin="0" Maximum="1" LargeChange="0.1" SmallChange="0.01" RenderTransformOrigin="0.5,0.5" Value="{Binding Volume}" VerticalAlignment="Bottom" Style="{StaticResource ProgressBarStyle1}"/>    	
 			</local:UINode.LowerContent> 	

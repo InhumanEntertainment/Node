@@ -26,12 +26,36 @@ namespace Inhuman
 {
     public class PageNode : Node
     {
-        public ObservableCollection<string> Nodes { get; set; }
+        private ObservableCollection<string> _nodes = new ObservableCollection<string>();
+        public ObservableCollection<string> Nodes
+        {
+            get
+            {
+                return _nodes;
+            }
+            set
+            {
+                if (value != _nodes)
+                {
+                    _nodes = value;
+                    NotifyPropertyChanged("Nodes");
+                }
+            }
+        }
+
+        int Count = 0;
 
         //===================================================================================================================================================//
         public PageNode()
         {
-            Nodes = new ObservableCollection<string>();
+            Nodes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Nodes_Changed);
+        }
+
+        //===================================================================================================================================================//
+        void Nodes_Changed(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (NodeController.DataLoaded)
+                UpdateTime();
         }
 
         //===================================================================================================================================================//

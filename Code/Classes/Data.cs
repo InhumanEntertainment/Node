@@ -28,7 +28,7 @@ namespace Inhuman
         System.Xml.Serialization.XmlInclude(typeof(WebNode)), System.Xml.Serialization.XmlInclude(typeof(PictureNode)),
         System.Xml.Serialization.XmlInclude(typeof(TaskNode)), System.Xml.Serialization.XmlInclude(typeof(AudioNode)),
         System.Xml.Serialization.XmlInclude(typeof(TextNode)), System.Xml.Serialization.XmlInclude(typeof(ProjectNode)),
-        System.Xml.Serialization.XmlInclude(typeof(GalleryNode))
+        System.Xml.Serialization.XmlInclude(typeof(GalleryNode)), System.Xml.Serialization.XmlInclude(typeof(HeaderNode))
     ]       
     public class StreamlineData
     {
@@ -56,20 +56,23 @@ namespace Inhuman
                     data = xml.Deserialize(stream) as StreamlineData;
 
                     // Debug XML //
-                    byte[] buffer = new byte[32000];
+                    /*byte[] buffer = new byte[32000];
                     stream.Position = 0;
                     stream.Read(buffer, 0, (int)stream.Length);
                     string stuff = System.Text.Encoding.UTF8.GetString(buffer, 0, (int)stream.Length);
                     Debug.WriteLine("=======================================================================================");
                     Debug.WriteLine("  Load XML");
                     Debug.WriteLine("=======================================================================================");
-                    Debug.WriteLine(stuff);
+                    Debug.WriteLine(stuff);*/
 
                     stream.Close();
                     stream.Dispose();
                 }
                 else
+                {
                     data = new StreamlineData();
+                    data.Reset();
+                }
             }
             catch (Exception ex)
             {
@@ -89,14 +92,14 @@ namespace Inhuman
             xml.Serialize(stream, this);
 
             // Debug XML //
-            byte[] buffer = new byte[32000];
+            /*byte[] buffer = new byte[32000];
             stream.Position = 0;
             stream.Read(buffer, 0, (int)stream.Length);
             string stuff = System.Text.Encoding.UTF8.GetString(buffer, 0, (int)stream.Length);
             Debug.WriteLine("=======================================================================================");
             Debug.WriteLine("  Save XML");
             Debug.WriteLine("=======================================================================================");
-            Debug.WriteLine(stuff);
+            Debug.WriteLine(stuff);*/
 
 
             stream.Close();
@@ -107,7 +110,7 @@ namespace Inhuman
         public void Reset()
         {
             Nodes.Clear();
-            PageNode page = new PageNode() { Name = "Default" };
+            PageNode page = new PageNode() { Name = "Home" };
             CurrentPage = page.Id;
             Nodes.Add(page);
         }       

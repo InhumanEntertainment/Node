@@ -19,6 +19,7 @@ using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
 using System.Windows.Threading;
+using Microsoft.Phone.UserData;
 
 namespace Inhuman
 {
@@ -62,7 +63,7 @@ namespace Inhuman
         }
 
         public static Skydrive Skydrive;
-
+        public static bool DataLoaded = false;
         
 	    //===================================================================================================================================================//
         public static void Initialize(StreamlineData data, MainPage ui)
@@ -88,35 +89,84 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
+        public static void DeleteNode(Node node, bool force)
+        {
+            List<PageNode> references = GetReferences(node);
+
+            if (force)
+	        {
+                // Remove from each page //
+                foreach (PageNode page in references)
+                {
+                    page.Nodes.Remove(node.Id);
+                }
+          
+                Data.Nodes.Remove(node);
+                Debug.WriteLine("Deleted Node with " + references.Count + " References");
+                // Delete Attachment //
+	        }
+            else if (references.Count == 0)
+            {
+                Data.Nodes.Remove(node);
+                Debug.WriteLine("Deleted Node with 0 References");
+            }           
+        }
+        
+        //===================================================================================================================================================//
+        public static List<PageNode> GetReferences(Node node)
+        {
+            List<PageNode> references = new List<PageNode>();
+
+            // Each Page //
+            for (int i = 0; i < Data.Nodes.Count; i++)
+            {
+                if (Data.Nodes[i] is PageNode)
+                {
+                    PageNode page = Data.Nodes[i] as PageNode;
+
+                    foreach (string item in page.Nodes)
+                    {
+                        if (item == node.Id)
+                        {
+                            references.Add(page);
+                        }
+                    }
+                }
+            }
+
+            return references;
+        }
+
+        //===================================================================================================================================================//
         public static void PreviousPage()
         {
-            if (PageHistory.Count > 1)
+            if (UI.NavigationService.CanGoBack)
+                UI.NavigationService.GoBack();
+            
+
+            /*if (PageHistory.Count > 1)
             {
                 PageHistory.Pop();
                 LoadPage(PageHistory.Pop());
                 PrintHistory();
-            }
+            }*/
         }
 
         //===================================================================================================================================================//
         public static void CreatePage()
         {
-            // Create Link Node //
-            //LinkNode link = new LinkNode();            
-            //Data.Nodes.Add(link);
-            //link.Url = page.Id;
-            //uilink.DataContext = GetNode(link.Url);
-            //uilink.Tag = link;
-
             // Create New Page //
             PageNode page = new PageNode();
-            page.Name = "Page";
+            page.Name = "Node";
             Data.Nodes.Add(page);
             CurrentPageNode.AddNode(page);
 
             UILinkNode uilink = new UILinkNode();
             UI.MainListBox.Items.Add(uilink);
-            uilink.DataContext = page;            
+            uilink.DataContext = page;
+            uilink.Initialize();
+
+            uilink.NodeObject.EditOnCreate = true;
         }
 
         //===================================================================================================================================================//
@@ -133,6 +183,7 @@ namespace Inhuman
             uinode.DataContext = page;
 
             uinode.Initialize();
+            uinode.NodeObject.EditOnCreate = true;
         }
 
         //===================================================================================================================================================//
@@ -149,6 +200,7 @@ namespace Inhuman
             uinode.DataContext = page;
 
             uinode.Initialize();
+            uinode.NodeObject.EditOnCreate = true;
         }
 
         //===================================================================================================================================================//
@@ -164,7 +216,22 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public static UITaskNode CreateTask()
+        public static void CreateHeader()
+        {
+            HeaderNode node = new HeaderNode();
+            UIHeaderNode uinode = new UIHeaderNode();
+            node.Name = "Header";
+            UI.MainListBox.Items.Add(uinode);
+            uinode.DataContext = node;
+
+            Data.Nodes.Add(node);
+            CurrentPageNode.AddNode(node);
+
+            uinode.EditOnCreate = true;
+        }
+
+        //===================================================================================================================================================//
+        public static void CreateTask()
         {
             TaskNode node = new TaskNode();
             node.Name = "Task";
@@ -175,7 +242,37 @@ namespace Inhuman
             Data.Nodes.Add(node);
             CurrentPageNode.AddNode(node);
 
-            return uinode;
+            uinode.NodeObject.EditOnCreate = true;
+        }
+
+        //===================================================================================================================================================//
+        public static void CreateContact()
+        {
+            AddressChooserTask addressTask = new AddressChooserTask();
+            addressTask.Completed += new EventHandler<AddressResult>(addressTask_Completed);
+            addressTask.Show();
+        }
+
+        static void addressTask_Completed(object sender, AddressResult e)
+        {
+            Debug.WriteLine(e.DisplayName);
+            Contacts contacts = new Contacts();
+            contacts.SearchCompleted += new EventHandler<Microsoft.Phone.UserData.ContactsSearchEventArgs>(contacts_SearchCompleted);
+            contacts.SearchAsync(e.DisplayName, Microsoft.Phone.UserData.FilterKind.None, null);
+        }
+
+        static void contacts_SearchCompleted(object sender, Microsoft.Phone.UserData.ContactsSearchEventArgs e)
+        {
+            foreach (var contact in e.Results)
+            {
+                Debug.WriteLine(contact.DisplayName);
+                Stream stream = contact.GetPicture();
+                if (stream != null)
+                {
+                    BitmapImage bmp = new BitmapImage();
+                    bmp.SetSource(stream);
+                }
+            }
         }
 
         //===================================================================================================================================================//
@@ -200,7 +297,7 @@ namespace Inhuman
             UIAudioNode uinode = new UIAudioNode();
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = node;
-            uinode.SetButtonText("Record");
+            uinode.SetButtonText(AudioMode.Record);
 
             Data.Nodes.Add(node);
             CurrentPageNode.AddNode(node);
@@ -209,7 +306,7 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public static UITextNode CreateText()
+        public static void CreateText()
         {
             TextNode node = new TextNode();
             node.Name = "Text";
@@ -220,7 +317,7 @@ namespace Inhuman
             Data.Nodes.Add(node);
             CurrentPageNode.AddNode(node);
 
-            return uinode;
+            uinode.NodeObject.EditOnCreate = true;
         }
 
         //===================================================================================================================================================//
@@ -240,8 +337,15 @@ namespace Inhuman
         {
             if (page != null)
             {
+                if (page ==Data.Nodes[0])
+                    UI.HomeImage.Source = MainPage.HomeBitmap;
+                else
+                    UI.HomeImage.Source = MainPage.BackBitmap;
+
+
                 UI.MainListBox.Items.Clear();
-                UI.ScrollView.ScrollToVerticalOffset(0);
+				
+                //UI.MainListBox.ScrollIntoView(UI.MainListBox.Items[0]);
                 UI.DataContext = page;
                 if (PageHistory.Count == 0 || (PageHistory.Count > 0 && PageHistory.Peek().Id != page.Id))
                 {
@@ -285,7 +389,14 @@ namespace Inhuman
                 UILinkNode uilink = new UILinkNode();
                 UI.MainListBox.Items.Add(uilink);
                 uilink.DataContext = node;
-            }           
+                uilink.Initialize();
+            }
+            else if (node is HeaderNode)
+            {
+                UIHeaderNode uinode = new UIHeaderNode();
+                UI.MainListBox.Items.Add(uinode);
+                uinode.DataContext = node;
+            }
             else if (node is PictureNode)
             {
                 UIPictureNode uinode = new UIPictureNode();
@@ -395,6 +506,8 @@ namespace Inhuman
 
                         stream.Close();
                         stream.Dispose();
+
+                        uinode.NodeObject.EditOnCreate = true;
                     }
                 });
         }

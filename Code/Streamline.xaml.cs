@@ -40,29 +40,28 @@ namespace Inhuman
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             NodeController.Data = StreamlineData.Load();
-
-            if (NodeController.Data.Nodes.Count > 0)
-            {
-                NodeController.Data.CurrentPage = NodeController.Data.Nodes[0].Id;
-            }
+            NodeController.DataLoaded = true;
         }
 
         //===================================================================================================================================================//
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            NodeController.Data = StreamlineData.Load();           
+            //NodeController.Data = StreamlineData.Load();
+            NodeController.DataLoaded = true;
         }
 
         //===================================================================================================================================================//
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             NodeController.Data.Save();
+            //NodeController.DataLoaded = false;
         }
 
         //===================================================================================================================================================//
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             NodeController.Data.Save();
+            NodeController.DataLoaded = false;
         }
 
         //===================================================================================================================================================//

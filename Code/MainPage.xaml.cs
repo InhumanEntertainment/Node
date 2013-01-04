@@ -20,27 +20,26 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.UserData;
 
 namespace Inhuman
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        public static MainPage Instance;
+        public static BitmapImage BackBitmap = new BitmapImage(new Uri("/Node;component/Art/Back.png", UriKind.Relative));
+        public static BitmapImage HomeBitmap = new BitmapImage(new Uri("/Node;component/Art/Home.png", UriKind.Relative));
+
+        string CurrentPage;
         
         //===================================================================================================================================================//
         public MainPage()
         {
-            Instance = this;
-            InitializeComponent();
-            NodeController.UI = this;
-
-            DataContext = null;
+            InitializeComponent();    
         }
 
         //===================================================================================================================================================//
         void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            NodeController.Skydrive = new Skydrive();
         }
 
         //===================================================================================================================================================//
@@ -48,6 +47,7 @@ namespace Inhuman
         {
             base.OnNavigatedTo(e);
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
+            NodeController.UI = this;    
 
             // Image Share //
             if (queryStrings.ContainsKey("FileId"))
@@ -64,27 +64,38 @@ namespace Inhuman
                 // Create ImageNode and Add it to Page //
             }
 
-            // Pinned Pages //
+            // Load Page //
             if (queryStrings.ContainsKey("Page"))
             {
-                string page = queryStrings["Page"];
-                NodeController.LoadPage(NodeController.GetNode(page) as PageNode);
+                CurrentPage = queryStrings["Page"];
+                NodeController.LoadPage(NodeController.GetNode(CurrentPage) as PageNode);
+            }
+            else if (CurrentPage == null)
+            {
+                if (NodeController.Data.Nodes.Count > 0)
+                {
+                    CurrentPage = NodeController.Data.Nodes[0].Id;
+                    NodeController.LoadPage(NodeController.GetNode(CurrentPage) as PageNode);
+                }                
             }
             else
             {
-                NodeController.LoadPage(NodeController.CurrentPageNode);
+                NodeController.LoadPage(NodeController.GetNode(CurrentPage) as PageNode);
             }
         }
-
-
-
 
         //===================================================================================================================================================//
         // NODES //
         //===================================================================================================================================================//
         void AddNodeButton_Click(object sender, EventArgs e)
         {
-            NodeController.CreateNode();
+            NodeController.CreatePage();
+
+            /*for (int i = 0; i < NodeController.Data.Nodes.Count; i++)
+            {
+                NodeController.Data.Nodes[i].Created = DateTime.Now - TimeSpan.FromDays(1) + TimeSpan.FromMinutes(i);
+                NodeController.Data.Nodes[i].Updated = DateTime.Now - TimeSpan.FromDays(1) + TimeSpan.FromMinutes(i);
+            }*/
         }
 
         //===================================================================================================================================================//
@@ -108,8 +119,8 @@ namespace Inhuman
         //===================================================================================================================================================//
         void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
-            NodeController.PreviousPage();           
+            //e.Cancel = true;
+            //NodeController.PreviousPage();           
         }
 
         //===================================================================================================================================================//
@@ -196,9 +207,63 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        void SyncButton_Click(object sender, System.EventArgs e)
+        void HeaderMenu_Click(object sender, System.EventArgs e)
         {
-            NodeController.Sync();
+        	NodeController.CreateHeader();
+        }
+
+        //===================================================================================================================================================//
+        void AddPictureButton_Click(object sender, System.EventArgs e)
+        {
+            NodeController.CreatePicture();
+        }
+
+        //===================================================================================================================================================//
+        void AddTaskButton_Click(object sender, System.EventArgs e)
+        {
+            NodeController.CreateTask();
+        }
+
+        //===================================================================================================================================================//
+        void HomeImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NodeController.PreviousPage();
+
+            /*if (NodeController.CurrentPageNode != NodeController.Data.Nodes[0])
+            {
+                PageNode page = NodeController.Data.Nodes[0] as PageNode;
+                NodeController.LoadPage(page);
+            }*/
+        }
+
+        //===================================================================================================================================================//
+        void PageTitle_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	PageTitle.SelectAll();
+        }
+
+        //===================================================================================================================================================//
+        void SyncMenu_Click(object sender, System.EventArgs e)
+        {
+        	NavigationService.Navigate(new Uri("/Pages/SyncPage.xaml", UriKind.Relative));
+        }
+
+        //===================================================================================================================================================//
+        void MainListBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (NodeController.CurrentPageNode is ProjectNode)
+            {
+                NodeController.CreateTask();
+            }
+            else
+            {
+                NodeController.CreatePage();
+            } 
+        }
+
+        void AddAudioButton_Click(object sender, System.EventArgs e)
+        {
+        	
         }      
     }
 }

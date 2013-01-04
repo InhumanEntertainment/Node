@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Inhuman" x:Class="Inhuman.UITextNode"
     mc:Ignorable="d"
-    d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}">
+    d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" CacheMode="BitmapCache">
 	<UserControl.Resources>
 		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
 			<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
@@ -159,7 +159,7 @@
 									<VisualState x:Name="Unfocused"/>
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
-							<Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="0" Margin="20,0,20,16">
+							<Border x:Name="EnabledBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="0" Margin="20,-10,20,8">
 								<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
 							</Border>
 							<Border x:Name="DisabledOrReadonlyBorder" BorderBrush="{StaticResource PhoneDisabledBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Margin="{StaticResource PhoneTouchTargetOverhang}" Visibility="Collapsed">
@@ -186,9 +186,12 @@
     	<Grid.Background>
     		<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
     	</Grid.Background>
-        <local:UINode> 
+        <local:UINode x:Name="NodeObject"> 
+        	<local:UINode.IconContent>
+    			 <Image Source="/Node;component/Art/Text.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
+			</local:UINode.IconContent>  
         	<local:UINode.LowerContent>
-        		<TextBox x:Name="TextDataBox" TextWrapping="Wrap" Text="{Binding Text, Mode=TwoWay}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DarkGray" BorderThickness="0" VerticalAlignment="Top" VerticalScrollBarVisibility="Disabled" Style="{StaticResource TextBoxStyle2}" CaretBrush="#FFCACACA" AcceptsReturn="True" TextChanged="TextDataBox_TextChanged"/>
+        		<TextBox x:Name="TextDataBox" TextWrapping="Wrap" Text="{Binding Text, Mode=TwoWay}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DarkGray" BorderThickness="0" VerticalAlignment="Top" VerticalScrollBarVisibility="Disabled" Style="{StaticResource TextBoxStyle2}" CaretBrush="#FFCACACA" AcceptsReturn="True" TextChanged="TextDataBox_TextChanged" InputScope="Default"/>
 			</local:UINode.LowerContent>    
 		</local:UINode>
         <StackPanel>

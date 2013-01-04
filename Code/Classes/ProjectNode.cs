@@ -60,22 +60,22 @@ namespace Inhuman
         {
             if (NodeController.Data != null)
             {
-                if (Nodes.Count > 0)
+                int numTasks = 0;
+                float totalProgress = 0;
+
+                for (int i = 0; i < Nodes.Count; i++)
                 {
-                    int numTasks = 0;
-                    float totalProgress = 0;
+                    Node node = NodeController.GetNode(Nodes[i]);
 
-                    for (int i = 0; i < Nodes.Count; i++)
+                    if (node is TaskNode)
                     {
-                        Node node = NodeController.GetNode(Nodes[i]);
-
-                        if (node is TaskNode)
-                        {
-                            totalProgress += (node as TaskNode).Completed ? 1 : 0;
-                            numTasks++;
-                        }
+                        totalProgress += (node as TaskNode).Completed ? 1 : 0;
+                        numTasks++;
                     }
+                }
 
+                if (numTasks > 0)
+                {
                     NumberOfTasks = numTasks;
                     Progress = totalProgress / numTasks;
                     Info = NumberOfTasks + " Tasks - " + (Progress * 100f).ToString("N0") + "%";
@@ -85,7 +85,7 @@ namespace Inhuman
                     NumberOfTasks = 0;
                     Progress = 0;
                     Info = "No Tasks";
-                }               
+                }                              
             }           
         }
     }

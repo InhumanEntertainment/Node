@@ -11,22 +11,40 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Xna.Framework.Audio;
 using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace Inhuman
 {
+    public enum AudioMode {Play, Stop, Record}
+
     public partial class UIAudioNode : UserControl
     {
+        BitmapImage PlayImage;
+        BitmapImage StopImage;
+        BitmapImage RecordImage;
+        
         //===================================================================================================================================================//
         public UIAudioNode()
         {
-            InitializeComponent();           
+            InitializeComponent();
+
+            PlayImage = new BitmapImage(new Uri("/Node;component/Art/Play.png", UriKind.Relative));
+            StopImage = new BitmapImage(new Uri("/Node;component/Art/Stop.png", UriKind.Relative));
+            RecordImage = new BitmapImage(new Uri("/Node;component/Art/Record.png", UriKind.Relative));            
         }
 
         //===================================================================================================================================================//
-        public void SetButtonText(string text)
+        public void SetButtonText(AudioMode mode)
         {
             var button = (NodePresenter.ButtonContent as Button);
-            button.Content = text;
+            Image image = button.Content as Image;
+
+            if (mode == AudioMode.Play)
+                image.Source = PlayImage;
+            else if (mode == AudioMode.Stop)
+                image.Source = StopImage;
+            else if (mode == AudioMode.Record)
+                image.Source = RecordImage;          
         }
 
         //===================================================================================================================================================//
@@ -34,18 +52,20 @@ namespace Inhuman
         {
             AudioNode node = (DataContext as AudioNode);
             Microphone mic = Microphone.Default;
-
+            
             if (node.Sound == null)
             {
                 if (mic.State == MicrophoneState.Stopped)
                 {
                     node.Record();
-                    SetButtonText("Finish");
+                    SetButtonText(AudioMode.Stop);
+
+                    node.UpdateTime();
                 }
                 else
                 {
                     node.StopRecording();
-                    SetButtonText("Play");
+                    SetButtonText(AudioMode.Play);
                 }
             }
             else

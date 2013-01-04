@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Inhuman" x:Name="ControlRoot" x:Class="Inhuman.UIPictureNode"
     mc:Ignorable="d"
-    d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}">
+    d:DesignWidth="553" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" CacheMode="BitmapCache">
 	<UserControl.Resources>
 		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
 			<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
@@ -135,7 +135,7 @@
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 							<Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" CornerRadius="0">
-								<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+								<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
 							</Border>
 						</Grid>
 					</ControlTemplate>
@@ -158,16 +158,15 @@
     	<Grid.Background>
     		<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
     	</Grid.Background>
-        <local:UINode>
+        <local:UINode x:Name="NodeObject">
         	<local:UINode.ButtonContent>
-	        	<Button x:Name="ActionButton" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF919191" Style="{StaticResource ButtonStyle1}" Click="ActionButton_Click">
-		        	<Image Source="/Node;component/icons/Arrow.png" RenderTransformOrigin="0.5,0.5" Opacity="0.5">
-		        		<Image.RenderTransform>
-		        			<CompositeTransform ScaleX="0.8" ScaleY="0.8"/>
-		        		</Image.RenderTransform>
-		        	</Image>
+	        	<Button x:Name="ActionButton" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF919191" Style="{StaticResource ButtonStyle1}" Click="ActionButton_Click" BorderThickness="0">
+		        	<Image Source="/Node;component/Art/Zoom.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
         		</Button>
 			</local:UINode.ButtonContent>
+			<local:UINode.IconContent>
+    			 <Image Source="/Node;component/Art/Picture.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
+			</local:UINode.IconContent>  
 			<local:UINode.LowerContent>
 				<Image x:Name="NodeImage" Margin="16,0,16,16" Source="{Binding Bitmap}" Tap="NodeImage_Tap"/>
 			</local:UINode.LowerContent>    

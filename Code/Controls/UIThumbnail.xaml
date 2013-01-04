@@ -5,7 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="Inhuman.UIThumbnail"
-	d:DesignWidth="160" d:DesignHeight="160" Width="150" Height="150">
+	d:DesignWidth="160" d:DesignHeight="160" Width="150" Height="150" CacheMode="BitmapCache">
 
 	<Grid x:Name="LayoutRoot" Margin="4" Tap="LayoutRoot_Tap">
 		<Grid.Background>

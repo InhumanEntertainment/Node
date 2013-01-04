@@ -31,12 +31,10 @@ namespace Inhuman
         //===================================================================================================================================================//
         void OpenButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-        	// Get Page node from url //
             PageNode page = (PageNode)DataContext;
 
-            // Switch Pages //
-            NodeController.Data.CurrentPage = page.Id;
-            NodeController.LoadPage(page);
+            string param = "Page=" + page.Id;
+            NodeController.UI.NavigationService.Navigate(new Uri("/MainPage.xaml?" + param, UriKind.Relative));
         }
     }
 }

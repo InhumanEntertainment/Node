@@ -31,6 +31,7 @@ namespace Inhuman
                 {
                     _Completed = value;
                     NotifyPropertyChanged("Completed");
+                    UpdateTime();
                 }
             }
         }

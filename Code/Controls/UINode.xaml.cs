@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Windows.Markup;
+using System.Windows.Navigation;
 
 namespace Inhuman
 {
@@ -24,6 +25,14 @@ namespace Inhuman
         {
             get { return (object)GetValue(ButtonContentProperty); }
             set { SetValue(ButtonContentProperty, value); }
+        }
+		
+		// Icon Content //
+		public static readonly DependencyProperty IconContentProperty = DependencyProperty.Register("IconContent", typeof(object), typeof(UINode), new PropertyMetadata((object)null));
+        public object IconContent
+        {
+            get { return (object)GetValue(IconContentProperty); }
+            set { SetValue(IconContentProperty, value); }
         }
 		
 		// LowerContent //
@@ -40,25 +49,25 @@ namespace Inhuman
 
         SolidColorBrush DefaultBrush = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
         SolidColorBrush DeleteBrush = new SolidColorBrush(Color.FromArgb(255, 100, 0, 0));
-        //SolidColorBrush AddBrush = Application.Current.Resources["PhoneAccentBrush"] as SolidColorBrush;
-        SolidColorBrush AddBrush = new SolidColorBrush(Color.FromArgb(255, 0, 100, 0));
+        SolidColorBrush AddBrush = Application.Current.Resources["PhoneAccentBrush"] as SolidColorBrush;
+        //SolidColorBrush AddBrush = new SolidColorBrush(Color.FromArgb(255, 0, 100, 0));
 
         FrameworkElement RootUIControl;
-        
+        public bool EditOnCreate = false;
+		
         //===================================================================================================================================================//
         public UINode()
         {
             InitializeComponent();
-           
+
             Create.Storyboard.Begin();
             LayoutRoot.RenderTransform = Offset;
 
             Deleted.Storyboard.Completed += new EventHandler(Deleted_Completed);
             //Added.Storyboard.Completed += new EventHandler(Added_Completed);
             //Reset.Storyboard.Completed += new EventHandler(Reset_Completed);
-            
         }
-
+		
         //===================================================================================================================================================//
         void Added_Completed(object sender, EventArgs e)
         {
@@ -73,7 +82,12 @@ namespace Inhuman
             {
                 Node node = (Node)(DataContext as Node);
                 NodeController.CurrentPageNode.Nodes.Remove(node.Id);
-                NodeController.UI.MainListBox.Items.Remove(RootUIControl);               
+                NodeController.UI.MainListBox.Items.Remove(RootUIControl);
+
+                if (node.Created == node.Updated)
+                {
+                    NodeController.DeleteNode(node, false);
+                }
             }           
         }
 
@@ -115,7 +129,7 @@ namespace Inhuman
                 RootUIControl = (Parent as FrameworkElement).Parent as FrameworkElement;
 
             StartPos = e.ManipulationOrigin;
-            index = MainPage.Instance.MainListBox.Items.IndexOf(RootUIControl);               
+            index = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);               
         }
 
         //===================================================================================================================================================//
@@ -127,7 +141,7 @@ namespace Inhuman
 
             if (Offset.TranslateX < -160)
             {
-                RootControl.Background = DeleteBrush;
+                RootControl.Background = AddBrush;
             }
             else if (Offset.TranslateX > 160)
             {
@@ -158,12 +172,15 @@ namespace Inhuman
                     node = new TaskNode();
                     uinode = new UITaskNode();
                     node.Name = "Task";
+					(uinode as UITaskNode).NodeObject.EditOnCreate = true;
                 }
                 else
                 {
                     // Create Node //
-                    node = new Node("Node");
-                    uinode = new UINode();
+                    node = new PageNode();
+                    uinode = new UILinkNode();
+                    node.Name = "Node";
+					(uinode as UILinkNode).NodeObject.EditOnCreate = true;
                 }				              
 
                 // Get Position //
@@ -171,14 +188,23 @@ namespace Inhuman
                 NodeController.UI.MainListBox.Items.Insert(index, uinode);
                 uinode.DataContext = node;
 
+                if (uinode is UILinkNode)
+                {
+                    (uinode as UILinkNode).Initialize();
+                }
+
                 NodeController.Data.Nodes.Add(node);
                 NodeController.CurrentPageNode.Nodes.Insert(index, node.Id);
 
                 Offset.TranslateX = 0;
+				RootControl.Background = null;
+				
+				
             }
             else
             {
                 Offset.TranslateX = 0;
+				RootControl.Background = null;
                 //Reset.Storyboard.Begin();
 
                 //VisualStateManager.GoToState(this, "Reset", true);
@@ -221,6 +247,41 @@ namespace Inhuman
                 NodeController.CurrentPageNode.Nodes.RemoveAt(index + 1);
                 NodeController.CurrentPageNode.Nodes.Insert(index, node);
             }
+        }
+
+        //===================================================================================================================================================//
+        void Node_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (EditOnCreate)
+            {
+                NameText.Focus();
+            }
+        }
+
+        //===================================================================================================================================================//
+        void Node_Tap(object sender, GestureEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        //===================================================================================================================================================//
+        void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (RootUIControl != null)
+            {
+                Node node = (Node)(DataContext as Node);
+                NodeController.CurrentPageNode.Nodes.Remove(node.Id);
+                NodeController.UI.MainListBox.Items.Remove(RootUIControl);
+               
+                NodeController.DeleteNode(node, true);
+            }           
+        }
+
+        //===================================================================================================================================================//
+        void PropertiesItem_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            string param = "Node=" + (DataContext as Node).Id;
+            NodeController.UI.NavigationService.Navigate(new Uri("/Pages/PropertiesPage.xaml?" + param, UriKind.Relative));
         }
     }
 }

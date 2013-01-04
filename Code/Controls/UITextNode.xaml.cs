@@ -14,20 +14,18 @@ namespace Inhuman
 {
     public partial class UITextNode : UserControl
     {
+        //===================================================================================================================================================//
         public UITextNode()
         {
             InitializeComponent();
         }
 
-        private void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	//NameText.SelectAll();
-        }
-
+        //===================================================================================================================================================//
         void TextDataBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-        	
-
+            object item = NodeController.UI.MainListBox.SelectedIndex < NodeController.UI.MainListBox.Items.Count - 1 ? NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex + 1] : NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex];
+            //NodeController.UI.MainListBox.ScrollIntoView(item);
+            //NodeController.UI.MainListBox.ScrollIntoView(
         }
     }
 }

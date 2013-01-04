@@ -30,6 +30,7 @@ namespace Inhuman
                 {
                     _text = value;
                     NotifyPropertyChanged("Text");
+                    UpdateTime();
                 }
             }
         }
