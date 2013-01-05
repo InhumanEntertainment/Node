@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:Inhuman" x:Class="Inhuman.UILinkNode"
+    xmlns:local="clr-namespace:Inhuman" x:Class="Inhuman.UIPageNode"
     mc:Ignorable="d"
     d:DesignHeight="130" d:DesignWidth="480" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" Height="80" CacheMode="BitmapCache">
 	<UserControl.Resources>
@@ -160,9 +160,7 @@
         
     	<local:UINode x:Name="NodeObject">
     		<local:UINode.ButtonContent>
-    			 <Button x:Name="ActionButton" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF919191" Click="OpenButton_Click" Style="{StaticResource ButtonStyle1}" BorderThickness="0">
-		        	<Image Source="/Node;component/Art/Arrow.png" Opacity="0.5"/>
-		        </Button>
+    			 <Image Source="/Node;component/Art/Arrow.png" Opacity="0.5" Tap="Image_Tap"/>
 			</local:UINode.ButtonContent>
 			<local:UINode.IconContent>
     			 <Image Source="/Node;component/Art/Page.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />

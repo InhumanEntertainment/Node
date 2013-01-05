@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 
 namespace Inhuman
 {
-    public partial class UILinkNode : UserControl
+    public partial class UIPageNode : UserControl
     {
         BitmapImage PageImage;
         BitmapImage NodeImage;
@@ -21,7 +21,7 @@ namespace Inhuman
         BitmapImage NodeActionImage;
 
         //===================================================================================================================================================//
-        public UILinkNode()
+        public UIPageNode()
         {
             InitializeComponent();
 
@@ -36,8 +36,7 @@ namespace Inhuman
         {
             PageNode node = (DataContext as PageNode);
             
-            Button actionButton = (NodeObject.ButtonContent as Button);
-            Image actionImage = actionButton.Content as Image;
+            Image actionImage = NodeObject.ButtonContent as Image;
             Image typeImage = NodeObject.IconContent as Image;
 
             if (node.Nodes.Count > 0)
@@ -60,10 +59,9 @@ namespace Inhuman
             NodeObject.NameText.Focus();
         }
 
-        //===================================================================================================================================================//
-        void OpenButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            PageNode page = (PageNode)DataContext;
+        	PageNode page = (PageNode)DataContext;
 
             string param = "Page=" + page.Id;
             NodeController.UI.NavigationService.Navigate(new Uri("/MainPage.xaml?" + param, UriKind.Relative));

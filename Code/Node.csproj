@@ -108,8 +108,8 @@
     <Compile Include="Controls\UIPictureNode.xaml.cs">
       <DependentUpon>UIPictureNode.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\UILinkNode.xaml.cs">
-      <DependentUpon>UILinkNode.xaml</DependentUpon>
+    <Compile Include="Controls\UIPageNode.xaml.cs">
+      <DependentUpon>UIPageNode.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\UINode.xaml.cs">
       <DependentUpon>UINode.xaml</DependentUpon>
@@ -194,7 +194,7 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\UILinkNode.xaml">
+    <Page Include="Controls\UIPageNode.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -322,6 +322,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Art\Start.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Delete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Remove.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Add_Audio.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Add_Node.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Add_Picture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Add_Task.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="LiveTile.png">

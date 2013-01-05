@@ -82,22 +82,6 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public static void OpenHelpPage()
-        {
-            List<Node> HelpNodes = new List<Node>();
-
-            // Create Page //
-            HelpPage = new PageNode();
-            HelpPage.Name = "Help + About";
-            Data.Nodes.Add(HelpPage);
-
-            HeaderNode about = new HeaderNode() { Name = "About" };
-            Data.Nodes.Add(about);
-
-            HelpPage.Nodes.Add(about.Id);          
-        }
-
-        //===================================================================================================================================================//
         public static void Reset()
         {
             PageHistory.Clear();
@@ -180,7 +164,7 @@ namespace Inhuman
             Data.Nodes.Add(page);
             CurrentPageNode.AddNode(page);
 
-            UILinkNode uilink = new UILinkNode();
+            UIPageNode uilink = new UIPageNode();
             UI.MainListBox.Items.Add(uilink);
             uilink.DataContext = page;
             uilink.Initialize();
@@ -425,7 +409,7 @@ namespace Inhuman
             } 
             else if (node is PageNode)
             {
-                UILinkNode uilink = new UILinkNode();
+                UIPageNode uilink = new UIPageNode();
                 UI.MainListBox.Items.Add(uilink);
                 uilink.DataContext = node;
                 uilink.Initialize();
