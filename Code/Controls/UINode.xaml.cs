@@ -60,7 +60,6 @@ namespace Inhuman
         {
             InitializeComponent();
 
-            Create.Storyboard.Begin();
             LayoutRoot.RenderTransform = Offset;
 
             Deleted.Storyboard.Completed += new EventHandler(Deleted_Completed);
@@ -69,15 +68,19 @@ namespace Inhuman
         }
 		
         //===================================================================================================================================================//
-        void Added_Completed(object sender, EventArgs e)
+        public void PlayAnim()
         {
-            
-
+            Create.Storyboard.Begin();
         }
 
         //===================================================================================================================================================//
         void Deleted_Completed(object sender, EventArgs e)
         {           
+                
+        }
+
+        public void Delete()
+        {
             if (RootUIControl != null)
             {
                 Node node = (Node)(DataContext as Node);
@@ -88,7 +91,9 @@ namespace Inhuman
                 {
                     NodeController.DeleteNode(node, false);
                 }
-            }           
+
+                Offset.TranslateX = 0;
+            }       
         }
 
         //===================================================================================================================================================//
@@ -100,12 +105,6 @@ namespace Inhuman
 
         }
 		
-		//===================================================================================================================================================//
-        public void FocusName()
-		{
-            NameText.SelectAll();	
-		}
-
         //===================================================================================================================================================//
         void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -131,14 +130,19 @@ namespace Inhuman
             var tx = e.ManipulationContainer.TransformToVisual(this);
             StartPos = tx.Transform(e.ManipulationOrigin);
 
-            NodeIndex = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);                     
+            NodeIndex = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);
+
+            NodeImage.Visibility = System.Windows.Visibility.Visible;
+            TaskImage.Visibility = System.Windows.Visibility.Visible;
+            PictureImage.Visibility = System.Windows.Visibility.Visible;
+            AudioImage.Visibility = System.Windows.Visibility.Visible;
+            RemoveImage.Visibility = System.Windows.Visibility.Visible;
+            DeleteImage.Visibility = System.Windows.Visibility.Visible;
         }
 
         //===================================================================================================================================================//
         void UserControl_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            Debug.WriteLine("Delta: " + e.ManipulationOrigin);
-
             //Offset.X = Math.Max(0, e.ManipulationOrigin.X - StartPos.X);
             Offset.TranslateX = e.ManipulationOrigin.X - StartPos.X;
             //Offset.Y = e.ManipulationOrigin.Y - StartPos.Y;
@@ -197,8 +201,6 @@ namespace Inhuman
                 
         void RootControl_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            Debug.WriteLine("Completed: " + e.ManipulationOrigin);
-
             Offset.TranslateX = e.ManipulationOrigin.X - StartPos.X;
 
             int step = Offset.TranslateX >= 0 ? 40 : -40;
@@ -206,43 +208,45 @@ namespace Inhuman
 
             if (index == -1)
             {
-                Deleted.Storyboard.Begin();               
+                //Deleted.Storyboard.Begin();
+                Delete();
             }
             else if (index <= -2)
             {
-                Deleted.Storyboard.Begin();
+                //Deleted.Storyboard.Begin();
+                Delete();
 
                 // Delete Node //
                 //MessageBox.Show("Delete Node", "Are you sure you want to delete this node and all of it's instances?", MessageBoxButton.OKCancel);
             }
             else if (index > 0)
-            {              
+            {
                 Node node;
                 UserControl uinode;
                 if (index == 2)
                 {
                     // Create Node //
                     node = new TaskNode();
-                    uinode = new UITaskNode();
+                    uinode = NodeController.GetUITaskNode();
                     node.Name = "Task";
-					(uinode as UITaskNode).NodeObject.EditOnCreate = true;
+                    (uinode as UITaskNode).NodeObject.EditOnCreate = true;
                 }
-                else if (index == 1)
+                else if (index == 10)
                 {
                     // Create Node //
                     node = new PageNode();
-                    uinode = new UIPageNode();
+                    uinode = NodeController.GetUIPageNode();
                     node.Name = "Node";
-					(uinode as UIPageNode).NodeObject.EditOnCreate = true;
+                    (uinode as UIPageNode).NodeObject.EditOnCreate = true;
                 }
                 else
                 {
                     // Create Node //
                     node = new PageNode();
-                    uinode = new UIPageNode();
+                    uinode = NodeController.GetUIPageNode();
                     node.Name = "Node";
                     (uinode as UIPageNode).NodeObject.EditOnCreate = true;
-                }              
+                }
 
                 // Get Position //
                 NodeController.UI.MainListBox.UpdateLayout();
@@ -256,20 +260,21 @@ namespace Inhuman
 
                 NodeController.Data.Nodes.Add(node);
                 NodeController.CurrentPageNode.Nodes.Insert(NodeIndex, node.Id);
-
-                Offset.TranslateX = 0;
-				RootControl.Background = null;
-				
-				
             }
             else
             {
-                Offset.TranslateX = 0;
-				RootControl.Background = null;
                 //Reset.Storyboard.Begin();
-
                 //VisualStateManager.GoToState(this, "Reset", true);
             }
+
+            Offset.TranslateX = 0;
+            
+            NodeImage.Visibility = System.Windows.Visibility.Collapsed;
+            TaskImage.Visibility = System.Windows.Visibility.Collapsed;
+            PictureImage.Visibility = System.Windows.Visibility.Collapsed;
+            AudioImage.Visibility = System.Windows.Visibility.Collapsed;
+            RemoveImage.Visibility = System.Windows.Visibility.Collapsed;
+            DeleteImage.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         //===================================================================================================================================================//
@@ -316,6 +321,7 @@ namespace Inhuman
             if (EditOnCreate)
             {
                 NameText.Focus();
+                EditOnCreate = false;
             }
         }
 

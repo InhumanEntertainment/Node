@@ -66,8 +66,174 @@ namespace Inhuman
 
         public static PageNode HelpPage;
         public static List<Node> HelpNodes = new List<Node>();
+
+        // Node Buffers //
+        public static int NodeBufferSize = 0;
+
+        public static int UIPageCount = 0;
+        public static int UITaskCount = 0;
+        public static int UITextCount = 0;
+        public static int UIHeaderCount = 0;
+        public static int UIPictureCount = 0;
+        public static int UIAudioCount = 0;
+        public static int UIProjectCount = 0;
+        public static int UIGalleryCount = 0;
+
+        public static List<UIPageNode> UIPageNodes = new List<UIPageNode>();
+        public static List<UITaskNode> UITaskNodes = new List<UITaskNode>();
+        public static List<UITextNode> UITextNodes = new List<UITextNode>();
+        public static List<UIPictureNode> UIPictureNodes = new List<UIPictureNode>();
+        public static List<UIAudioNode> UIAudioNodes = new List<UIAudioNode>();
+        public static List<UIProjectNode> UIProjectNodes = new List<UIProjectNode>();
+        public static List<UIGalleryNode> UIGalleryNodes = new List<UIGalleryNode>();
+        public static List<UIHeaderNode> UIHeaderNodes = new List<UIHeaderNode>();
+
+        //===================================================================================================================================================//
+        public static void ResetNodeBuffers()
+        {
+            UIPageCount = 0;
+            UITaskCount = 0;
+            UITextCount = 0;
+            UIHeaderCount = 0;
+            UIPictureCount = 0;
+            UIAudioCount = 0;
+            UIProjectCount = 0;
+            UIGalleryCount = 0;
+        }
         
-	    //===================================================================================================================================================//
+        //===================================================================================================================================================//
+        public static void LoadUINodes()
+        {
+            ResetNodeBuffers();
+
+            for (int i = 0; i < NodeBufferSize; i++)
+            {
+                UIPageNodes.Add(new UIPageNode());
+                UITaskNodes.Add(new UITaskNode());
+                UIPictureNodes.Add(new UIPictureNode());
+                UIAudioNodes.Add(new UIAudioNode());
+                UIProjectNodes.Add(new UIProjectNode());
+                UIGalleryNodes.Add(new UIGalleryNode());
+                UIHeaderNodes.Add(new UIHeaderNode());
+            }
+        }
+        
+        //===================================================================================================================================================//
+        public static UIPageNode GetUIPageNode()
+        {
+            UIPageNode node;
+
+            if (UIPageCount < UIPageNodes.Count)
+                node = UIPageNodes[UIPageCount];
+            else
+            {
+                node = new UIPageNode();
+                UIPageNodes.Add(node);
+            }
+
+            UIPageCount++;
+            return node;
+        }
+        public static UITaskNode GetUITaskNode()
+        {
+            UITaskNode node;
+            if (UITaskCount < UITaskNodes.Count)
+                node = UITaskNodes[UITaskCount];
+            else
+            {
+                node = new UITaskNode();
+                UITaskNodes.Add(node);
+            }
+
+            UITaskCount++;                      
+            return node;
+        }
+        public static UIPictureNode GetUIPictureNode()
+        {
+            UIPictureNode node;
+            if (UIPictureCount < UIPictureNodes.Count)
+                node = UIPictureNodes[UIPictureCount];
+            else
+            {
+                node = new UIPictureNode();
+                UIPictureNodes.Add(node);
+            }
+
+            UIPictureCount++;
+            return node;
+        }
+        public static UIAudioNode GetUIAudioNode()
+        {
+            UIAudioNode node;
+            if (UIAudioCount < UIAudioNodes.Count)
+                node = UIAudioNodes[UIAudioCount];
+            else
+            {
+                node = new UIAudioNode();
+                UIAudioNodes.Add(node);
+            }
+
+            UIAudioCount++;
+            return node;
+        }
+        public static UIProjectNode GetUIProjectNode()
+        {
+            UIProjectNode node;
+            if (UIProjectCount < UIProjectNodes.Count)
+                node = UIProjectNodes[UIProjectCount];
+            else
+            {
+                node = new UIProjectNode();
+                UIProjectNodes.Add(node);
+            }
+
+            UIProjectCount++;
+            return node;
+        }
+        public static UIGalleryNode GetUIGalleryNode()
+        {
+            UIGalleryNode node;
+            if (UIGalleryCount < UIGalleryNodes.Count)
+                node = UIGalleryNodes[UIGalleryCount];
+            else
+            {
+                node = new UIGalleryNode();
+                UIGalleryNodes.Add(node);
+            }
+
+            UIGalleryCount++;
+            return node;
+        }
+        public static UIHeaderNode GetUIHeaderNode()
+        {
+            UIHeaderNode node;
+            if (UIHeaderCount < UIHeaderNodes.Count)
+                node = UIHeaderNodes[UIHeaderCount];
+            else
+            {
+                node = new UIHeaderNode();
+                UIHeaderNodes.Add(node);
+            }
+
+            UIHeaderCount++;
+            return node;
+        }
+        public static UITextNode GetUITextNode()
+        {
+            UITextNode node;
+            if (UITextCount < UITextNodes.Count)
+                node = UITextNodes[UITextCount];
+            else
+            {
+                node = new UITextNode();
+                UITextNodes.Add(node);
+            }
+
+            UITextCount++;
+            return node;
+        }
+
+        //===================================================================================================================================================//
         public static void Initialize(StreamlineData data, MainPage ui)
         {
             Data = data;
@@ -164,7 +330,7 @@ namespace Inhuman
             Data.Nodes.Add(page);
             CurrentPageNode.AddNode(page);
 
-            UIPageNode uilink = new UIPageNode();
+            UIPageNode uilink = GetUIPageNode();
             UI.MainListBox.Items.Add(uilink);
             uilink.DataContext = page;
             uilink.Initialize();
@@ -181,7 +347,7 @@ namespace Inhuman
             Data.Nodes.Add(page);
             CurrentPageNode.AddNode(page);
 
-            UIProjectNode uinode = new UIProjectNode();
+            UIProjectNode uinode = GetUIProjectNode();
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = page;
 
@@ -198,7 +364,7 @@ namespace Inhuman
             Data.Nodes.Add(page);
             CurrentPageNode.AddNode(page);
 
-            UIGalleryNode uinode = new UIGalleryNode();
+            UIGalleryNode uinode = GetUIGalleryNode();
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = page;
 
@@ -222,7 +388,7 @@ namespace Inhuman
         public static void CreateHeader()
         {
             HeaderNode node = new HeaderNode();
-            UIHeaderNode uinode = new UIHeaderNode();
+            UIHeaderNode uinode = GetUIHeaderNode();
             node.Name = "Header";
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = node;
@@ -238,9 +404,10 @@ namespace Inhuman
         {
             TaskNode node = new TaskNode();
             node.Name = "Task";
-            UITaskNode uinode = new UITaskNode();
+            UITaskNode uinode = GetUITaskNode();
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = node;
+            uinode.Initialize();
 
             Data.Nodes.Add(node);
             CurrentPageNode.AddNode(node);
@@ -297,10 +464,11 @@ namespace Inhuman
         {
             AudioNode node = new AudioNode();
             node.Name = "Audio";
-            UIAudioNode uinode = new UIAudioNode();
+            UIAudioNode uinode = GetUIAudioNode();
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = node;
             uinode.SetButtonText(AudioMode.Record);
+            uinode.Initialize();
 
             Data.Nodes.Add(node);
             CurrentPageNode.AddNode(node);
@@ -313,9 +481,10 @@ namespace Inhuman
         {
             TextNode node = new TextNode();
             node.Name = "Text";
-            UITextNode uinode = new UITextNode();
+            UITextNode uinode = GetUITextNode();
             UI.MainListBox.Items.Add(uinode);
             uinode.DataContext = node;
+            uinode.Initialize();
 
             Data.Nodes.Add(node);
             CurrentPageNode.AddNode(node);
@@ -340,12 +509,11 @@ namespace Inhuman
         {
             if (page != null)
             {
-
+                // Start Button //
                 if (page == Data.Nodes[0])
                 {
                     UI.HomeImage.Source = MainPage.HomeBitmap;
 
-                    // Start Button //
                     if (page.Nodes.Count == 0)
                     {
                         UI.StartImage.Visibility = Visibility.Visible;
@@ -360,15 +528,9 @@ namespace Inhuman
                     UI.StartImage.Visibility = Visibility.Collapsed;
                 }
 
-
-                UI.MainListBox.Items.Clear();
-				
-                //UI.MainListBox.ScrollIntoView(UI.MainListBox.Items[0]);
                 UI.DataContext = page;
                 Data.CurrentPage = page.Id;
-
-                
-
+                NodeController.ResetNodeBuffers();
 
                 for (int i = 0; i < page.Nodes.Count; i++)
                 {
@@ -395,65 +557,77 @@ namespace Inhuman
         {
             if (node is ProjectNode)
             {
-                UIProjectNode uinode = new UIProjectNode();
+                //UIProjectNode uinode = new UIProjectNode();
+                UIProjectNode uinode = GetUIProjectNode();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
                 uinode.Initialize();
             }
             else if (node is GalleryNode)
             {
-                UIGalleryNode uinode = new UIGalleryNode();
+                //UIGalleryNode uinode = new UIGalleryNode();
+                UIGalleryNode uinode = GetUIGalleryNode();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
                 uinode.Initialize();
             } 
             else if (node is PageNode)
             {
-                UIPageNode uilink = new UIPageNode();
-                UI.MainListBox.Items.Add(uilink);
-                uilink.DataContext = node;
-                uilink.Initialize();
+                //UIPageNode uinode = new UIPageNode();
+                UIPageNode uinode = GetUIPageNode();
+                UI.MainListBox.Items.Add(uinode);
+                uinode.DataContext = node;
+                uinode.Initialize();
             }
             else if (node is HeaderNode)
             {
-                UIHeaderNode uinode = new UIHeaderNode();
+                //UIHeaderNode uinode = new UIHeaderNode();
+                UIHeaderNode uinode = GetUIHeaderNode();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
             }
             else if (node is PictureNode)
             {
-                UIPictureNode uinode = new UIPictureNode();
+                //UIPictureNode uinode = new UIPictureNode();
+                UIPictureNode uinode = GetUIPictureNode();
                 (node as PictureNode).LoadBitmap();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
+                uinode.Initialize();
             }
             else if (node is TaskNode)
             {
-                UITaskNode uinode = new UITaskNode();
+                //UITaskNode uinode = new UITaskNode();
+                UITaskNode uinode = GetUITaskNode();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
+                uinode.Initialize();
             }
             else if (node is AudioNode)
             {
-                UIAudioNode uinode = new UIAudioNode();
+                //UIAudioNode uinode = new UIAudioNode();
+                UIAudioNode uinode = GetUIAudioNode();
                 (node as AudioNode).LoadSound();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
                 if ((node as AudioNode).Filename == null)
                     uinode.SetButtonText(AudioMode.Record);
-                
+
+                uinode.Initialize();
             }
             else if (node is TextNode)
             {
-                UITextNode uinode = new UITextNode();
+                //UITextNode uinode = new UITextNode();
+                UITextNode uinode = GetUITextNode();
                 UI.MainListBox.Items.Add(uinode);
                 uinode.DataContext = node;
+                uinode.Initialize();
             }
             else
             {
-                UINode uinode = new UINode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
+                //UINode uinode = new UINode();
+                //UI.MainListBox.Items.Add(uinode);
+                //uinode.DataContext = node;
             }
         }
 
@@ -538,7 +712,7 @@ namespace Inhuman
 
                         // Add Image Node //
                         PictureNode node = new PictureNode();
-                        UIPictureNode uinode = new UIPictureNode();
+                        UIPictureNode uinode = GetUIPictureNode();
                         node.Bitmap = bmp;
                         node.Name = "Picture";
                         node.Filename = node.Id + ".jpg";

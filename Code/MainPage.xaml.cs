@@ -30,6 +30,8 @@ namespace Inhuman
         public static BitmapImage HomeBitmap = new BitmapImage(new Uri("/Node;component/Art/Home.png", UriKind.Relative));
 
         public string CurrentPage;
+
+        public DateTime LoadTime;
         
         //===================================================================================================================================================//
         public MainPage()
@@ -40,11 +42,20 @@ namespace Inhuman
         //===================================================================================================================================================//
         void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            TimeSpan time = DateTime.Now - LoadTime;
+            Debug.WriteLine("Loaded in " + time.TotalSeconds.ToString("N2"));
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            MainListBox.Items.Clear();                
         }
 
         //===================================================================================================================================================//
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            LoadTime = DateTime.Now;
+
             base.OnNavigatedTo(e);
             IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
             NodeController.UI = this;    

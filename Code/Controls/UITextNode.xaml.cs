@@ -21,6 +21,12 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
+        public void Initialize()
+        {
+            NodeObject.PlayAnim();
+        }
+
+        //===================================================================================================================================================//
         void TextDataBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             object item = NodeController.UI.MainListBox.SelectedIndex < NodeController.UI.MainListBox.Items.Count - 1 ? NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex + 1] : NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex];
@@ -28,6 +34,7 @@ namespace Inhuman
             //NodeController.UI.MainListBox.ScrollIntoView(
         }
 
+        //===================================================================================================================================================//
         void TextDataBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
             var textbox = NodeObject.LowerContent as TextBox;

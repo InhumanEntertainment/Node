@@ -34,9 +34,15 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
+        public void Initialize()
+        {
+            NodeObject.PlayAnim();
+        }
+
+        //===================================================================================================================================================//
         public void SetButtonText(AudioMode mode)
         {
-            var button = (NodePresenter.ButtonContent as Button);
+            var button = (NodeObject.ButtonContent as Button);
             Image image = button.Content as Image;
 
             if (mode == AudioMode.Play)

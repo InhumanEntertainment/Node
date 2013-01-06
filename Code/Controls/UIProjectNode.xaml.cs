@@ -26,6 +26,8 @@ namespace Inhuman
         public void Initialize()
         {
             (DataContext as ProjectNode).CalculateProgress();
+
+            NodeObject.PlayAnim();
         }
 
         //===================================================================================================================================================//

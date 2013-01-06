@@ -209,7 +209,7 @@
 				<CompositeTransform/>
 			</Grid.RenderTransform>    
     
-			<Image x:Name="AudioImage" HorizontalAlignment="Left" Width="80" VerticalAlignment="Center" Height="80" Source="/Node;component/Art/Add_Audio.png" RenderTransformOrigin="0.5,0.5" Margin="240,0,0,0">
+			<Image x:Name="AudioImage" HorizontalAlignment="Left" Width="78" VerticalAlignment="Center" Height="78" Source="/Node;component/Art/Add_Audio.png" RenderTransformOrigin="0.5,0.5" Margin="240,0,0,0" Visibility="Collapsed">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
@@ -217,7 +217,7 @@
 					<PlaneProjection/>
 				</Image.Projection>
 			</Image>
-			<Image x:Name="PictureImage" HorizontalAlignment="Left" Width="80" VerticalAlignment="Center" Height="80" Source="/Node;component/Art/Add_Picture.png" RenderTransformOrigin="0.5,0.5" Margin="160,0,0,0">
+			<Image x:Name="PictureImage" HorizontalAlignment="Left" Width="78" VerticalAlignment="Center" Height="78" Source="/Node;component/Art/Add_Picture.png" RenderTransformOrigin="0.5,0.5" Margin="160,0,0,0" Visibility="Collapsed">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
@@ -225,7 +225,7 @@
 					<PlaneProjection/>
 				</Image.Projection>
 			</Image>
-			<Image x:Name="TaskImage" HorizontalAlignment="Left" Width="80" VerticalAlignment="Center" Height="80" Source="/Node;component/Art/Add_Task.png" RenderTransformOrigin="0.5,0.5" Margin="80,0,0,0">
+			<Image x:Name="TaskImage" HorizontalAlignment="Left" Width="78" VerticalAlignment="Center" Height="78" Source="/Node;component/Art/Add_Task.png" RenderTransformOrigin="0.5,0.5" Margin="80,0,0,0" Visibility="Collapsed">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
@@ -234,12 +234,12 @@
 				</Image.Projection>
 			</Image>    
     
-			<Image x:Name="NodeImage" VerticalAlignment="Center" Height="80" Source="/Node;component/Art/Add_Node.png" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Width="80">
+			<Image x:Name="NodeImage" VerticalAlignment="Center" Height="78" Source="/Node;component/Art/Add_Node.png" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Width="78" Visibility="Collapsed">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
 			</Image>
-			<Image x:Name="DeleteImage" HorizontalAlignment="Right" Width="80" VerticalAlignment="Center" Height="80" Source="/Node;component/Art/Delete.png" RenderTransformOrigin="0.5,0.5" Margin="0,0,80,0">
+			<Image x:Name="DeleteImage" HorizontalAlignment="Right" Width="78" VerticalAlignment="Center" Height="78" Source="/Node;component/Art/Delete.png" RenderTransformOrigin="0.5,0.5" Margin="0,0,80,0" Visibility="Collapsed">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>
@@ -247,7 +247,7 @@
 					<PlaneProjection/>
 				</Image.Projection>
 			</Image>
-			<Image x:Name="RemoveImage" HorizontalAlignment="Right" Width="80" VerticalAlignment="Center" Height="80" Source="/Node;component/Art/Remove.png" RenderTransformOrigin="0.5,0.5">
+			<Image x:Name="RemoveImage" HorizontalAlignment="Right" Width="78" VerticalAlignment="Center" Height="78" Source="/Node;component/Art/Remove.png" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
 				<Image.RenderTransform>
 					<CompositeTransform/>
 				</Image.RenderTransform>

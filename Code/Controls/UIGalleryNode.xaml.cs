@@ -38,6 +38,8 @@ namespace Inhuman
             GalleryNode gallery = (DataContext as GalleryNode);
             gallery.Nodes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Nodes_CollectionChanged);
             LoadThumbnails();
+
+            NodeObject.PlayAnim();
         }
 
         //===================================================================================================================================================//

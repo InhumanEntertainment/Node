@@ -191,7 +191,7 @@
     		<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
     	</Grid.Background>
         
-        <local:UINode x:Name="NodePresenter">
+        <local:UINode x:Name="NodeObject">
     		<local:UINode.ButtonContent>
                 <Button x:Name="ActionButton" HorizontalAlignment="Right" Width="80" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF919191" Click="ActionButton_Click" Style="{StaticResource ButtonStyle1}">
                 	<Button.Content>

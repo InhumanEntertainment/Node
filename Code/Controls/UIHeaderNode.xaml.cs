@@ -110,7 +110,7 @@ namespace Inhuman
                 {
                     // Create Node //
                     node = new TaskNode();
-                    uinode = new UITaskNode();
+                    uinode = NodeController.GetUITaskNode();
                     node.Name = "Task";
                 }
                 else

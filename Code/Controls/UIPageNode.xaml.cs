@@ -50,7 +50,9 @@ namespace Inhuman
                 actionImage.Source = NodeActionImage;
                 typeImage.Source = NodeImage;
                 node.Info = "";
-            }               
+            }
+
+            NodeObject.PlayAnim();
         }
 
         //===================================================================================================================================================//
