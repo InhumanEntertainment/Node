@@ -84,6 +84,9 @@
     <Compile Include="Controls\BaseNodeTest.xaml.cs">
       <DependentUpon>BaseNodeTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UIControl.xaml.cs">
+      <DependentUpon>UIControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UIInstanceNode.xaml.cs">
       <DependentUpon>UIInstanceNode.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,9 @@
     </Compile>
     <Compile Include="NodeListPage.xaml.cs">
       <DependentUpon>NodeListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ArrangePage.xaml.cs">
+      <DependentUpon>ArrangePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
@@ -158,6 +164,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <None Include="Controls\UIControl.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </None>
     <Page Include="Controls\UIInstanceNode.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -225,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Pages\ArrangePage.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\HelpPage.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>

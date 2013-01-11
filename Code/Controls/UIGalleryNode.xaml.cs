@@ -15,7 +15,7 @@ using System.Collections.ObjectModel;
 
 namespace Inhuman
 {
-    public partial class UIGalleryNode : UserControl
+    public partial class UIGalleryNode : UIControl
     {
         public int NumberOfPictures;
         ObservableCollection<UIThumbnail> Thumbnails;
@@ -25,12 +25,11 @@ namespace Inhuman
         {
             InitializeComponent();
 
-            Thumbnails = new ObservableCollection<UIThumbnail>();
-			
+            Thumbnails = new ObservableCollection<UIThumbnail>();			
         }
 
         //===================================================================================================================================================//
-        public void Initialize()
+        public override void Initialize(bool autoedit)
         {
             ListBox lower = (ListBox)NodeObject.LowerContent;
             lower.ItemsSource = Thumbnails;
@@ -38,8 +37,13 @@ namespace Inhuman
             GalleryNode gallery = (DataContext as GalleryNode);
             gallery.Nodes.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Nodes_CollectionChanged);
             LoadThumbnails();
+            NodeController.UI.MeasureNodes();
+        }
 
-            NodeObject.PlayAnim();
+        //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            NodeObject.IsHitTestVisible = value;
         }
 
         //===================================================================================================================================================//

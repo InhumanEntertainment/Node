@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Inhuman
 {
-    public partial class UIProjectNode : UserControl
+    public partial class UIProjectNode : UIControl
     {
         //===================================================================================================================================================//
         public UIProjectNode()
@@ -26,8 +26,12 @@ namespace Inhuman
         public void Initialize()
         {
             (DataContext as ProjectNode).CalculateProgress();
+        }
 
-            NodeObject.PlayAnim();
+        //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            NodeObject.IsHitTestVisible = value;
         }
 
         //===================================================================================================================================================//

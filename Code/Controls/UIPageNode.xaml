@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:UIControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -158,13 +158,21 @@
     		<SolidColorBrush Color="{StaticResource NodeBackgroundColor}"/>
     	</Grid.Background>
         
-    	<local:UINode x:Name="NodeObject">
+    	<local:UINode x:Name="NodeObject" d:IsHidden="True">
+     		<local:UINode.ButtonContent>
+    			 <Image Source="/Node;component/Art/Arrow.png" Opacity="0.5" Tap="Image_Tap"/>
+			</local:UINode.ButtonContent>
+			<local:UINode.IconContent>
+    			 <Image Source="/Node;component/Art/Page.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
+			</local:UINode.IconContent> 	
+		</local:UINode>
+    	<local:UINode VerticalAlignment="Stretch" d:LayoutOverrides="Width, Height" Margin="0,0,0,-30">
     		<local:UINode.ButtonContent>
     			 <Image Source="/Node;component/Art/Arrow.png" Opacity="0.5" Tap="Image_Tap"/>
 			</local:UINode.ButtonContent>
 			<local:UINode.IconContent>
     			 <Image Source="/Node;component/Art/Page.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
-			</local:UINode.IconContent>  	
+			</local:UINode.IconContent> 	  	
 		</local:UINode>
     </Grid>
-</UserControl>
+</local:UIControl>

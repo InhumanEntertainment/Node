@@ -17,7 +17,7 @@ namespace Inhuman
 {
     public enum AudioMode {Play, Stop, Record}
 
-    public partial class UIAudioNode : UserControl
+    public partial class UIAudioNode : UIControl
     {
         BitmapImage PlayImage;
         BitmapImage StopImage;
@@ -36,7 +36,9 @@ namespace Inhuman
         //===================================================================================================================================================//
         public void Initialize()
         {
-            NodeObject.PlayAnim();
+            (Node as AudioNode).LoadSound();
+            if ((Node as AudioNode).Filename == null)
+                SetButtonText(AudioMode.Record);
         }
 
         //===================================================================================================================================================//
@@ -78,6 +80,12 @@ namespace Inhuman
             {
                 node.Play();
             }
+        }
+
+        //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            NodeObject.IsHitTestVisible = value;
         }
     }
 }

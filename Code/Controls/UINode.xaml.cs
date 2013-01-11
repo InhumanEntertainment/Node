@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -17,7 +16,7 @@ using System.Windows.Navigation;
 namespace Inhuman
 {
     [ContentProperty("LowerContent")]
-    public partial class UINode : UserControl
+    public partial class UINode : UIControl
     {
 		// Button Content //
 		public static readonly DependencyProperty ButtonContentProperty = DependencyProperty.Register("ButtonContent", typeof(object), typeof(UINode), new PropertyMetadata((object)null));
@@ -85,7 +84,7 @@ namespace Inhuman
             {
                 Node node = (Node)(DataContext as Node);
                 NodeController.CurrentPageNode.Nodes.Remove(node.Id);
-                NodeController.UI.MainListBox.Items.Remove(RootUIControl);
+                NodeController.UI.NodeList.Children.Remove(RootUIControl);
 
                 if (node.Created == node.Updated)
                 {
@@ -93,6 +92,7 @@ namespace Inhuman
                 }
 
                 Offset.TranslateX = 0;
+                NodeController.UI.MeasureNodes();
             }       
         }
 
@@ -121,79 +121,93 @@ namespace Inhuman
         Point StartPos;
         void UserControl_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            // Find Root Control //
-            if (NodeController.UI.MainListBox.Items.Contains(this))
-                RootUIControl = (FrameworkElement)this;
-            else
-                RootUIControl = (Parent as FrameworkElement).Parent as FrameworkElement;
+            if (!NodeController.UI.EditMode)
+            {
+                // Find Root Control //
+                if (NodeController.UI.NodeList.Children.Contains(this))
+                    RootUIControl = (FrameworkElement)this;
+                else
+                    RootUIControl = (Parent as FrameworkElement).Parent as FrameworkElement;
 
-            var tx = e.ManipulationContainer.TransformToVisual(this);
-            StartPos = tx.Transform(e.ManipulationOrigin);
+                var tx = e.ManipulationContainer.TransformToVisual(NodeController.UI);
+                StartPos = tx.Transform(e.ManipulationOrigin);
 
-            NodeIndex = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);
+                NodeIndex = NodeController.UI.NodeList.Children.IndexOf(RootUIControl);
 
-            NodeImage.Visibility = System.Windows.Visibility.Visible;
-            TaskImage.Visibility = System.Windows.Visibility.Visible;
-            PictureImage.Visibility = System.Windows.Visibility.Visible;
-            AudioImage.Visibility = System.Windows.Visibility.Visible;
-            RemoveImage.Visibility = System.Windows.Visibility.Visible;
-            DeleteImage.Visibility = System.Windows.Visibility.Visible;
+                NodeImage.Visibility = System.Windows.Visibility.Visible;
+                TaskImage.Visibility = System.Windows.Visibility.Visible;
+                PictureImage.Visibility = System.Windows.Visibility.Visible;
+                AudioImage.Visibility = System.Windows.Visibility.Visible;
+                RemoveImage.Visibility = System.Windows.Visibility.Visible;
+                DeleteImage.Visibility = System.Windows.Visibility.Visible;
+            }
         }
 
         //===================================================================================================================================================//
         void UserControl_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            //Offset.X = Math.Max(0, e.ManipulationOrigin.X - StartPos.X);
-            Offset.TranslateX = e.ManipulationOrigin.X - StartPos.X;
-            //Offset.Y = e.ManipulationOrigin.Y - StartPos.Y;
-
-            Offset.TranslateX = Math.Min(Offset.TranslateX, 320);
-            Offset.TranslateX = Math.Max(Offset.TranslateX, -160);
-
-            // Move Selected //
-            int step = Offset.TranslateX >= 0 ? 40 : -40;
-            int index = (int)((Offset.TranslateX + step) / 80);
-
-            /*if (Offset.TranslateX >= 0)
+            if (!NodeController.UI.EditMode)
             {
-                NodeImage.Opacity = index == 1 ? 1 : 0.15f;
-                TaskImage.Opacity = index == 2 ? 1 : 0.15f;
-                PictureImage.Opacity = index == 3 ? 1 : 0.15f;
-                AudioImage.Opacity = index == 4 ? 1 : 0.15f;
-                RemoveImage.Opacity = 0;
-                DeleteImage.Opacity = 0; 
+                GeneralTransform tx = (e.OriginalSource as UIElement).TransformToVisual(NodeController.UI);
+                Offset.TranslateX = tx.Transform(e.ManipulationOrigin).X - StartPos.X;
+                
+                //Offset.X = Math.Max(0, e.ManipulationOrigin.X - StartPos.X);
+                //Offset.TranslateX = e.ManipulationOrigin.X - StartPos.X;
+                //Offset.Y = e.ManipulationOrigin.Y - StartPos.Y;
+                if (Math.Abs(Offset.TranslateX) > 10)
+                {
+                    //e.Handled = true;
+                }
+
+                Offset.TranslateX = Math.Min(Offset.TranslateX, 320);
+                Offset.TranslateX = Math.Max(Offset.TranslateX, -160);
+
+                // Move Selected //
+                int step = Offset.TranslateX >= 0 ? 40 : -40;
+                int index = (int)((Offset.TranslateX + step) / 80);
+
+                /*if (Offset.TranslateX >= 0)
+                {
+                    NodeImage.Opacity = index == 1 ? 1 : 0.15f;
+                    TaskImage.Opacity = index == 2 ? 1 : 0.15f;
+                    PictureImage.Opacity = index == 3 ? 1 : 0.15f;
+                    AudioImage.Opacity = index == 4 ? 1 : 0.15f;
+                    RemoveImage.Opacity = 0;
+                    DeleteImage.Opacity = 0; 
+                }
+                else
+                {
+                    NodeImage.Opacity = 0;
+                    TaskImage.Opacity = 0;
+                    PictureImage.Opacity = 0;
+                    AudioImage.Opacity = 0;
+                    RemoveImage.Opacity = index == -1 ? 1 : 0.15f;
+                    DeleteImage.Opacity = index <= -2 ? 1 : 0.15f;               
+                }*/
+
+
+                NodeImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 80), 0, 0, 0);
+                TaskImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 160), 0, 0, 0);
+                PictureImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 240), 0, 0, 0);
+                AudioImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 320), 0, 0, 0);
+
+                RemoveImage.Margin = new Thickness(0, 0, Math.Max(0, -Offset.TranslateX - 80), 0);
+                DeleteImage.Margin = new Thickness(0, 0, Math.Max(0, -Offset.TranslateX - 160), 0);
+
+                /*if (Offset.TranslateX < -160)
+                {
+                    RootControl.Background = AddBrush;
+                }
+                else if (Offset.TranslateX > 160)
+                {
+                    RootControl.Background = AddBrush;
+                }
+                else
+                {
+                    RootControl.Background = DefaultBrush;
+                }*/
             }
-            else
-            {
-                NodeImage.Opacity = 0;
-                TaskImage.Opacity = 0;
-                PictureImage.Opacity = 0;
-                AudioImage.Opacity = 0;
-                RemoveImage.Opacity = index == -1 ? 1 : 0.15f;
-                DeleteImage.Opacity = index <= -2 ? 1 : 0.15f;               
-            }*/
-
-
-            NodeImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 80), 0, 0, 0);
-            TaskImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 160), 0, 0, 0);
-            PictureImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 240), 0, 0, 0);
-            AudioImage.Margin = new Thickness(Math.Max(0, Offset.TranslateX - 320), 0, 0, 0);
-
-            RemoveImage.Margin = new Thickness(0, 0, Math.Max(0, -Offset.TranslateX - 80), 0);
-            DeleteImage.Margin = new Thickness(0, 0, Math.Max(0, -Offset.TranslateX - 160), 0);
-
-            /*if (Offset.TranslateX < -160)
-            {
-                RootControl.Background = AddBrush;
-            }
-            else if (Offset.TranslateX > 160)
-            {
-                RootControl.Background = AddBrush;
-            }
-            else
-            {
-                RootControl.Background = DefaultBrush;
-            }*/
+            
         }
 
         //===================================================================================================================================================//
@@ -201,117 +215,84 @@ namespace Inhuman
                 
         void RootControl_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            Offset.TranslateX = e.ManipulationOrigin.X - StartPos.X;
-
-            int step = Offset.TranslateX >= 0 ? 40 : -40;
-            int index = (int)((Offset.TranslateX + step) / 80);
-
-            if (index == -1)
+            if (!NodeController.UI.EditMode)
             {
-                //Deleted.Storyboard.Begin();
-                Delete();
-            }
-            else if (index <= -2)
-            {
-                //Deleted.Storyboard.Begin();
-                Delete();
+                GeneralTransform tx = (e.OriginalSource as UIElement).TransformToVisual(NodeController.UI);
+                Offset.TranslateX = tx.Transform(e.ManipulationOrigin).X - StartPos.X;
+                
+                //Offset.TranslateX = e.ManipulationOrigin.X - StartPos.X;
 
-                // Delete Node //
-                //MessageBox.Show("Delete Node", "Are you sure you want to delete this node and all of it's instances?", MessageBoxButton.OKCancel);
-            }
-            else if (index > 0)
-            {
-                Node node;
-                UserControl uinode;
-                if (index == 2)
+                int step = Offset.TranslateX >= 0 ? 40 : -40;
+                int index = (int)((Offset.TranslateX + step) / 80);
+
+                if (index == -1)
                 {
-                    // Create Node //
-                    node = new TaskNode();
-                    uinode = NodeController.GetUITaskNode();
-                    node.Name = "Task";
-                    (uinode as UITaskNode).NodeObject.EditOnCreate = true;
+                    //Deleted.Storyboard.Begin();
+                    Delete();
                 }
-                else if (index == 10)
+                else if (index <= -2)
                 {
-                    // Create Node //
-                    node = new PageNode();
-                    uinode = NodeController.GetUIPageNode();
-                    node.Name = "Node";
-                    (uinode as UIPageNode).NodeObject.EditOnCreate = true;
+                    //Deleted.Storyboard.Begin();
+                    Delete();
+
+                    // Delete Node //
+                    //MessageBox.Show("Delete Node", "Are you sure you want to delete this node and all of it's instances?", MessageBoxButton.OKCancel);
+                }
+                else if (index > 0)
+                {
+                    Node node;
+                    UserControl uinode;
+                    if (index == 2)
+                    {
+                        // Create Node //
+                        node = new TaskNode();
+                        uinode = NodeController.GetUITaskNode();
+                        node.Name = "Task";
+                        (uinode as UITaskNode).NodeObject.EditOnCreate = true;
+                    }
+                    else if (index == 1)
+                    {
+                        // Create Node //
+                        node = new PageNode();
+                        uinode = NodeController.GetUIPageNode();
+                        node.Name = "Node";
+                        (uinode as UIPageNode).NodeObject.EditOnCreate = true;
+                    }
+                    else
+                    {
+                        // Create Node //
+                        node = new PageNode();
+                        uinode = NodeController.GetUIPageNode();
+                        node.Name = "Node";
+                        (uinode as UIPageNode).NodeObject.EditOnCreate = true;
+                    }
+
+                    // Get Position //
+                    NodeController.UI.NodeList.Children.Insert(NodeIndex, uinode);
+                    uinode.DataContext = node;
+
+                    if (uinode is UIPageNode)
+                    {
+                        (uinode as UIPageNode).Initialize(true);
+                    }
+
+                    NodeController.Data.Nodes.Add(node);
+                    NodeController.CurrentPageNode.Nodes.Insert(NodeIndex, node.Id);
                 }
                 else
                 {
-                    // Create Node //
-                    node = new PageNode();
-                    uinode = NodeController.GetUIPageNode();
-                    node.Name = "Node";
-                    (uinode as UIPageNode).NodeObject.EditOnCreate = true;
+                    //Reset.Storyboard.Begin();
+                    //VisualStateManager.GoToState(this, "Reset", true);
                 }
 
-                // Get Position //
-                NodeController.UI.MainListBox.UpdateLayout();
-                NodeController.UI.MainListBox.Items.Insert(NodeIndex, uinode);
-                uinode.DataContext = node;
+                Offset.TranslateX = 0;
 
-                if (uinode is UIPageNode)
-                {
-                    (uinode as UIPageNode).Initialize();
-                }
-
-                NodeController.Data.Nodes.Add(node);
-                NodeController.CurrentPageNode.Nodes.Insert(NodeIndex, node.Id);
-            }
-            else
-            {
-                //Reset.Storyboard.Begin();
-                //VisualStateManager.GoToState(this, "Reset", true);
-            }
-
-            Offset.TranslateX = 0;
-            
-            NodeImage.Visibility = System.Windows.Visibility.Collapsed;
-            TaskImage.Visibility = System.Windows.Visibility.Collapsed;
-            PictureImage.Visibility = System.Windows.Visibility.Collapsed;
-            AudioImage.Visibility = System.Windows.Visibility.Collapsed;
-            RemoveImage.Visibility = System.Windows.Visibility.Collapsed;
-            DeleteImage.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        //===================================================================================================================================================//
-        void MoveUp_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	int index = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);
-
-            if (index > 0)
-            {
-                // Move UI //
-                object temp = NodeController.UI.MainListBox.Items[index];
-                NodeController.UI.MainListBox.Items.RemoveAt(index);
-                NodeController.UI.MainListBox.Items.Insert(index - 1, temp);
-
-                // Move Data //
-                string node = NodeController.CurrentPageNode.Nodes[index];
-                NodeController.CurrentPageNode.Nodes.RemoveAt(index);
-                NodeController.CurrentPageNode.Nodes.Insert(index - 1, node);
-            }
-        }
-		
-		//===================================================================================================================================================//
-        void MoveDown_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            int index = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);
-
-            if (index < NodeController.UI.MainListBox.Items.Count - 1)
-            {
-                // Move UI //
-                object temp = NodeController.UI.MainListBox.Items[index + 1];
-                NodeController.UI.MainListBox.Items.RemoveAt(index + 1);
-                NodeController.UI.MainListBox.Items.Insert(index, temp);
-
-                // Move Data //
-                string node = NodeController.CurrentPageNode.Nodes[index + 1];
-                NodeController.CurrentPageNode.Nodes.RemoveAt(index + 1);
-                NodeController.CurrentPageNode.Nodes.Insert(index, node);
+                NodeImage.Visibility = System.Windows.Visibility.Collapsed;
+                TaskImage.Visibility = System.Windows.Visibility.Collapsed;
+                PictureImage.Visibility = System.Windows.Visibility.Collapsed;
+                AudioImage.Visibility = System.Windows.Visibility.Collapsed;
+                RemoveImage.Visibility = System.Windows.Visibility.Collapsed;
+                DeleteImage.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -338,8 +319,7 @@ namespace Inhuman
             {
                 Node node = (Node)(DataContext as Node);
                 NodeController.CurrentPageNode.Nodes.Remove(node.Id);
-                NodeController.UI.MainListBox.Items.Remove(RootUIControl);
-               
+                NodeController.UI.NodeList.Children.Remove(RootUIControl);              
                 NodeController.DeleteNode(node, true);
             }           
         }
@@ -349,6 +329,12 @@ namespace Inhuman
         {
             string param = "Node=" + (DataContext as Node).Id;
             NodeController.UI.NavigationService.Navigate(new Uri("/Pages/PropertiesPage.xaml?" + param, UriKind.Relative));
+        }
+
+        //===================================================================================================================================================//
+        void grid_LayoutUpdated(object sender, System.EventArgs e)
+        {
+        	NodeController.UI.MeasureNodes();
         }
     }
 }

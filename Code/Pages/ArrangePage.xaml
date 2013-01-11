@@ -1,0 +1,45 @@
+﻿<phone:PhoneApplicationPage 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:Inhuman="clr-namespace:Inhuman"
+	mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+	x:Class="Inhuman.ArrangePage"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	Orientation="Portrait" Loaded="PhoneApplicationPage_Loaded">
+
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Background="Transparent">
+		<Grid x:Name="Slider">
+			<Canvas x:Name="NodeList" ManipulationStarted="NodeList_ManipulationStarted" ManipulationDelta="NodeList_ManipulationDelta" ManipulationCompleted="NodeList_ManipulationCompleted" RenderTransformOrigin="0.5,0.5">
+				<Inhuman:UIPageNode Height="Auto"/>
+				<Inhuman:UIPageNode Canvas.Top="104" Height="Auto"/>
+				<Inhuman:UIPageNode Canvas.Top="216" Height="Auto">
+					<Inhuman:UIPageNode.DataContext>
+						<Inhuman:PageNode/>
+					</Inhuman:UIPageNode.DataContext>
+				</Inhuman:UIPageNode>
+				<Inhuman:UITextNode Canvas.Top="336">
+					<Inhuman:UITextNode.DataContext>
+						<Inhuman:TextNode/>
+					</Inhuman:UITextNode.DataContext>
+				</Inhuman:UITextNode>
+				<Inhuman:UITextNode Canvas.Top="460">
+					<Inhuman:UITextNode.DataContext>
+						<Inhuman:TextNode/>
+					</Inhuman:UITextNode.DataContext>
+				</Inhuman:UITextNode>
+				<Inhuman:UIPageNode Canvas.Top="624" Height="Auto"/>
+			</Canvas>
+		</Grid>
+		
+		<!--TitlePanel contains the name of the application and page title-->
+
+		<!--ContentPanel - place additional content here-->
+	</Grid>
+</phone:PhoneApplicationPage>

@@ -70,7 +70,7 @@ namespace Inhuman
 
         int SortIndex = 2;
         int FilterIndex = 1;
-        bool Loaded = false;
+        bool HasLoaded = false;
 
         //===================================================================================================================================================//
         public NodeListPage()
@@ -114,7 +114,7 @@ namespace Inhuman
             SortPopup.IsOpen = true;
             FilterPopup.IsOpen = true;
 
-            Loaded = true;
+            HasLoaded = true;
             UpdateList();
         }
 
@@ -122,7 +122,7 @@ namespace Inhuman
         public Dictionary<int, Type> NodeDict = new Dictionary<int, Type> { { -1, typeof(Node) }, { 0, typeof(Node) }, { 1, typeof(PageNode) }, { 2, typeof(PictureNode) }, { 3, typeof(Node) }, { 4, typeof(TaskNode) } };
         public void UpdateList()
         {
-            if (Loaded)
+            if (HasLoaded)
             {
                 // Filter //
                 int i = FilterPicker.SelectedIndex;
@@ -170,7 +170,7 @@ namespace Inhuman
             }
         }
 
-        float MaxRank = 0;
+        //float MaxRank = 0;
 
         //===================================================================================================================================================//
         public void CreateNodes()
@@ -179,7 +179,7 @@ namespace Inhuman
             matchBlock.Update();
 
             SortedNodes.Clear();
-            MaxRank = 0.001f;
+            //MaxRank = 0.001f;
             for (int i = 0; i < FilteredNodes.Count; i++)
             {
                 // Ranking //

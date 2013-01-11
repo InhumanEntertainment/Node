@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 
 namespace Inhuman
 {
-    public partial class UIPageNode : UserControl
+    public partial class UIPageNode : UIControl
     {
         BitmapImage PageImage;
         BitmapImage NodeImage;
@@ -32,8 +32,10 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public void Initialize()
+        public override void Initialize(bool autoedit)
         {
+            NodeObject.EditOnCreate = autoedit;
+
             PageNode node = (DataContext as PageNode);
             
             Image actionImage = NodeObject.ButtonContent as Image;
@@ -51,8 +53,12 @@ namespace Inhuman
                 typeImage.Source = NodeImage;
                 node.Info = "";
             }
+        }
 
-            NodeObject.PlayAnim();
+        //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            NodeObject.IsHitTestVisible = value;
         }
 
         //===================================================================================================================================================//
@@ -61,7 +67,8 @@ namespace Inhuman
             NodeObject.NameText.Focus();
         }
 
-        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        //===================================================================================================================================================//
+        void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
         	PageNode page = (PageNode)DataContext;
 

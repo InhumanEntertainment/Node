@@ -15,6 +15,7 @@ namespace Inhuman
 {
     public partial class HelpPage : PhoneApplicationPage
     {
+        //===================================================================================================================================================//
         public HelpPage()
         {
             InitializeComponent();

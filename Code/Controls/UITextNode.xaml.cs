@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace Inhuman
 {
-    public partial class UITextNode : UserControl
+    public partial class UITextNode : UIControl
     {
         //===================================================================================================================================================//
         public UITextNode()
@@ -23,15 +23,22 @@ namespace Inhuman
         //===================================================================================================================================================//
         public void Initialize()
         {
-            NodeObject.PlayAnim();
+        }
+
+        //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            NodeObject.IsHitTestVisible = value;
         }
 
         //===================================================================================================================================================//
         void TextDataBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            object item = NodeController.UI.MainListBox.SelectedIndex < NodeController.UI.MainListBox.Items.Count - 1 ? NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex + 1] : NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex];
+            //object item = NodeController.UI.MainListBox.SelectedIndex < NodeController.UI.MainListBox.Items.Count - 1 ? NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex + 1] : NodeController.UI.MainListBox.Items[NodeController.UI.MainListBox.SelectedIndex];
             //NodeController.UI.MainListBox.ScrollIntoView(item);
             //NodeController.UI.MainListBox.ScrollIntoView(
+
+            NodeController.UI.MeasureNodes();
         }
 
         //===================================================================================================================================================//

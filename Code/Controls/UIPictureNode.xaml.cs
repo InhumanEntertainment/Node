@@ -14,7 +14,7 @@ using Microsoft.Phone.Controls;
 
 namespace Inhuman
 {
-    public partial class UIPictureNode : UserControl
+    public partial class UIPictureNode : UIControl
     {
         //===================================================================================================================================================//
         public UIPictureNode()
@@ -23,9 +23,15 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public void Initialize()
+        public override void Initialize(bool autoedit)
         {
-            NodeObject.PlayAnim();
+            (Node as PictureNode).LoadBitmap();
+        }
+
+        //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            NodeObject.IsHitTestVisible = value;
         }
 
         //===================================================================================================================================================//

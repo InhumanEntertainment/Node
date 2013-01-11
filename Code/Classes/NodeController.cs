@@ -322,98 +322,13 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public static void CreatePage()
+        public static void CreateLink()
         {
-            // Create New Page //
-            PageNode page = new PageNode();
-            page.Name = "Node";
-            Data.Nodes.Add(page);
-            CurrentPageNode.AddNode(page);
-
-            UIPageNode uilink = GetUIPageNode();
-            UI.MainListBox.Items.Add(uilink);
-            uilink.DataContext = page;
-            uilink.Initialize();
-
-            uilink.NodeObject.EditOnCreate = true;
+            CreateNewUINode<UINode>(CreateNewNode<WebNode>("Link"), true);
         }
 
-        //===================================================================================================================================================//
-        public static void CreateProject()
-        {
-            // Create New Page //
-            ProjectNode page = new ProjectNode();
-            page.Name = "Project";
-            Data.Nodes.Add(page);
-            CurrentPageNode.AddNode(page);
 
-            UIProjectNode uinode = GetUIProjectNode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = page;
-
-            uinode.Initialize();
-            uinode.NodeObject.EditOnCreate = true;
-        }
-
-        //===================================================================================================================================================//
-        public static void CreateGallery()
-        {
-            // Create New Page //
-            GalleryNode page = new GalleryNode();
-            page.Name = "Gallery";
-            Data.Nodes.Add(page);
-            CurrentPageNode.AddNode(page);
-
-            UIGalleryNode uinode = GetUIGalleryNode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = page;
-
-            uinode.Initialize();
-            uinode.NodeObject.EditOnCreate = true;
-        }
-
-        //===================================================================================================================================================//
-        public static void CreateNode()
-        {
-            Node node = new Node("New Node");
-            UINode uinode = new UINode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = node;
-
-            Data.Nodes.Add(node);
-            CurrentPageNode.AddNode(node);
-        }
-
-        //===================================================================================================================================================//
-        public static void CreateHeader()
-        {
-            HeaderNode node = new HeaderNode();
-            UIHeaderNode uinode = GetUIHeaderNode();
-            node.Name = "Header";
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = node;
-
-            Data.Nodes.Add(node);
-            CurrentPageNode.AddNode(node);
-
-            uinode.EditOnCreate = true;
-        }
-
-        //===================================================================================================================================================//
-        public static void CreateTask()
-        {
-            TaskNode node = new TaskNode();
-            node.Name = "Task";
-            UITaskNode uinode = GetUITaskNode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = node;
-            uinode.Initialize();
-
-            Data.Nodes.Add(node);
-            CurrentPageNode.AddNode(node);
-
-            uinode.NodeObject.EditOnCreate = true;
-        }
+        
 
         //===================================================================================================================================================//
         /*public static void CreateContact()
@@ -445,52 +360,7 @@ namespace Inhuman
             }
         }
         */
-        //===================================================================================================================================================//
-        public static UINode CreateLink()
-        {
-            WebNode node = new WebNode() { Name = "Web Link" };
-            UINode uinode = new UINode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = node;
 
-            Data.Nodes.Add(node);
-            CurrentPageNode.AddNode(node);
-
-            return uinode;
-        }
-
-        //===================================================================================================================================================//
-        public static UIAudioNode CreateAudio()
-        {
-            AudioNode node = new AudioNode();
-            node.Name = "Audio";
-            UIAudioNode uinode = GetUIAudioNode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = node;
-            uinode.SetButtonText(AudioMode.Record);
-            uinode.Initialize();
-
-            Data.Nodes.Add(node);
-            CurrentPageNode.AddNode(node);
-
-            return uinode;
-        }
-
-        //===================================================================================================================================================//
-        public static void CreateText()
-        {
-            TextNode node = new TextNode();
-            node.Name = "Text";
-            UITextNode uinode = GetUITextNode();
-            UI.MainListBox.Items.Add(uinode);
-            uinode.DataContext = node;
-            uinode.Initialize();
-
-            Data.Nodes.Add(node);
-            CurrentPageNode.AddNode(node);
-
-            uinode.NodeObject.EditOnCreate = true;
-        }
 
         //===================================================================================================================================================//
         public static void PrintHistory()
@@ -509,6 +379,8 @@ namespace Inhuman
         {
             if (page != null)
             {
+                Debug.WriteLine("Load Page: " + page.Name);
+
                 // Start Button //
                 if (page == Data.Nodes[0])
                 {
@@ -531,6 +403,8 @@ namespace Inhuman
                 UI.DataContext = page;
                 Data.CurrentPage = page.Id;
                 NodeController.ResetNodeBuffers();
+                UI.UINodes.Clear();
+                UI.NodeList.Children.Clear();
 
                 for (int i = 0; i < page.Nodes.Count; i++)
                 {
@@ -552,86 +426,74 @@ namespace Inhuman
             (UI.DataContext as PageNode).Nodes.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Nodes_CollectionChanged);
         }
 
+#region Node Creation
+        //===================================================================================================================================================//
+        public static Node CreateNewNode<NodeType>(string name) where NodeType : new()
+        {
+            Node node = new NodeType() as Node;
+            node.Name = name;
+            Data.Nodes.Add(node);
+            CurrentPageNode.AddNode(node);
+
+            return node;
+        }
+
+        //===================================================================================================================================================//
+        public static UIControl CreateNewUINode<T>(Node node, bool edit) where T : new()
+        {
+            //UIControl uinode = GetUIPageNode();
+            UIControl uinode = new T() as UIControl;
+            UI.NodeList.Children.Add(uinode);
+            UI.UINodes.Add(uinode);
+            uinode.DataContext = node;
+            uinode.Initialize(edit);
+            UI.MeasureNodes();
+
+            return uinode;
+        }
+
         //===================================================================================================================================================//
         public static void CreateUINode(Node node)
         {
+            Debug.WriteLine("Create Node: " + node.Name);
+
             if (node is ProjectNode)
             {
-                //UIProjectNode uinode = new UIProjectNode();
-                UIProjectNode uinode = GetUIProjectNode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                uinode.Initialize();
+                CreateNewUINode<UIProjectNode>(node, false);
             }
             else if (node is GalleryNode)
             {
-                //UIGalleryNode uinode = new UIGalleryNode();
-                UIGalleryNode uinode = GetUIGalleryNode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                uinode.Initialize();
+                CreateNewUINode<UIGalleryNode>(node, false);
             } 
             else if (node is PageNode)
             {
-                //UIPageNode uinode = new UIPageNode();
-                UIPageNode uinode = GetUIPageNode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                uinode.Initialize();
+                CreateNewUINode<UIPageNode>(node, false);
             }
             else if (node is HeaderNode)
             {
-                //UIHeaderNode uinode = new UIHeaderNode();
-                UIHeaderNode uinode = GetUIHeaderNode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
+                CreateNewUINode<UIHeaderNode>(node, false);
             }
             else if (node is PictureNode)
             {
-                //UIPictureNode uinode = new UIPictureNode();
-                UIPictureNode uinode = GetUIPictureNode();
-                (node as PictureNode).LoadBitmap();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                uinode.Initialize();
+                CreateNewUINode<UIPictureNode>(node, false);
             }
             else if (node is TaskNode)
             {
-                //UITaskNode uinode = new UITaskNode();
-                UITaskNode uinode = GetUITaskNode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                uinode.Initialize();
+                CreateNewUINode<UITaskNode>(node, false);
             }
             else if (node is AudioNode)
             {
-                //UIAudioNode uinode = new UIAudioNode();
-                UIAudioNode uinode = GetUIAudioNode();
-                (node as AudioNode).LoadSound();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                if ((node as AudioNode).Filename == null)
-                    uinode.SetButtonText(AudioMode.Record);
-
-                uinode.Initialize();
+                CreateNewUINode<UIAudioNode>(node, false);
             }
             else if (node is TextNode)
             {
-                //UITextNode uinode = new UITextNode();
-                UITextNode uinode = GetUITextNode();
-                UI.MainListBox.Items.Add(uinode);
-                uinode.DataContext = node;
-                uinode.Initialize();
-            }
-            else
-            {
-                //UINode uinode = new UINode();
-                //UI.MainListBox.Items.Add(uinode);
-                //uinode.DataContext = node;
+                CreateNewUINode<UITextNode>(node, false);
             }
         }
 
-#region Pins
+#endregion
+
+        #region Pins
         //===================================================================================================================================================//
         public static void PinPage()
         {
@@ -710,18 +572,12 @@ namespace Inhuman
 
                         WriteableBitmap writableBitmap = new WriteableBitmap(bmp);
 
-                        // Add Image Node //
-                        PictureNode node = new PictureNode();
-                        UIPictureNode uinode = GetUIPictureNode();
+                        // Add Image Node //                        
+                        PictureNode node = CreateNewNode<PictureNode>("Picture") as PictureNode;
                         node.Bitmap = bmp;
-                        node.Name = "Picture";
                         node.Filename = node.Id + ".jpg";
-                        UI.MainListBox.Items.Add(uinode);
-                        uinode.DataContext = node;
-
-                        Data.Nodes.Add(node);
-                        CurrentPageNode.AddNode(node);
-
+                        CreateNewUINode<UIPictureNode>(node, false);
+                        
                         // Save Image // 
                         IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
                         IsolatedStorageFileStream stream = storage.CreateFile(node.Filename);
@@ -732,8 +588,6 @@ namespace Inhuman
 
                         stream.Close();
                         stream.Dispose();
-
-                        uinode.NodeObject.EditOnCreate = true;
                     }
                 });
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -15,7 +14,7 @@ using System.Windows.Markup;
 
 namespace Inhuman
 {
-    public partial class UIHeaderNode : UserControl
+    public partial class UIHeaderNode : UIControl
     {
         CompositeTransform Offset = new CompositeTransform();
 
@@ -36,13 +35,19 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
+        public override void SetHitTest(bool value)
+        {
+            LayoutRoot.IsHitTestVisible = value;
+        }
+
+        //===================================================================================================================================================//
         void Deleted_Completed(object sender, EventArgs e)
         {           
             if (RootUIControl != null)
             {
                 Node node = (Node)(DataContext as Node);
                 NodeController.CurrentPageNode.Nodes.Remove(node.Id);
-                NodeController.UI.MainListBox.Items.Remove(RootUIControl);               
+                NodeController.UI.NodeList.Children.Remove(RootUIControl);               
             }           
         }
 
@@ -63,13 +68,13 @@ namespace Inhuman
         void UserControl_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
             // Find Root Control //
-            if (NodeController.UI.MainListBox.Items.Contains(this))
+            if (NodeController.UI.NodeList.Children.Contains(this))
                 RootUIControl = (FrameworkElement)this;
             else
                 RootUIControl = (Parent as FrameworkElement).Parent as FrameworkElement;
 
             StartPos = e.ManipulationOrigin;
-            index = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);               
+            index = NodeController.UI.NodeList.Children.IndexOf(RootUIControl);               
         }
 
         //===================================================================================================================================================//
@@ -121,8 +126,7 @@ namespace Inhuman
                 }				              
 
                 // Get Position //
-                NodeController.UI.MainListBox.UpdateLayout();
-                NodeController.UI.MainListBox.Items.Insert(index, uinode);
+                NodeController.UI.NodeList.Children.Insert(index, uinode);
                 uinode.DataContext = node;
 
                 NodeController.Data.Nodes.Add(node);
@@ -138,44 +142,6 @@ namespace Inhuman
                 //Reset.Storyboard.Begin();
 
                 //VisualStateManager.GoToState(this, "Reset", true);
-            }
-        }
-
-        //===================================================================================================================================================//
-        void MoveUp_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	int index = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);
-
-            if (index > 0)
-            {
-                // Move UI //
-                object temp = NodeController.UI.MainListBox.Items[index];
-                NodeController.UI.MainListBox.Items.RemoveAt(index);
-                NodeController.UI.MainListBox.Items.Insert(index - 1, temp);
-
-                // Move Data //
-                string node = NodeController.CurrentPageNode.Nodes[index];
-                NodeController.CurrentPageNode.Nodes.RemoveAt(index);
-                NodeController.CurrentPageNode.Nodes.Insert(index - 1, node);
-            }
-        }
-		
-		//===================================================================================================================================================//
-        void MoveDown_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            int index = NodeController.UI.MainListBox.Items.IndexOf(RootUIControl);
-
-            if (index < NodeController.UI.MainListBox.Items.Count - 1)
-            {
-                // Move UI //
-                object temp = NodeController.UI.MainListBox.Items[index + 1];
-                NodeController.UI.MainListBox.Items.RemoveAt(index + 1);
-                NodeController.UI.MainListBox.Items.Insert(index, temp);
-
-                // Move Data //
-                string node = NodeController.CurrentPageNode.Nodes[index + 1];
-                NodeController.CurrentPageNode.Nodes.RemoveAt(index + 1);
-                NodeController.CurrentPageNode.Nodes.Insert(index, node);
             }
         }
 

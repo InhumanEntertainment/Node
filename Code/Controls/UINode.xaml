@@ -1,11 +1,11 @@
-﻿<UserControl
+﻿<local:UIControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:local="clr-namespace:Inhuman" x:Name="Node" x:Class="Inhuman.UINode"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:local="clr-namespace:Inhuman" x:Name="Root" x:Class="Inhuman.UINode"
     mc:Ignorable="d"
-    d:DesignHeight="120" d:DesignWidth="480" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" Loaded="Node_Loaded" Tap="Node_Tap">
+    d:DesignHeight="120" d:DesignWidth="480" d:DataContext="{d:DesignData /SampleData/NodeSampleData.xaml}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" Loaded="Node_Loaded" Tap="Node_Tap" MinHeight="80" MinWidth="480">
 	<UserControl.Resources>
 		<ControlTemplate x:Key="PhoneDisabledTextBoxTemplate" TargetType="TextBox">
 			<ContentControl x:Name="ContentElement" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="{StaticResource PhoneTextBoxInnerMargin}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Stretch"/>
@@ -121,8 +121,6 @@
 	</UserControl.RenderTransform>
 	<toolkit:ContextMenuService.ContextMenu>
 		<toolkit:ContextMenu x:Name="UIContextMenu">
-			<toolkit:MenuItem Header="Move Up" Click="MoveUp_Click"/>
-			<toolkit:MenuItem Header="Move Down" Click="MoveDown_Click"/> 
 			<toolkit:MenuItem Header="Remove" Click="RemoveButton_Click"/>
 			<toolkit:MenuItem Header="Delete" Click="DeleteButton_Click"/>
 			<toolkit:MenuItem Header="Properties" Click="PropertiesItem_Click"/>           
@@ -139,7 +137,7 @@
 		<StaticResource ResourceKey="PhoneForegroundBrush"/>
 	</UserControl.Foreground>    
     
-    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" CacheMode="BitmapCache" Background="Black">
+    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" CacheMode="BitmapCache" Background="Black" LayoutUpdated="grid_LayoutUpdated">
     	<Grid.RenderTransform>
     		<CompositeTransform/>
     	</Grid.RenderTransform>
@@ -272,13 +270,13 @@
 							</TextBox.Foreground>
 						</TextBox>
 						<TextBlock x:Name="InfoText" Text="{Binding Info}" FontSize="20" FontFamily="Arial" FontWeight="Bold" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="112,49,0,0" Foreground="#FF494949" />
-						<ContentPresenter x:Name="ButtonArea" Content="{Binding ButtonContent, ElementName=Node}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Right" Margin="0,0,0,-1"/>
-						<ContentPresenter x:Name="IconArea" Content="{Binding IconContent, ElementName=Node}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Left" Margin="0,0,0,-1"/>
+						<ContentPresenter x:Name="ButtonArea" Content="{Binding ButtonContent, ElementName=Root}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Right" Margin="0,0,0,-1"/>
+						<ContentPresenter x:Name="IconArea" Content="{Binding IconContent, ElementName=Root}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Left" Margin="0,0,0,-1"/>
 					</Grid>
-					<ContentPresenter x:Name="LowerArea" Content="{Binding LowerContent, ElementName=Node}" VerticalAlignment="Top"/>
+					<ContentPresenter x:Name="LowerArea" Content="{Binding LowerContent, ElementName=Root}" VerticalAlignment="Top"/>
 					<Rectangle x:Name="Bottom" Fill="Black" Height="2" StrokeThickness="0" VerticalAlignment="Top"/>
 				</StackPanel>
 			</Grid>
 		</Grid>
 	</Grid>
-</UserControl>
+</local:UIControl>

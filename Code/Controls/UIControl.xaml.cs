@@ -1,40 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Inhuman
 {
-    public partial class UITaskNode : UIControl
-    {
-        //===================================================================================================================================================//
-        public UITaskNode()
+	public partial class UIControl : UserControl
+	{
+        public Node Node
         {
-            InitializeComponent();
+            get
+            {
+                if (DataContext is Node)
+                    return (DataContext as Node);
+                else
+                    return null;               
+            }
         }
 
         //===================================================================================================================================================//
-        public void Initialize()
-        {
-        }
+        public UIControl()
+		{
+
+		}
 
         //===================================================================================================================================================//
-        public override void SetHitTest(bool value)
+        public virtual void Initialize(bool autoedit)
         {
-            NodeObject.IsHitTestVisible = value;
-        }
 
-        //===================================================================================================================================================//
-        void NameText_GotFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	//NameText.SelectAll();
         }
-    }
+        
+        //===================================================================================================================================================//
+        public virtual void SetHitTest(bool value)
+        {
+
+        }
+	}
 }
