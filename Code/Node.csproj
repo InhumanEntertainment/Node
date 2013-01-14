@@ -84,6 +84,9 @@
     <Compile Include="Controls\BaseNodeTest.xaml.cs">
       <DependentUpon>BaseNodeTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UILinkNode.xaml.cs">
+      <DependentUpon>UILinkNode.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UIControl.xaml.cs">
       <DependentUpon>UIControl.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </None>
+    <Page Include="Controls\UILinkNode.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\UIInstanceNode.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -354,6 +361,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Art\Add_Task.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Browser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Art\Node.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="LiveTile.png">

@@ -9,23 +9,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Microsoft.Xna.Framework.Audio;
-using System.Diagnostics;
+using Microsoft.Phone.Tasks;
 
 namespace Inhuman
 {
-    public partial class UIProjectNode : UIControl
+    public partial class UILinkNode : UIControl
     {
         //===================================================================================================================================================//
-        public UIProjectNode()
+        public UILinkNode()
         {
-            InitializeComponent();             
+            InitializeComponent();
         }
 
         //===================================================================================================================================================//
-        public override void Initialize(bool autoedit)
+        public void Initialize()
         {
-            (DataContext as ProjectNode).CalculateProgress();
         }
 
         //===================================================================================================================================================//
@@ -35,12 +33,16 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        void OpenButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            PageNode page = (PageNode)DataContext;
+            LinkNode node = Node as LinkNode;
 
-            string param = "Page=" + page.Id;
-            NodeController.UI.NavigationService.Navigate(new Uri("/MainPage.xaml?" + param, UriKind.Relative));
+            if (node.Url != "")
+            {
+                WebBrowserTask task = new WebBrowserTask();
+                task.Uri = new Uri(node.Url, UriKind.Absolute);
+                task.Show();               
+            }
         }
     }
 }

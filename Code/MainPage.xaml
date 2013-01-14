@@ -310,6 +310,7 @@
             	<shell:ApplicationBarMenuItem x:Name="TextMenu" Text="Add Text" Click="TextMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="AudioMenu" Text="Add Audio" Click="AudioMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="HeaderMenu" Text="Add Header" Click="HeaderMenu_Click"/>
+            	<shell:ApplicationBarMenuItem x:Name="LinkMenu" Text="Add Link" Click="LinkMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="ProjectMenu" Text="Add Project" Click="ProjectMenu_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="GalleryMenu" Text="Add Gallery" Click="GalleryMenu_Click"/>
             	<shell:ApplicationBarMenuItem x:Name="PinMenu" Text="Pin Page" Click="PinMenu_Click"/>

@@ -128,9 +128,17 @@ namespace Inhuman
                 int i = FilterPicker.SelectedIndex;
 
                 if (i == 0)
-                    FilterNodes<Node>();
+                {
+                    FilteredNodes = (from node in NodeController.Data.Nodes
+                                     where node is PageNode && node != NodeController.CurrentPageNode && !(NodeController.CurrentPageNode.Nodes.Contains(node.Id)) && (node as PageNode).Nodes.Count == 0
+                                     select node).ToList();
+                }
                 else if (i == 1)
-                    FilterNodes<PageNode>();
+                {
+                    FilteredNodes = (from node in NodeController.Data.Nodes
+                                     where node is PageNode && node != NodeController.CurrentPageNode && !(NodeController.CurrentPageNode.Nodes.Contains(node.Id)) && (node as PageNode).Nodes.Count > 0
+                                     select node).ToList();
+                }
                 else if (i == 2)
                     FilterNodes<PictureNode>();
                 else if (i == 3)
@@ -138,7 +146,7 @@ namespace Inhuman
                 else if (i == 4)
                     FilterNodes<TaskNode>();
                 else if (i == -1)
-                    FilterNodes<Node>();
+                    FilterNodes<Node>();              
 
                 // Sort //
                 i = SortPicker.SelectedIndex;
@@ -218,7 +226,7 @@ namespace Inhuman
         //===================================================================================================================================================//
         public void FilterNodes<T>()
         {
-            FilteredNodes.Clear();
+            /*FilteredNodes.Clear();
             for (int i = 0; i < NodeController.Data.Nodes.Count; i++)
             {
                 //if (NodeController.Data.Nodes[i] is T && NodeController.Data.Nodes[i].Name.ToLower().Contains(Search.ToLower()))
@@ -244,7 +252,17 @@ namespace Inhuman
 
                     FilteredNodes.Add(NodeController.Data.Nodes[i]);
                 }
-            }
+            }*/
+
+            FilteredNodes = (from node in NodeController.Data.Nodes 
+                             where node is T && node != NodeController.CurrentPageNode && !(NodeController.CurrentPageNode.Nodes.Contains(node.Id))
+                             orderby node.Name ascending
+                             select node).ToList();
+
+            // Sort //
+            /*FilteredNodes = (from node in FilteredNodes
+                            orderby node.Created
+                            select node).ToList();*/
         }
 
         //===================================================================================================================================================//

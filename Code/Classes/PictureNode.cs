@@ -77,10 +77,10 @@ namespace Inhuman
                     bmp.SetSource(stream);
 
                     Bitmap = bmp;
+					
+                    Info = "Picture - " + bmp.PixelWidth + "x" + bmp.PixelHeight;
                 }
-
             }
-
         }
     }
 }

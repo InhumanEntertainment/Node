@@ -26,7 +26,7 @@ namespace Inhuman
             InitializeComponent();
 
             PageImage = new BitmapImage(new Uri("/Node;component/Art/Page.png", UriKind.Relative));
-            NodeImage = new BitmapImage(new Uri("/Node;component/Art/Task.png", UriKind.Relative));
+            NodeImage = new BitmapImage(new Uri("/Node;component/Art/Node.png", UriKind.Relative));
             PageActionImage = new BitmapImage(new Uri("/Node;component/Art/Arrow.png", UriKind.Relative));
             NodeActionImage = new BitmapImage(new Uri("/Node;component/Art/Dot.png", UriKind.Relative));    
         }

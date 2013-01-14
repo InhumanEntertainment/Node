@@ -334,7 +334,10 @@ namespace Inhuman
         //===================================================================================================================================================//
         void grid_LayoutUpdated(object sender, System.EventArgs e)
         {
-        	NodeController.UI.MeasureNodes();
+            if (NodeController.UI != null)
+            {
+                NodeController.UI.MeasureNodes();
+            }           
         }
     }
 }

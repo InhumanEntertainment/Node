@@ -12,12 +12,27 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Phone.Tasks;
 
 namespace Inhuman
 {
     public class LinkNode : Node
     {
-        public string Url;
+        public string Url = "http://www.inhumanize.com";
+
+        //===================================================================================================================================================//
+        public LinkNode()
+        {
+            Info = Url;
+        }
+
+        //===================================================================================================================================================//
+        public void Open()
+        {
+            WebBrowserTask task = new WebBrowserTask();
+            task.Uri = new Uri(Url, UriKind.Absolute);
+            task.Show();
+        }
     }
 }
 

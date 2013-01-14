@@ -443,10 +443,11 @@ namespace Inhuman
         {
             //UIControl uinode = GetUIPageNode();
             UIControl uinode = new T() as UIControl;
-            UI.NodeList.Children.Add(uinode);
-            UI.UINodes.Add(uinode);
             uinode.DataContext = node;
             uinode.Initialize(edit);
+
+            UI.NodeList.Children.Add(uinode);
+            UI.UINodes.Add(uinode);           
             UI.MeasureNodes();
 
             return uinode;
@@ -472,6 +473,10 @@ namespace Inhuman
             else if (node is HeaderNode)
             {
                 CreateNewUINode<UIHeaderNode>(node, false);
+            }
+            else if (node is LinkNode)
+            {
+                CreateNewUINode<UILinkNode>(node, false);
             }
             else if (node is PictureNode)
             {
@@ -576,6 +581,8 @@ namespace Inhuman
                         PictureNode node = CreateNewNode<PictureNode>("Picture") as PictureNode;
                         node.Bitmap = bmp;
                         node.Filename = node.Id + ".jpg";
+                        node.Info = "Picture - " + bmp.PixelWidth + "x" + bmp.PixelHeight;
+                        //node.Name = e.OriginalFileName;
                         CreateNewUINode<UIPictureNode>(node, false);
                         
                         // Save Image // 

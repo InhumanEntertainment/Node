@@ -144,6 +144,12 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
+        void LinkMenu_Click(object sender, System.EventArgs e)
+        {
+            NodeController.CreateNewUINode<UILinkNode>(NodeController.CreateNewNode<LinkNode>("Link"), true);
+        }
+
+        //===================================================================================================================================================//
         void TextMenu_Click(object sender, System.EventArgs e)
         {
             NodeController.CreateNewUINode<UITextNode>(NodeController.CreateNewNode<TextNode>("Text"), true);

@@ -137,7 +137,7 @@
 		<StaticResource ResourceKey="PhoneForegroundBrush"/>
 	</UserControl.Foreground>    
     
-    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" CacheMode="BitmapCache" Background="Black" LayoutUpdated="grid_LayoutUpdated">
+    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" CacheMode="BitmapCache" Background="Black" LayoutUpdated="grid_LayoutUpdated" Width="480">
     	<Grid.RenderTransform>
     		<CompositeTransform/>
     	</Grid.RenderTransform>
@@ -269,7 +269,7 @@
 								<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
 							</TextBox.Foreground>
 						</TextBox>
-						<TextBlock x:Name="InfoText" Text="{Binding Info}" FontSize="20" FontFamily="Arial" FontWeight="Bold" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="112,49,0,0" Foreground="#FF494949" />
+						<TextBlock x:Name="InfoText" Text="{Binding Info}" FontSize="20" FontFamily="Arial" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="84,49,0,0" Foreground="Gray" />
 						<ContentPresenter x:Name="ButtonArea" Content="{Binding ButtonContent, ElementName=Root}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Right" Margin="0,0,0,-1"/>
 						<ContentPresenter x:Name="IconArea" Content="{Binding IconContent, ElementName=Root}" Height="80" VerticalAlignment="Bottom" Width="80" HorizontalAlignment="Left" Margin="0,0,0,-1"/>
 					</Grid>

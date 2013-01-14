@@ -160,10 +160,10 @@
     	</Grid.Background>
         <local:UINode x:Name="NodeObject">
         	<local:UINode.ButtonContent>
-	        	<Image x:Name="NodeImage" Source="{Binding Bitmap}" Tap="NodeImage_Tap" Width="80" Height="80" Stretch="Fill"/>
+	        	<Image Source="/Node;component/Art/Zoom.png" Tap="NodeImage_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
 			</local:UINode.ButtonContent>
 			<local:UINode.IconContent>
-    			 <Image Source="/Node;component/Art/Picture.png" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.5" />
+				 <Image x:Name="NodeImage" Source="{Binding Bitmap}" Width="70" Height="70" Stretch="Fill"/>
 			</local:UINode.IconContent>   
 		</local:UINode>
         

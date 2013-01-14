@@ -401,8 +401,8 @@
         		<Grid Background="Black" Width="240">
         			<toolkit:ListPicker x:Name="FilterPicker" BorderThickness="0" Margin="0" Style="{StaticResource ListPickerStyle1}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SelectionChanged="FilterPicker_SelectionChanged" SelectedIndex="0">
         				<Grid x:Name="AllNodes" VerticalAlignment="Top">
-        					<Image HorizontalAlignment="Left" Width="60" Height="60" Source="Art/Task.png"/>
-        					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="All" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Margin="72,16,0,0" Foreground="White"/>
+        					<Image HorizontalAlignment="Left" Width="60" Height="60" Source="Art/Node.png"/>
+        					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Nodes" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Margin="72,16,0,0" Foreground="White"/>
         				</Grid>
         				<Grid x:Name="PageNodes" VerticalAlignment="Top">
         					<Image HorizontalAlignment="Left" Width="60" Height="60" Source="Art/Page.png"/>
@@ -460,7 +460,7 @@
 							</toolkit:ContextMenuService.ContextMenu>  
         					<TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" FontSize="32" d:LayoutOverrides="Width" VerticalAlignment="Top" Margin="60,5,12,0" FontWeight="Bold" Foreground="#FFA1A1A1"/>
         					<Rectangle Fill="Black" StrokeThickness="0" VerticalAlignment="Bottom" Height="2"/>
-        					<Image Source="Art/Task.png" HorizontalAlignment="Left"/>
+        					<Image Source="Art/Node.png" HorizontalAlignment="Left"/>
         					<Rectangle Fill="#FF282828" StrokeThickness="0" VerticalAlignment="Top" Height="2"/>
         				</Grid>
         			</DataTemplate>
