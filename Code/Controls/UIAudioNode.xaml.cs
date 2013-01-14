@@ -34,7 +34,7 @@ namespace Inhuman
         }
 
         //===================================================================================================================================================//
-        public void Initialize()
+        public override void Initialize(bool autoedit)
         {
             (Node as AudioNode).LoadSound();
             if ((Node as AudioNode).Filename == null)
